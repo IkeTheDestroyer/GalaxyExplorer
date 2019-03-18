@@ -1,4 +1,6 @@
-﻿# Galaxy Explorer
+﻿TODO: CHANGE THIS LINE
+
+# Galaxy Explorer
 
 Galaxy Explorer is an open-source HoloLens application that was developed
 in 6-weeks as part of the Share Your Idea program where the community
