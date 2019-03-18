@@ -2,6 +2,7 @@ trigger:
   branches:
     include:
     - master
+    - tech/13471_add_ci_build
 resources:
 - repo: self
   clean: true
