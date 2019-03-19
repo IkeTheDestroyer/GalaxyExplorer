@@ -184,7 +184,7 @@ function Invoke-UnityProjectBuild
 function Edit-AppxManifestRevision
 {
     # Modify the appxmanifests with the revision number
-    Get-ChildItem "*.appxmanifest" -Recurse | ForEach-Object {
+    Get-ChildItem "Apps\*.appxmanifest" -Recurse | ForEach-Object {
         [xml]$xml = Get-Content $_
         $version = [System.Version]$xml.Package.Identity.Version
         if ($Revision -eq -1)
@@ -270,10 +270,10 @@ function Publish-PackageSourceArtifact
 
 function Publish-BundleArtifact
 {
-    Get-ChildItem "*.appxbundle" -Recurse | ForEach-Object {
+    Get-ChildItem "Apps\*.appxbundle" -Recurse | ForEach-Object {
         Copy-Item $_.Directory -Destination ".\Artifacts\$($_.Directory.Name)" -Recurse
     }
-    Get-ChildItem "*.msixbundle" -Recurse | ForEach-Object {
+    Get-ChildItem "Apps\*.msixbundle" -Recurse | ForEach-Object {
         Copy-Item $_.Directory -Destination ".\Artifacts\$($_.Directory.Name)" -Recurse
     }
 }
