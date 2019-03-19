@@ -1,0 +1,64 @@
+trigger:
+  branches:
+    include:
+    - master
+    - tech/13471_add_ci_build
+resources:
+- repo: self
+  clean: true
+queue:
+  name: Default
+  demands: DotNetFramework
+steps:
+- task: PowerShell@1
+  displayName: 'Powershell Script'
+  inputs:
+    scriptType: inlineScript
+    inlineScript: |
+     $ErrorActionPreference = 'Stop'
+     $InformationPreference = 'Continue'
+     $VerbosePreference = 'Continue'
+     Import-Module UnitySetup
+     Import-Module Build
+     
+     $vstsOAuthToken = ConvertTo-SecureString $(System.AccessToken) -AsPlainText -Force
+     $buildArgs = @{
+       Revision = $(Build.BuildId)
+       NugetSourceNames = "MRS_SharedTech"
+       NugetSourceAuthTokens = $vstsOAuthToken
+     }
+     if("$(Build.SourceBranch)" -eq 'refs/heads/master')
+     {
+       $buildArgs["IncludePackageSource"] = ".\"
+       $buildArgs["GitCredential"] = New-Object -TypeName pscredential("user", $vstsOAuthToken)
+       .\build.ps1 @buildArgs
+     }
+     else
+     {
+       .\build.ps1 @buildArgs
+     }
+
+- task: PowerShell@1
+  displayName: 'Run Test Script'
+  inputs:
+    scriptType: inlineScript
+    inlineScript: |
+     $ErrorActionPreference = 'Continue'
+     $InformationPreference = 'Continue'
+     $VerbosePreference = 'Continue'
+     .\test.ps1
+
+- task: PublishTestResults@2
+  displayName: 'Publish Test Results **/TEST-*.xml **/TestResults-*.xml'
+  inputs:
+    testResultsFormat: NUnit
+    testResultsFiles: |
+     **/TEST-*.xml
+     **/TestResults-*.xml
+  condition: always()
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: galaxy_explorer_v2_ci_$(Build.SourceBranchName)_$(Build.BuildId)'
+  inputs:
+    PathtoPublish: Artifacts
+    ArtifactName: 'galaxy_explorer_v2_ci_$(Build.SourceBranchName)_$(Build.BuildId)'
