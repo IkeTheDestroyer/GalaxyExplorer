@@ -5540,7 +5540,7 @@ MonoBehaviour:
               m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
               m_IntArgument: 0
               m_FloatArgument: 0
-              m_StringArgument: EarthPin
+              m_StringArgument: intro_earth_placement_scene
               m_BoolArgument: 0
             m_CallState: 2
           - m_Target: {fileID: 1614883627}
@@ -5691,7 +5691,7 @@ MonoBehaviour:
               m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
               m_IntArgument: 0
               m_FloatArgument: 0
-              m_StringArgument: EarthPin
+              m_StringArgument: intro_earth_placement_scene
               m_BoolArgument: 0
             m_CallState: 2
           - m_Target: {fileID: 1614883627}
@@ -5783,7 +5783,7 @@ MonoBehaviour:
               m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
               m_IntArgument: 0
               m_FloatArgument: 0
-              m_StringArgument: SolarSystemView
+              m_StringArgument: solar_system_view_scene
               m_BoolArgument: 0
             m_CallState: 2
           - m_Target: {fileID: 251394378}
