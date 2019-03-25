@@ -27,8 +27,8 @@ Shader "Galaxy/StarsNeg"
 			#pragma geometry geo
 			
 			#include "UnityCG.cginc"
-			#include "StarVertDescriptor.cginc"
-			#include "StarPositionCompute.cginc"
+			#include "cginc/StarVertDescriptor.cginc"
+			#include "cginc/StarPositionCompute.cginc"
 
 			struct v2g
 			{

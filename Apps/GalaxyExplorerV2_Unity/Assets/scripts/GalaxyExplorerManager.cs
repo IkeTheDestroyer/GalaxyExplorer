@@ -209,15 +209,15 @@ namespace GalaxyExplorer
                 float moveFactor = 1f;
                 float MRFactor = (Platform == PlatformId.ImmersiveHMD) ? 2.0f : 1.0f;
 
-                if (ViewLoader.CurrentView != null && ViewLoader.CurrentView.Equals("SolarSystemView"))
+                if (ViewLoader.CurrentView != null && ViewLoader.CurrentView.Equals("solar_system_view_scene"))
                 {
                     moveFactor *= SolarSystemScaleFactor * MRFactor;
                 }
-                else if (ViewLoader.CurrentView != null && ViewLoader.CurrentView.Equals("GalaxyView"))
+                else if (ViewLoader.CurrentView != null && ViewLoader.CurrentView.Equals("galaxy_view_scene"))
                 {
                     moveFactor *= GalaxyScaleFactor;
                 }
-                else if (ViewLoader.CurrentView != null && ViewLoader.CurrentView.Equals("GalacticCenterView"))
+                else if (ViewLoader.CurrentView != null && ViewLoader.CurrentView.Equals("galactic_center_view_scene"))
                 {
                     moveFactor *= MRFactor;
                 }
@@ -234,7 +234,7 @@ namespace GalaxyExplorer
                 float moveFactor = 1f;
                 float MRFactor = (Platform == PlatformId.ImmersiveHMD) ? 1.25f : 1.0f;
 
-                if (ViewLoader.CurrentView != null && ViewLoader.CurrentView.Equals("SolarSystemView"))
+                if (ViewLoader.CurrentView != null && ViewLoader.CurrentView.Equals("solar_system_view_scene"))
                 {
                     moveFactor *= SolarSystemScaleFactor * MRFactor;
                 }
@@ -305,23 +305,23 @@ namespace GalaxyExplorer
             Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
             base.Awake();
 
-            if (XRDevice.isPresent)
-            {
-                if (HolographicSettings.IsDisplayOpaque)
-                {
-                    Platform = PlatformId.ImmersiveHMD;
-                }
-                else
-                {
+//            if (XRDevice.isPresent)
+//            {
+//                if (HolographicSettings.IsDisplayOpaque)
+//                {
+//                    Platform = PlatformId.ImmersiveHMD;
+//                }
+//                else
+//                {
                     Platform = PlatformId.HoloLens;
-                }
-            }
-            else 
-            {
-                Platform = PlatformId.Desktop;
-                GazeManager.Instance.enabled = false;
-                FocusManager.Instance.enabled = false;
-            }
+//                }
+//            }
+//            else 
+//            {
+//                Platform = PlatformId.Desktop;
+//                GazeManager.Instance.enabled = false;
+//                FocusManager.Instance.enabled = false;
+//            }
 
             if (MyAppPlatformManagerInitialized != null)
             {

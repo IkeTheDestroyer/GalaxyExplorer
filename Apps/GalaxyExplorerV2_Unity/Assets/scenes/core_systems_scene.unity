@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.010951109, g: 0.011319421, b: 0.014666912, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4464,7 +4464,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -91, y: 20.4}
+  m_AnchoredPosition: {x: -91, y: 20.400024}
   m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1248014706
@@ -9160,9 +9160,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b657280d31e1a447a3da72f92d17895, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IntroScene: LogoScene
-  CoreSystemsScene: CoreSystems
-  EarthPinScene: EarthPin
+  IntroScene: DOESNT_EXIST
+  CoreSystemsScene: core_systems_scene
+  EarthPinScene: intro_earth_placement_scene
 --- !u!1001 &2145568707
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9170,6 +9170,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 533862212}
     m_Modifications:
+    - target: {fileID: 139014, guid: fa7e79b85c96f5f40ac297f732dde722, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 432088, guid: fa7e79b85c96f5f40ac297f732dde722, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

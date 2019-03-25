@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.45031792, g: 0.5003424, b: 0.57531106, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -613,17 +613,17 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114706553101961646, guid: 481b5fb6cac3b824f8087cbae94281a4,
+        type: 3}
+      propertyPath: MinSizeRatio
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 114597529078923480, guid: 481b5fb6cac3b824f8087cbae94281a4,
         type: 3}
       propertyPath: DefaultSizeDistance
       value: 5.5
       objectReference: {fileID: 0}
     - target: {fileID: 114597529078923480, guid: 481b5fb6cac3b824f8087cbae94281a4,
-        type: 3}
-      propertyPath: MinSizeRatio
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 114706553101961646, guid: 481b5fb6cac3b824f8087cbae94281a4,
         type: 3}
       propertyPath: MinSizeRatio
       value: 0.7
@@ -720,12 +720,12 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 114785252555917322, guid: 4dfc93f6b612a4d468c195183043f8c4,
+    - target: {fileID: 114490458392907726, guid: 4dfc93f6b612a4d468c195183043f8c4,
         type: 3}
       propertyPath: MinSizeRatio
       value: 0.7
       objectReference: {fileID: 0}
-    - target: {fileID: 114490458392907726, guid: 4dfc93f6b612a4d468c195183043f8c4,
+    - target: {fileID: 114785252555917322, guid: 4dfc93f6b612a4d468c195183043f8c4,
         type: 3}
       propertyPath: MinSizeRatio
       value: 0.7
@@ -931,7 +931,7 @@ MonoBehaviour:
     loadactive: 1
     scene:
       asset: {fileID: 102900000, guid: c97f81bf2a42b2c4395cb934e9d35709, type: 3}
-      path: Assets/GalaxyExplorer/Scenes/CoreSystems.unity
+      path: Assets/scenes/core_systems_scene.unity
 --- !u!1001 &1991435773
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -975,6 +975,16 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114415192178358478, guid: 0b8b8976322d3a844b11b4312ab1f4e2,
+        type: 3}
+      propertyPath: centerToRimStarSize.m_Curve.Array.data[0].value
+      value: -0.09991455
+      objectReference: {fileID: 0}
+    - target: {fileID: 114415192178358478, guid: 0b8b8976322d3a844b11b4312ab1f4e2,
+        type: 3}
+      propertyPath: centerToRimStarSize.m_Curve.Array.data[0].time
+      value: 0.00075149536
+      objectReference: {fileID: 0}
     - target: {fileID: 114892817731742924, guid: 0b8b8976322d3a844b11b4312ab1f4e2,
         type: 3}
       propertyPath: centerToRimStarSize.m_Curve.Array.data[1].inSlope
@@ -1014,16 +1024,6 @@ PrefabInstance:
         type: 3}
       propertyPath: centerToRimStarSize.m_Curve.Array.data[2].outSlope
       value: 0.15593131
-      objectReference: {fileID: 0}
-    - target: {fileID: 114415192178358478, guid: 0b8b8976322d3a844b11b4312ab1f4e2,
-        type: 3}
-      propertyPath: centerToRimStarSize.m_Curve.Array.data[0].value
-      value: -0.09991455
-      objectReference: {fileID: 0}
-    - target: {fileID: 114415192178358478, guid: 0b8b8976322d3a844b11b4312ab1f4e2,
-        type: 3}
-      propertyPath: centerToRimStarSize.m_Curve.Array.data[0].time
-      value: 0.00075149536
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b8b8976322d3a844b11b4312ab1f4e2, type: 3}
@@ -1076,12 +1076,12 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114426891008803984, guid: 8506cf1ada7845346a6f8cc6abcb6b62,
+    - target: {fileID: 114797401999708172, guid: 8506cf1ada7845346a6f8cc6abcb6b62,
         type: 3}
       propertyPath: MinSizeRatio
       value: 0.7
       objectReference: {fileID: 0}
-    - target: {fileID: 114797401999708172, guid: 8506cf1ada7845346a6f8cc6abcb6b62,
+    - target: {fileID: 114426891008803984, guid: 8506cf1ada7845346a6f8cc6abcb6b62,
         type: 3}
       propertyPath: MinSizeRatio
       value: 0.7

@@ -427,7 +427,7 @@ namespace GalaxyExplorer
                     GalaxyExplorerManager.Instance.GeFadeManager.SetAlphaOnFader(relatedPlanet.GetComponent<Fader>(), 1.0f);
 
                 isFading = true;
-                AnimationCurve opacityCurve = newTransition.gameObject.name.Contains("SolarSystem") ? PlanetToSSTransitionOpacityCurveContentChange : OpacityCurveEnteringScene;
+                AnimationCurve opacityCurve = newTransition.gameObject.name.Contains("solar_system") ? PlanetToSSTransitionOpacityCurveContentChange : OpacityCurveEnteringScene;
                 GalaxyExplorerManager.Instance.GeFadeManager.FadeExcept(allFaders, typeof(POIMaterialsFader), relatedPlanet, GEFadeManager.FadeType.FadeIn, TransitionTimeOpeningScene, opacityCurve);
             }
             else if ((previousTransition && !previousTransition.IsSinglePlanetTransition && newTransition && !newTransition.IsSinglePlanetTransition))
@@ -439,7 +439,7 @@ namespace GalaxyExplorer
                 GalaxyExplorerManager.Instance.GeFadeManager.FadeExcept(allFaders, typeof(POIMaterialsFader), null, GEFadeManager.FadeType.FadeIn, TransitionTimeOpeningScene, OpacityCurveEnteringScene);
             }
 
-            if (newTransition.gameObject.scene.name.Contains("GalaxyView"))
+            if (newTransition.gameObject.scene.name.Contains("galaxy_view_scene"))
             {
                 StartCoroutine(ZoomInOutBehaviour.ZoomInOutCoroutine(TransitionTimeOpeningScene, GetContentTransitionCurve(newTransition.gameObject.scene.name), GetContentRotationCurve(newTransition.gameObject.scene.name), GetContentTransitionCurve(newTransition.gameObject.scene.name), BackToGalaxyPositionTransitionCurveContentChange));
             }
@@ -612,12 +612,12 @@ namespace GalaxyExplorer
         // When transition starts, the animator that rotates the POIs need to be deactivated as it changes their position
         private void SetActivePOIRotationAnimator(bool isActive, SceneTransition previousTransition, SceneTransition nextTransition)
         {
-            if (previousTransition && previousTransition.gameObject.scene.name == "GalaxyView")
+            if (previousTransition && previousTransition.gameObject.scene.name == "galaxy_view_scene")
             {
                 Animator[] allAnimators = previousTransition.GetComponentsInChildren<Animator>();
                 foreach (var animator in allAnimators)
                 {
-                    if (animator.runtimeAnimatorController && animator.runtimeAnimatorController.name.Contains("POIRotation"))
+                    if (animator.runtimeAnimatorController && animator.runtimeAnimatorController.name.Contains("pois_root_rotation_animator"))
                     {
                         animator.enabled = isActive;
                         //Debug.Log("Change activation of POIRotation animation to " + isActive);
@@ -625,12 +625,12 @@ namespace GalaxyExplorer
                     }
                 }
             }
-            else if (nextTransition && nextTransition.gameObject.scene.name == "GalaxyView")
+            else if (nextTransition && nextTransition.gameObject.scene.name == "galaxy_view_scene")
             {
                 Animator[] allAnimators = nextTransition.GetComponentsInChildren<Animator>();
                 foreach (var animator in allAnimators)
                 {
-                    if (animator.runtimeAnimatorController && animator.runtimeAnimatorController.name.Contains("POIRotation"))
+                    if (animator.runtimeAnimatorController && animator.runtimeAnimatorController.name.Contains("pois_root_rotation_animator"))
                     {
                         animator.enabled = isActive;
                         //Debug.Log("Change activation of POIRotation animation to " + isActive);
@@ -714,13 +714,13 @@ namespace GalaxyExplorer
                 return IntroTransitionCurveContentChange;
             }
 
-            if (loadedSceneName.Contains("GalaxyView"))
+            if (loadedSceneName.Contains("galaxy_view_scene"))
             {
                 return SSToGalaxyTransitionCurveContentChange;
             }
-            else if (loadedSceneName.Contains("SolarSystem"))
+            else if (loadedSceneName.Contains("solar_system_view_scene"))
             {
-                if (prevSceneLoadedName.Contains("Galaxy"))
+                if (prevSceneLoadedName.Contains("galaxy"))
                 {
                     return GalaxyToSSTransitionCurveContentChange;
                 }
@@ -729,9 +729,9 @@ namespace GalaxyExplorer
                     return PlanetToSSPositionScaleCurveContentChange;
                 }
             }
-            else if (loadedSceneName.Contains("GalacticCenter"))
+            else if (loadedSceneName.Contains("galactic_center_view_scene"))
             {
-                if (prevSceneLoadedName.Contains("Galaxy"))
+                if (prevSceneLoadedName.Contains("galaxy"))
                 {
                     return GalaxyToSSTransitionCurveContentChange;
                 }
@@ -751,13 +751,13 @@ namespace GalaxyExplorer
                 return IntroTransitionCurveContentChange;
             }
 
-            if (loadedSceneName.Contains("Galaxy"))
+            if (loadedSceneName.Contains("galaxy"))
             {
                 return SSToGalaxyTransitionCurveContentChange;
             }
-            else if (loadedSceneName.Contains("SolarSystem"))
+            else if (loadedSceneName.Contains("solar_system_view_scene"))
             {
-                if (prevSceneLoadedName.Contains("Galaxy"))
+                if (prevSceneLoadedName.Contains("galaxy"))
                 {
                     return GalaxyToSSTransitionCurveContentChange;
                 }
@@ -766,9 +766,9 @@ namespace GalaxyExplorer
                     return PlanetToSSRotationCurveContentChange;
                 }
             }
-            else if (loadedSceneName.Contains("GalacticCenter"))
+            else if (loadedSceneName.Contains("galactic_center_view_scene"))
             {
-                if (prevSceneLoadedName.Contains("Galaxy"))
+                if (prevSceneLoadedName.Contains("galaxy"))
                 {
                     return GalaxyToSSTransitionCurveContentChange;
                 }
@@ -788,12 +788,12 @@ namespace GalaxyExplorer
                 return 0.0f;
             }
 
-            if (prevSceneLoadedName.Contains("Galaxy"))
+            if (prevSceneLoadedName.Contains("galaxy"))
             {
                 return GalaxyVisibilityTimeClosingScene;
             }
 
-            if (prevSceneLoadedName.Contains("SolarSystem"))
+            if (prevSceneLoadedName.Contains("solar_system_scene"))
             {
                 return SolarSystemVisibilityTimeClosingScene;
             }
@@ -806,7 +806,7 @@ namespace GalaxyExplorer
             AudioClip staticClip = null;
             AudioClip movingClip = null;
 
-            if (newContent.gameObject.scene.name == "EarthPinView")
+            if (newContent.gameObject.scene.name == "earth_view_scene")
             {
                 return;
             }
@@ -821,7 +821,7 @@ namespace GalaxyExplorer
                 staticClip = IntroClips.StaticClip;
                 movingClip = IntroClips.MovingClip;
             }
-            else if (newContent.gameObject.scene.name == "SolarSystemView")
+            else if (newContent.gameObject.scene.name == "solar_system_view_scene")
             {
                 staticClip = SolarSystemClips.StaticClip;
                 movingClip = SolarSystemClips.MovingClip;
