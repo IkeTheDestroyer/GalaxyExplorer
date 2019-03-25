@@ -5,7 +5,6 @@
  * @author Valentin Simonov / http://va.lent.in/
  */
 
-using GalaxyExplorer;
 using TouchScript.Gestures.TransformGestures.Base;
 using TouchScript.Layers;
 using TouchScript.Utils.Geom;
@@ -13,6 +12,7 @@ using UnityEngine;
 using UnityEngine.Profiling;
 using System.Collections.Generic;
 using TouchScript.Pointers;
+using UnityEngine.XR;
 
 namespace TouchScript.Gestures.TransformGestures
 {
@@ -42,7 +42,7 @@ namespace TouchScript.Gestures.TransformGestures
 
         protected void Start()
         {
-            if (!GalaxyExplorerManager.IsDesktop)
+            if (!XRDevice.isPresent)
             {
                 this.enabled = false;
             }

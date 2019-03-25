@@ -5,9 +5,9 @@
  * @author Valentin Simonov / http://va.lent.in/
  */
 
-using GalaxyExplorer;
 using UnityEngine;
 using TouchScript.Gestures.TransformGestures;
+using UnityEngine.XR;
 
 namespace TouchScript.Examples.CameraControl
 {
@@ -31,7 +31,7 @@ namespace TouchScript.Examples.CameraControl
 
         private void Start()
         {
-            if (!GalaxyExplorerManager.IsDesktop)
+            if (!XRDevice.isPresent)
             {
                 this.enabled = false;
             }

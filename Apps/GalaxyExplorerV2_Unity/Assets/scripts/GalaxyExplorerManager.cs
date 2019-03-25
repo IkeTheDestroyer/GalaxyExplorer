@@ -305,23 +305,23 @@ namespace GalaxyExplorer
             Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
             base.Awake();
 
-//            if (XRDevice.isPresent)
-//            {
-//                if (HolographicSettings.IsDisplayOpaque)
-//                {
-//                    Platform = PlatformId.ImmersiveHMD;
-//                }
-//                else
-//                {
+            if (XRDevice.isPresent)
+            {
+                if (HolographicSettings.IsDisplayOpaque)
+                {
+                    Platform = PlatformId.ImmersiveHMD;
+                }
+                else
+                {
                     Platform = PlatformId.HoloLens;
-//                }
-//            }
-//            else 
-//            {
-//                Platform = PlatformId.Desktop;
-//                GazeManager.Instance.enabled = false;
-//                FocusManager.Instance.enabled = false;
-//            }
+                }
+            }
+            else 
+            {
+                Platform = PlatformId.Desktop;
+                GazeManager.Instance.enabled = false;
+                FocusManager.Instance.enabled = false;
+            }
 
             if (MyAppPlatformManagerInitialized != null)
             {
