@@ -147,7 +147,7 @@ function Grant-NugetAccessViaCredential
 
     if( $NugetSourceNames.Length -gt 0 ) {
         Write-Host "  Collecting Nuget.config files for all Unity projects"
-        $nugetConfigs = $null
+        $nugetConfigs = @()
         $UnityProjects | ForEach-Object {
             $nugetConfigs = $nugetConfigs + (Get-ChildItem "*\Nuget.config" -Recurse)
         }
