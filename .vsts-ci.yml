@@ -3,6 +3,7 @@ trigger:
     include:
     - master
     - tech/13471_add_ci_build
+    - tech/13683_project_structure
 resources:
 - repo: self
   clean: true
