@@ -2,7 +2,7 @@ variables:
   configuration: master
   platform: x86
   unityProject: Apps\GalaxyExplorerV2_Unity
-  productName: 'GalaxyExplorerV2'
+  productName: 'Galaxy Explorer'
   packageCertificateKeyFile: 
   publisherIdentity: 'CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US'
 
