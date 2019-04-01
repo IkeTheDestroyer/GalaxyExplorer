@@ -271,10 +271,10 @@ function Publish-PackageSourceArtifact
 function Publish-BundleArtifact
 {
     Get-ChildItem "Apps\*.appxbundle" -Recurse | ForEach-Object {
-        Copy-Item $_.Directory -Destination ".\Artifacts\$($_.Directory.Name)" -Recurse
+        Copy-Item $_.Directory -Destination ".\Artifacts\$($_.Directory.Name)" -Recurse -Force
     }
     Get-ChildItem "Apps\*.msixbundle" -Recurse | ForEach-Object {
-        Copy-Item $_.Directory -Destination ".\Artifacts\$($_.Directory.Name)" -Recurse
+        Copy-Item $_.Directory -Destination ".\Artifacts\$($_.Directory.Name)" -Recurse -Force
     }
 }
 
