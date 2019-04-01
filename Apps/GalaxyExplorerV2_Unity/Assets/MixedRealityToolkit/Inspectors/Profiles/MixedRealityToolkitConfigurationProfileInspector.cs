@@ -49,6 +49,7 @@ namespace Microsoft.MixedReality.Toolkit.Core.Inspectors.Profiles
         // Additional registered components profile
         private static bool showRegisteredServiceProperties = true;
         private SerializedProperty registeredServiceProvidersProfile;
+        private static bool showMRTKWarning = false;
 
         private MixedRealityToolkitConfigurationProfile configurationProfile;
 
@@ -66,6 +67,10 @@ namespace Microsoft.MixedReality.Toolkit.Core.Inspectors.Profiles
 
                 if (managerSearch.Length == 0)
                 {
+                    if (!showMRTKWarning)
+                    {
+                        return;
+                    }
                     if (EditorUtility.DisplayDialog(
                         "Attention!",
                         "There is no active Mixed Reality Toolkit in your scene!\n\nWould you like to create one now?",
@@ -78,6 +83,7 @@ namespace Microsoft.MixedReality.Toolkit.Core.Inspectors.Profiles
                     }
                     else
                     {
+                        showMRTKWarning = false;
                         Debug.LogWarning("No Mixed Reality Toolkit in your scene.");
                         return;
                     }

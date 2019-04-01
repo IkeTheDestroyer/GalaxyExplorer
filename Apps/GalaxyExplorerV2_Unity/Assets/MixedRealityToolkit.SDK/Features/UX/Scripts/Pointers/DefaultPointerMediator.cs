@@ -3,6 +3,7 @@
 
 using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem;
 using System.Collections.Generic;
+using GLTF.Schema;
 
 namespace Microsoft.MixedReality.Toolkit.SDK.UX.Pointers
 {
@@ -37,13 +38,18 @@ namespace Microsoft.MixedReality.Toolkit.SDK.UX.Pointers
                     farInteractPointers.Add(pointer);
                 }
 
-                HashSet<IMixedRealityPointer> children;
-                if (!pointerByInputSourceParent.TryGetValue(pointer.InputSourceParent, out children))
+                HashSet<IMixedRealityPointer> children = null;
+                var validPointer = pointerByInputSourceParent != null && pointer.InputSourceParent != null;
+                if (validPointer && !pointerByInputSourceParent.TryGetValue(pointer.InputSourceParent, out children))
                 {
                     children = new HashSet<IMixedRealityPointer>();
                     pointerByInputSourceParent.Add(pointer.InputSourceParent, children);
                 }
-                children.Add(pointer);
+
+                if (children != null)
+                {
+                    children.Add(pointer);
+                }
             }
         }
 
