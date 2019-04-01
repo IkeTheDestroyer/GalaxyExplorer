@@ -3,6 +3,9 @@
 # When you connect to the repository via Visual Studio Team Explorer without opening a solution inside it, Visual Studio sometimes create a .vs folder in the root with working data that we don't want to check in.
 /.vs/
 /.vscode/
+.idea/
+JetBrains/
+JetBrains.meta
 
 # Test Results
 TestResults-*.xml
