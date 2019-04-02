@@ -28,7 +28,7 @@ namespace GalaxyExplorer
             volumeInterpolator = gameObject.GetComponent<Interpolator>();
 
             // if platform is desktop or immersive headset then disable tag along
-            if (GalaxyExplorerManager.IsDesktop)
+            if (GalaxyExplorerManager.IsDesktop || true)
             {
                 StartCoroutine(ReleaseContent(DesktopDuration));
                 isPlaced = true;

@@ -19,6 +19,7 @@ namespace HoloToolkit.Unity
     /// </summary>
     public static class BuildDeployPortal
     {
+#pragma warning disable 0618
         private enum AppInstallStatus
         {
             Invalid,
@@ -737,5 +738,7 @@ namespace HoloToolkit.Unity
             string returnValue = Encoding.ASCII.GetString(encodedDataAsBytes);
             return returnValue;
         }
+        
+#pragma warning restore 0618
     }
 }

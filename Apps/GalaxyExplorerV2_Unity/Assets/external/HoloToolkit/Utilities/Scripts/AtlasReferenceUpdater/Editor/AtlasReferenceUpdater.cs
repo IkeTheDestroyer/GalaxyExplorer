@@ -50,7 +50,7 @@ namespace HoloToolkit.Unity
 
         private static void PrefabInstanceUpdated(GameObject instance)
         {
-            var prefab = PrefabUtility.GetPrefabParent(instance) as GameObject;
+            var prefab = PrefabUtility.GetCorrespondingObjectFromSource(instance);
             foreach (var atlasPrefabReference in References)
             {
                 if (atlasPrefabReference.Prefabs.Contains(prefab))
