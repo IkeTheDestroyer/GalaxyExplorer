@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 9f96677bfbf63bf4b8ac93807496fc4c, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -44,7 +44,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -88,7 +88,8 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000004, guid: b67e5922cbac7054db4a59702659054e,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -7503,7 +7504,6 @@ GameObject:
   - component: {fileID: 1963522526}
   - component: {fileID: 1963522529}
   - component: {fileID: 1963522528}
-  - component: {fileID: 1963522527}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -7528,31 +7528,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1963522527
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963522525}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1db79d3680b63d241a1641d4a26fe03a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MouseSupported: 1
-  MouseXYRotationAxisControl: {fileID: 0}
-  MouseXYTranslationAxisControl: {fileID: 0}
-  MouseXZTranslationAxisControl: {fileID: 0}
-  KeyboardSupported: 1
-  KeyboardXYRotationAxisControl: {fileID: 0}
-  KeyboardXZRotationAxisControl: {fileID: 0}
-  KeyboardXYTranslationAxisControl: {fileID: 0}
-  KeyboardXZTranslationAxisControl: {fileID: 0}
-  JoystickSupported: 0
-  JoystickXYRotationAxisControl: {fileID: 0}
-  JoystickXYTranslationAxisControl: {fileID: 0}
-  JoystickXZTranslationAxisControl: {fileID: 0}
 --- !u!114 &1963522528
 MonoBehaviour:
   m_ObjectHideFlags: 0

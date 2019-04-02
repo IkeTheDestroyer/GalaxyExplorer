@@ -1,12 +1,9 @@
-﻿// Copyright Microsoft Corporation. All rights reserved.
+﻿﻿// Copyright Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using MRS.FlowManager;
 using HoloToolkit.Unity;
 using HoloToolkit.Unity.InputModule;
-using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem;
-using Microsoft.MixedReality.Toolkit.Core.Services;
-using Microsoft.MixedReality.Toolkit.Services.InputSystem;
 using MRS.Audui;
 using TouchScript.Examples.CameraControl;
 using UnityEngine;
@@ -322,15 +319,8 @@ namespace GalaxyExplorer
             else 
             {
                 Platform = PlatformId.Desktop;
-                var inputSystem = MixedRealityToolkit.Instance.GetService<IMixedRealityInputSystem>();
-
-//                if (MixedRealityToolkit.ActiveSystems.ContainsKey(typeof(IMixedRealityGazeProvider)))
-//                {
-//                    inputSystem.GazeProvider.Enabled = false;
-//                }
-                inputSystem.GazeProvider.Enabled = false;
-                inputSystem.FocusProvider.Disable();
-                
+                GazeManager.Instance.enabled = false;
+                FocusManager.Instance.enabled = false;
             }
 
             if (MyAppPlatformManagerInitialized != null)
