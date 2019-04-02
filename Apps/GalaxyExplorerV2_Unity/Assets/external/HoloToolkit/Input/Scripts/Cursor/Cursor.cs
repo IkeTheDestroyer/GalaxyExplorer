@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using Microsoft.MixedReality.Toolkit.Core.Services;
 using UnityEngine;
 
 namespace HoloToolkit.Unity.InputModule
@@ -207,7 +208,8 @@ namespace HoloToolkit.Unity.InputModule
         protected virtual void RegisterManagers()
         {
             // This accounts for any input sources that were detected before we register as a global listener below.
-            visibleHandsCount = (uint)InputManager.Instance.DetectedInputSources.Count;
+//            visibleHandsCount = (uint)InputManager.Instance.DetectedInputSources.Count;
+            visibleHandsCount = (uint)MixedRealityToolkit.InputSystem.DetectedInputSources.Count;
             IsHandVisible = visibleHandsCount > 0;
 
             // Register the cursor as a global listener, so that it can always get input events it cares about

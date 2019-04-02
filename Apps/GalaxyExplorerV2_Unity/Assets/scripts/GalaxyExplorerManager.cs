@@ -4,6 +4,9 @@
 using MRS.FlowManager;
 using HoloToolkit.Unity;
 using HoloToolkit.Unity.InputModule;
+using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem;
+using Microsoft.MixedReality.Toolkit.Core.Services;
+using Microsoft.MixedReality.Toolkit.Services.InputSystem;
 using MRS.Audui;
 using TouchScript.Examples.CameraControl;
 using UnityEngine;
@@ -319,8 +322,15 @@ namespace GalaxyExplorer
             else 
             {
                 Platform = PlatformId.Desktop;
-                GazeManager.Instance.enabled = false;
-                FocusManager.Instance.enabled = false;
+                var inputSystem = MixedRealityToolkit.Instance.GetService<IMixedRealityInputSystem>();
+
+//                if (MixedRealityToolkit.ActiveSystems.ContainsKey(typeof(IMixedRealityGazeProvider)))
+//                {
+//                    inputSystem.GazeProvider.Enabled = false;
+//                }
+                inputSystem.GazeProvider.Enabled = false;
+                inputSystem.FocusProvider.Disable();
+                
             }
 
             if (MyAppPlatformManagerInitialized != null)
