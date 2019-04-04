@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using HoloToolkit.Unity.InputModule;
+using Microsoft.MixedReality.Toolkit.Core.Services;
 
 namespace HoloToolkit.Unity.Receivers
 {
@@ -60,7 +61,7 @@ namespace HoloToolkit.Unity.Receivers
         /// </summary>
         public virtual void OnEnable()
         {
-            InputManager.Instance.AddGlobalListener(gameObject);
+            MixedRealityToolkit.InputSystem.Register(gameObject);
             FocusManager.Instance.PointerSpecificFocusChanged += OnPointerSpecificFocusChanged;
         }
 

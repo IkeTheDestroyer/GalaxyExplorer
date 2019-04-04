@@ -5,6 +5,8 @@ using HoloToolkit.Unity.InputModule;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using HoloToolkit.Unity;
+using Microsoft.MixedReality.Toolkit.Core.Services;
 
 namespace GalaxyExplorer
 {
@@ -30,7 +32,8 @@ namespace GalaxyExplorer
 
         private void Start()
         {
-            InputManager.Instance.AddGlobalListener(gameObject);
+//            InputManager.Instance.AddGlobalListener(gameObject);
+            MixedRealityToolkit.InputSystem.Register(gameObject);
 
             if (GalaxyExplorerManager.Instance.MouseInput)
             {
