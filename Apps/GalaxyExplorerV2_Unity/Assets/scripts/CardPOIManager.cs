@@ -1,16 +1,16 @@
 ﻿// Copyright Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using HoloToolkit.Unity.InputModule;
+//using HoloToolkit.Unity.InputModule;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using HoloToolkit.Unity;
+//using HoloToolkit.Unity;
 using Microsoft.MixedReality.Toolkit.Core.Services;
 
 namespace GalaxyExplorer
 {
-    public class CardPOIManager : MonoBehaviour, IInputClickHandler, IControllerTouchpadHandler
+    public class CardPOIManager : MonoBehaviour//, IInputClickHandler, IControllerTouchpadHandler
     {
         [Header("Galaxy Card POI Fading")]
         [Tooltip("The time it takes for all points of interest to completely fade out when a card point of interest is selected.")]
@@ -35,13 +35,13 @@ namespace GalaxyExplorer
 //            InputManager.Instance.AddGlobalListener(gameObject);
             MixedRealityToolkit.InputSystem.Register(gameObject);
 
-            if (GalaxyExplorerManager.Instance.MouseInput)
-            {
-                GalaxyExplorerManager.Instance.MouseInput.OnMouseClickDelegate += OnMouseClickDelegate;
-                GalaxyExplorerManager.Instance.MouseInput.OnMouseClickUpDelegate += OnMouseClickUpDelegate;
-                GalaxyExplorerManager.Instance.MouseInput.OnMouseOnHoverDelegate += OnMouseOnHoverDelegate;
-                GalaxyExplorerManager.Instance.MouseInput.OnMouseOnUnHoverDelegate += OnMouseOnUnHoverDelegate;
-            }
+//            if (GalaxyExplorerManager.Instance.MouseInput)
+//            {
+//                GalaxyExplorerManager.Instance.MouseInput.OnMouseClickDelegate += OnMouseClickDelegate;
+//                GalaxyExplorerManager.Instance.MouseInput.OnMouseClickUpDelegate += OnMouseClickUpDelegate;
+//                GalaxyExplorerManager.Instance.MouseInput.OnMouseOnHoverDelegate += OnMouseOnHoverDelegate;
+//                GalaxyExplorerManager.Instance.MouseInput.OnMouseOnUnHoverDelegate += OnMouseOnUnHoverDelegate;
+//            }
 
             if (GalaxyExplorerManager.Instance.ToolsManager)
             {
@@ -147,42 +147,42 @@ namespace GalaxyExplorer
         }
 
         // Find if a card POI is active and its card is on/visible, close the card and trigger audio
-        private IEnumerator CloseAnyOpenCard(InputEventData eventData)
-        {
-            bool isCardActive = false;
-
-            foreach (var poi in allPOIs)
-            {
-                if (poi.IsCardActive)
-                {
-                    // eventData needs to be used in case that we are clocing the card because we dont want this click to propagate into the focused handler
-                    eventData?.Use();
-                    isCardActive = true;
-
-                    CardPOI cardPoi = (CardPOI)poi;
-                    GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject((cardPoi) ? cardPoi.GetCardObject.GetComponentInChildren<Collider>().gameObject : poi.IndicatorCollider.gameObject);
-
-                    poi.OnInputClicked(null);
-
-                    Debug.Log("Close card because of input");
-                    break;
-                }
-            }
-
-            // If any magic window card was active then activate all indicator colliders
-            if (isCardActive)
-            {
-                foreach (var poi in allPOIs)
-                {
-                    if (poi.IndicatorCollider)
-                    {
-                        poi.IndicatorCollider.enabled = true;
-                    }
-                }
-            }
-
-            yield return null;
-        }
+//        private IEnumerator CloseAnyOpenCard(InputEventData eventData)
+//        {
+//            bool isCardActive = false;
+//
+//            foreach (var poi in allPOIs)
+//            {
+//                if (poi.IsCardActive)
+//                {
+//                    // eventData needs to be used in case that we are clocing the card because we dont want this click to propagate into the focused handler
+//                    eventData?.Use();
+//                    isCardActive = true;
+//
+//                    CardPOI cardPoi = (CardPOI)poi;
+//                    GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject((cardPoi) ? cardPoi.GetCardObject.GetComponentInChildren<Collider>().gameObject : poi.IndicatorCollider.gameObject);
+//
+//                    poi.OnInputClicked(null);
+//
+//                    Debug.Log("Close card because of input");
+//                    break;
+//                }
+//            }
+//
+//            // If any magic window card was active then activate all indicator colliders
+//            if (isCardActive)
+//            {
+//                foreach (var poi in allPOIs)
+//                {
+//                    if (poi.IndicatorCollider)
+//                    {
+//                        poi.IndicatorCollider.enabled = true;
+//                    }
+//                }
+//            }
+//
+//            yield return null;
+//        }
 
         // Deactivate all pois that might have active card description except the one that is currently focused/touched
         // Note that the focused/touched object could be a planet and not its poi indicator
@@ -208,38 +208,38 @@ namespace GalaxyExplorer
             }
         }
 
-        public void OnTouchpadTouched(InputEventData eventData)
-        {
+//        public void OnTouchpadTouched(InputEventData eventData)
+//        {
+//
+//        }
 
-        }
+//        public void OnTouchpadReleased(InputEventData eventData)
+//        {
+//            // GETouchScreenInputSource sets InputManager.Instance.OverrideFocusedObject on collider touch
+////            GameObject focusedObj = InputManager.Instance.OverrideFocusedObject; 
+////            DeactivateAllDescriptionsHandlers(focusedObj);
+//
+//            bool isAnyCardActive = IsAnyCardActive();
+//            StartCoroutine(CloseAnyOpenCard(eventData));
+//            StartCoroutine(UpdateActivationOfPOIColliders());
+//
+//            if (isAnyCardActive)
+//            {
+//                GalaxyExplorerManager.Instance.AudioEventWrangler.OnInputClicked(null);
+//            }
+//        }
 
-        public void OnTouchpadReleased(InputEventData eventData)
-        {
-            // GETouchScreenInputSource sets InputManager.Instance.OverrideFocusedObject on collider touch
-            GameObject focusedObj = InputManager.Instance.OverrideFocusedObject; 
-            DeactivateAllDescriptionsHandlers(focusedObj);
-
-            bool isAnyCardActive = IsAnyCardActive();
-            StartCoroutine(CloseAnyOpenCard(eventData));
-            StartCoroutine(UpdateActivationOfPOIColliders());
-
-            if (isAnyCardActive)
-            {
-                GalaxyExplorerManager.Instance.AudioEventWrangler.OnInputClicked(null);
-            }
-        }
-
-        public void OnInputPositionChanged(InputPositionEventData eventData)
-        {
-
-        }
-
-        // OnInputClicked is triggered with airtap and mouse click
-        public void OnInputClicked(InputClickedEventData eventData)
-        {
-            StartCoroutine(CloseAnyOpenCard(eventData));
-            StartCoroutine(UpdateActivationOfPOIColliders());
-        }
+//        public void OnInputPositionChanged(InputPositionEventData eventData)
+//        {
+//
+//        }
+//
+//        // OnInputClicked is triggered with airtap and mouse click
+//        public void OnInputClicked(InputClickedEventData eventData)
+//        {
+//            StartCoroutine(CloseAnyOpenCard(eventData));
+//            StartCoroutine(UpdateActivationOfPOIColliders());
+//        }
 
         // Called by poi if any poi is focused in order to notify all the other pois
         public void OnPOIFocusEnter(PointOfInterest focusedPOI)

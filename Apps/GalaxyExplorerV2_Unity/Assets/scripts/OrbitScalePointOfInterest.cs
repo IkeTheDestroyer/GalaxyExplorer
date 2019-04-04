@@ -1,7 +1,7 @@
 ﻿// Copyright Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using HoloToolkit.Unity.InputModule;
+//using HoloToolkit.Unity.InputModule;
 using System;
 using System.Collections;
 using System.Linq;
@@ -80,51 +80,51 @@ namespace GalaxyExplorer
             IsAnimating = false;
         }
 
-        public override void OnInputClicked(InputClickedEventData eventData)
-        {
-            base.OnInputClicked(eventData);
-
-            if (!IsAnimating)
-            {
-                indicatorRenderer.sharedMaterial.mainTexture = IsReal ? SimplifiedIcon : RealIcon;
-
-                // Each view of the solar system has a different max zoom size.
-                if (IsReal)
-                {
-                    // Set simplified view max zoom
-                    //ToolManager.Instance.LargestZoom = SimpleViewMaxScale;
-                }
-                else
-                {
-                    // Set realistic view max zoom
-                    //ToolManager.Instance.LargestZoom = RealisticViewMaxScale;
-                }
-
-                IsAnimating = true;
-
-                StartCoroutine(AnimateUsingCurve(IsReal ? OrbitScaleDeHydrationCurve : OrbitScaleHydrationCurve, () => { IsReal = !IsReal; }));
-
-                if (!IsReal && VO && GalaxyExplorerManager.Instance.VoManager)
-                {
-                    GalaxyExplorerManager.Instance.VoManager.Stop(true);
-                    GalaxyExplorerManager.Instance.VoManager.PlayClip(VO);
-                }
-                else if (IsReal && GalaxyExplorerManager.Instance.VoManager)
-                {
-                    GalaxyExplorerManager.Instance.VoManager.Stop(true);
-                }
-
-
-                if (AlternateDescription != null)
-                {
-                    GameObject tempDescription = CardDescription;
-                    CardDescription = AlternateDescription;
-                    AlternateDescription = tempDescription;
-
-                    CardDescription.SetActive(false);
-                    AlternateDescription.SetActive(false);
-                }
-            }
-        }
+//        public override void OnInputClicked(InputClickedEventData eventData)
+//        {
+//            base.OnInputClicked(eventData);
+//
+//            if (!IsAnimating)
+//            {
+//                indicatorRenderer.sharedMaterial.mainTexture = IsReal ? SimplifiedIcon : RealIcon;
+//
+//                // Each view of the solar system has a different max zoom size.
+//                if (IsReal)
+//                {
+//                    // Set simplified view max zoom
+//                    //ToolManager.Instance.LargestZoom = SimpleViewMaxScale;
+//                }
+//                else
+//                {
+//                    // Set realistic view max zoom
+//                    //ToolManager.Instance.LargestZoom = RealisticViewMaxScale;
+//                }
+//
+//                IsAnimating = true;
+//
+//                StartCoroutine(AnimateUsingCurve(IsReal ? OrbitScaleDeHydrationCurve : OrbitScaleHydrationCurve, () => { IsReal = !IsReal; }));
+//
+//                if (!IsReal && VO && GalaxyExplorerManager.Instance.VoManager)
+//                {
+//                    GalaxyExplorerManager.Instance.VoManager.Stop(true);
+//                    GalaxyExplorerManager.Instance.VoManager.PlayClip(VO);
+//                }
+//                else if (IsReal && GalaxyExplorerManager.Instance.VoManager)
+//                {
+//                    GalaxyExplorerManager.Instance.VoManager.Stop(true);
+//                }
+//
+//
+//                if (AlternateDescription != null)
+//                {
+//                    GameObject tempDescription = CardDescription;
+//                    CardDescription = AlternateDescription;
+//                    AlternateDescription = tempDescription;
+//
+//                    CardDescription.SetActive(false);
+//                    AlternateDescription.SetActive(false);
+//                }
+//            }
+//        }
     }
 }

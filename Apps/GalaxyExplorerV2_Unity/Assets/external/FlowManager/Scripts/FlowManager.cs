@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using HoloToolkit.Unity.InputModule;
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.MixedReality.Toolkit.Core.Services;
 using UnityEngine;
 
 namespace MRS.FlowManager
@@ -12,7 +12,7 @@ namespace MRS.FlowManager
     /// FlowManager is a sequencing tool, designed to aid development of smaller-scale or story-led app experiences.
     /// </summary>
     [System.Serializable]
-    public class FlowManager : MonoBehaviour, IInputClickHandler
+    public class FlowManager : MonoBehaviour
     {
         public int m_currentStage = 0;
         public bool m_restartEnabled;
@@ -65,7 +65,7 @@ namespace MRS.FlowManager
 
 		private IEnumerator WaitForPrerequisitesThenEnter()
 		{
-			while (!InputManager.IsInitialized)
+			while (MixedRealityToolkit.InputSystem == null)
 			{
 				yield return null;
 			}
@@ -273,11 +273,11 @@ namespace MRS.FlowManager
         {
             if (receive)
             {
-                InputManager.Instance.PushModalInputHandler(this.gameObject);
+                MixedRealityToolkit.InputSystem.PushModalInputHandler(gameObject);
             }
             else
             {
-                InputManager.Instance.PopModalInputHandler();
+                MixedRealityToolkit.InputSystem.PopModalInputHandler();
             }
         }
 
@@ -316,10 +316,10 @@ namespace MRS.FlowManager
         /// IInputClickHandler implementation
         /// </summary>
         /// <param name="eventData"></param>
-        public void OnInputClicked(InputClickedEventData eventData)
-        {
-            RequestTransition();
-            eventData.Use();
-        }
+//        public void OnInputClicked(InputClickedEventData eventData)
+//        {
+//            RequestTransition();
+//            eventData.Use();
+//        }
     }
 }

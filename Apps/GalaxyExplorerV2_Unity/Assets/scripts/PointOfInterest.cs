@@ -1,7 +1,7 @@
 ﻿// Copyright Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using HoloToolkit.Unity.InputModule;
+//using HoloToolkit.Unity.InputModule;
 using MRS.Audui;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace GalaxyExplorer
 {
-    public class PointOfInterest : MonoBehaviour, IInputClickHandler, IFocusable, IControllerTouchpadHandler
+    public class PointOfInterest : MonoBehaviour//, IInputClickHandler, IFocusable, IControllerTouchpadHandler
     {
         [SerializeField]
         protected GameObject CardDescription = null;
@@ -225,43 +225,43 @@ namespace GalaxyExplorer
             }
         }
 
-        public void OnTouchpadTouched(InputEventData eventData)
-        {
-  
-        }
-
-        public void OnTouchpadReleased(InputEventData eventData)
-        {
-            // First touch focus on poi
-            if (CardDescription && !CardDescription.activeSelf)
-            {
-                OnFocusEnter();
-
-                GameObject focusedObj = (InputManager.Instance.OverrideFocusedObject) ? InputManager.Instance.OverrideFocusedObject : FocusManager.Instance.TryGetFocusedObject(eventData);
-                GalaxyExplorerManager.Instance.AudioEventWrangler?.OnFocusEnter(focusedObj);
-                GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject(null);
-            }
-            // Second touch select that poi
-            else
-            {
-                OnInputClicked(null);
-
-                GameObject focusedObj = (InputManager.Instance.OverrideFocusedObject) ? InputManager.Instance.OverrideFocusedObject : FocusManager.Instance.TryGetFocusedObject(eventData);
-                GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject(focusedObj);
-                GalaxyExplorerManager.Instance.AudioEventWrangler?.OnInputClicked(null);
-                GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject(null);
-            }
-        }
-
-        public void OnInputPositionChanged(InputPositionEventData eventData)
-        {
-
-        }
-
-        public virtual void OnInputClicked(InputClickedEventData eventData)
-        {
-            currentState = POIState.kOnInputClicked;
-        }
+//        public void OnTouchpadTouched(InputEventData eventData)
+//        {
+//  
+//        }
+//
+//        public void OnTouchpadReleased(InputEventData eventData)
+//        {
+//            // First touch focus on poi
+//            if (CardDescription && !CardDescription.activeSelf)
+//            {
+//                OnFocusEnter();
+//
+////                GameObject focusedObj = (InputManager.Instance.OverrideFocusedObject) ? InputManager.Instance.OverrideFocusedObject : FocusManager.Instance.TryGetFocusedObject(eventData);
+////                GalaxyExplorerManager.Instance.AudioEventWrangler?.OnFocusEnter(focusedObj);
+//                GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject(null);
+//            }
+//            // Second touch select that poi
+//            else
+//            {
+//                OnInputClicked(null);
+//
+////                GameObject focusedObj = (InputManager.Instance.OverrideFocusedObject) ? InputManager.Instance.OverrideFocusedObject : FocusManager.Instance.TryGetFocusedObject(eventData);
+////                GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject(focusedObj);
+//                GalaxyExplorerManager.Instance.AudioEventWrangler?.OnInputClicked(null);
+//                GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject(null);
+//            }
+//        }
+//
+//        public void OnInputPositionChanged(InputPositionEventData eventData)
+//        {
+//
+//        }
+//
+//        public virtual void OnInputClicked(InputClickedEventData eventData)
+//        {
+//            currentState = POIState.kOnInputClicked;
+//        }
 
         // Scale POI collider in order to cover the whole POI + poi line. 
         // Calculate the collider when collider is enabled so in end of transitions that has its final length

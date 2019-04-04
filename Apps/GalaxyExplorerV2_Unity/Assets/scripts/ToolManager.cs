@@ -1,9 +1,10 @@
 // Copyright Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using HoloToolkit.Unity.UX;
+//using HoloToolkit.Unity.UX;
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.MixedReality.Toolkit.SDK.UX;
 using UnityEngine;
 
 namespace GalaxyExplorer
@@ -11,11 +12,11 @@ namespace GalaxyExplorer
 
     public class ToolManager : MonoBehaviour
     {
-        public GEInteractiveToggle SelectedTool = null;
+        public GameObject SelectedTool = null;
         public GameObject BackButton;
         public GameObject ShowButton;
         public GameObject HideButton;
-        public GEInteractiveToggle ResetButton;
+        public GameObject ResetButton;
         public float MinZoom = 0.15f;
         public float LargestZoom = 3.0f;
 
@@ -31,7 +32,7 @@ namespace GalaxyExplorer
         private bool locked = false;
         private ToolPanel panel;
 
-        private List<GEInteractiveToggle> allButtons = new List<GEInteractiveToggle>();
+//        private List<GEInteractiveToggle> allButtons = new List<GEInteractiveToggle>();
         private List<Collider> allButtonColliders = new List<Collider>();
         private BoundingBox boundingBox = null;
 
@@ -57,11 +58,11 @@ namespace GalaxyExplorer
             }
 
             // FInd all button scripts
-            GEInteractiveToggle[] buttonsArray = GetComponentsInChildren<GEInteractiveToggle>(true);
-            foreach (var button in buttonsArray)
-            {
-                allButtons.Add(button);
-            }
+//            GEInteractiveToggle[] buttonsArray = GetComponentsInChildren<GEInteractiveToggle>(true);
+//            foreach (var button in buttonsArray)
+//            {
+//                allButtons.Add(button);
+//            }
 
             // Find all button colliders
             Collider[] allColliders = GetComponentsInChildren<Collider>(true);
@@ -98,7 +99,7 @@ namespace GalaxyExplorer
 
         private void OnSceneReset()
         {
-            ResetButton.OnDeselection?.Invoke();
+//            ResetButton.OnDeselection?.Invoke();
         }
 
         // Callback when a new scene is requested to be loaded
@@ -157,51 +158,51 @@ namespace GalaxyExplorer
         public void UnselectAllTools()
         {
             // Deselect any other button that might be selected
-            foreach (var button in allButtons)
-            {
-                button.DeselectButton();
-            }
+//            foreach (var button in allButtons)
+//            {
+//                button.DeselectButton();
+//            }
         }
 
-        public bool SelectTool(GEInteractiveToggle tool)
-        {
-            if (locked)
-            {
-                return false;
-            }
-
-            // Dont take into account any primary buttons that need to remain selected
-            bool isAnyToolSelected = (SelectedTool != null && !SelectedTool.IsPrimaryButton);
-            SelectedTool = tool;
-
-            // if Any tool was selected before this one was, then need to deselect the previous one
-            if (isAnyToolSelected)
-            {
-                UnselectAllTools();
-            }
-
-            // TODO set cursor to select tool state
-
-            return true;
-        }
-
-        public bool DeselectTool(GEInteractiveToggle tool)
-        {
-            if (locked)
-            {
-                return false;
-            }
-
-            // TODO set cursor normal state
-
-            if (SelectedTool == tool)
-            {
-                SelectedTool = null;
-                return true;
-            }
-
-            return false;
-        }
+//        public bool SelectTool(GEInteractiveToggle tool)
+//        {
+//            if (locked)
+//            {
+//                return false;
+//            }
+//
+//            // Dont take into account any primary buttons that need to remain selected
+//            bool isAnyToolSelected = (SelectedTool != null && !SelectedTool.IsPrimaryButton);
+//            SelectedTool = tool;
+//
+//            // if Any tool was selected before this one was, then need to deselect the previous one
+//            if (isAnyToolSelected)
+//            {
+//                UnselectAllTools();
+//            }
+//
+//            // TODO set cursor to select tool state
+//
+//            return true;
+//        }
+//
+//        public bool DeselectTool(GEInteractiveToggle tool)
+//        {
+//            if (locked)
+//            {
+//                return false;
+//            }
+//
+//            // TODO set cursor normal state
+//
+//            if (SelectedTool == tool)
+//            {
+//                SelectedTool = null;
+//                return true;
+//            }
+//
+//            return false;
+//        }
 
         public void LowerTools()
         {
@@ -278,23 +279,23 @@ namespace GalaxyExplorer
         /// This method is invoked from a UnityEvent
         /// </summary>
         /// <param name="enable"></param>
-        public void OnManipulateButtonPressed(bool enable)
-        {
-            if (boundingBox)
-            {
-                boundingBox.Target.GetComponentInChildren<Collider>().enabled = enable;
-
-                if (enable)
-                {
-                    boundingBox.Target.GetComponent<BoundingBoxRig>().Activate();
-                }
-                else
-                {
-                    boundingBox.Target.GetComponent<BoundingBoxRig>().Deactivate();
-                }
-                OnBoundingBoxDelegate?.Invoke(enable);
-            }
-        }
+//        public void OnManipulateButtonPressed(bool enable)
+//        {
+//            if (boundingBox)
+//            {
+//                boundingBox.Target.GetComponentInChildren<Collider>().enabled = enable;
+//
+//                if (enable)
+//                {
+//                    boundingBox.Target.GetComponent<BoundingBox>().Activate();
+//                }
+//                else
+//                {
+//                    boundingBox.Target.GetComponent<BoundingBox>().Deactivate();
+//                }
+//                OnBoundingBoxDelegate?.Invoke(enable);
+//            }
+//        }
 
         public void OnAboutSlateButtonPressed(bool enable)
         {
