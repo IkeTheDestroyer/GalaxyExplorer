@@ -5,11 +5,17 @@
 using MRS.Audui;
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.MixedReality.Toolkit.Core.EventDatum.Input;
+using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem;
+using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem.Handlers;
+using Microsoft.MixedReality.Toolkit.SDK.UX.Interactable;
+using Microsoft.MixedReality.Toolkit.SDK.UX.Interactable.Events;
+using Microsoft.MixedReality.Toolkit.SDK.UX.Interactable.States;
 using UnityEngine;
 
 namespace GalaxyExplorer
 {
-    public class PointOfInterest : MonoBehaviour//, IInputClickHandler, IFocusable, IControllerTouchpadHandler
+    public class PointOfInterest : MonoBehaviour, IMixedRealityPointerHandler//, IInputClickHandler, IFocusable, IControllerTouchpadHandler
     {
         [SerializeField]
         protected GameObject CardDescription = null;
@@ -258,10 +264,6 @@ namespace GalaxyExplorer
 //
 //        }
 //
-//        public virtual void OnInputClicked(InputClickedEventData eventData)
-//        {
-//            currentState = POIState.kOnInputClicked;
-//        }
 
         // Scale POI collider in order to cover the whole POI + poi line. 
         // Calculate the collider when collider is enabled so in end of transitions that has its final length
@@ -308,6 +310,20 @@ namespace GalaxyExplorer
             {
                 item.enabled = isEnabled;
             }
+        }
+
+        public virtual void OnPointerUp(MixedRealityPointerEventData eventData)
+        {
+        }
+
+        public virtual void OnPointerDown(MixedRealityPointerEventData eventData)
+        {
+            Debug.Log("!!^!! on input clicked");
+            currentState = POIState.kOnInputClicked;
+        }
+
+        public virtual void OnPointerClicked(MixedRealityPointerEventData eventData)
+        {
         }
     }
 }

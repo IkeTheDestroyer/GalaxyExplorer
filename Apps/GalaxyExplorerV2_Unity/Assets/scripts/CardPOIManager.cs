@@ -5,12 +5,15 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.MixedReality.Toolkit.Core.EventDatum.Input;
+using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem.Handlers;
 //using HoloToolkit.Unity;
 using Microsoft.MixedReality.Toolkit.Core.Services;
+using UnityEngine.EventSystems;
 
 namespace GalaxyExplorer
 {
-    public class CardPOIManager : MonoBehaviour//, IInputClickHandler, IControllerTouchpadHandler
+    public class CardPOIManager : MonoBehaviour, IMixedRealityPointerHandler//, IInputClickHandler, IControllerTouchpadHandler
     {
         [Header("Galaxy Card POI Fading")]
         [Tooltip("The time it takes for all points of interest to completely fade out when a card point of interest is selected.")]
@@ -33,7 +36,7 @@ namespace GalaxyExplorer
         private void Start()
         {
 //            InputManager.Instance.AddGlobalListener(gameObject);
-            MixedRealityToolkit.InputSystem.Register(gameObject);
+//            MixedRealityToolkit.InputSystem.Register(gameObject);
 
 //            if (GalaxyExplorerManager.Instance.MouseInput)
 //            {
@@ -147,42 +150,42 @@ namespace GalaxyExplorer
         }
 
         // Find if a card POI is active and its card is on/visible, close the card and trigger audio
-//        private IEnumerator CloseAnyOpenCard(InputEventData eventData)
-//        {
-//            bool isCardActive = false;
-//
-//            foreach (var poi in allPOIs)
-//            {
-//                if (poi.IsCardActive)
-//                {
-//                    // eventData needs to be used in case that we are clocing the card because we dont want this click to propagate into the focused handler
-//                    eventData?.Use();
-//                    isCardActive = true;
-//
-//                    CardPOI cardPoi = (CardPOI)poi;
-//                    GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject((cardPoi) ? cardPoi.GetCardObject.GetComponentInChildren<Collider>().gameObject : poi.IndicatorCollider.gameObject);
-//
-//                    poi.OnInputClicked(null);
-//
-//                    Debug.Log("Close card because of input");
-//                    break;
-//                }
-//            }
-//
-//            // If any magic window card was active then activate all indicator colliders
-//            if (isCardActive)
-//            {
-//                foreach (var poi in allPOIs)
-//                {
-//                    if (poi.IndicatorCollider)
-//                    {
-//                        poi.IndicatorCollider.enabled = true;
-//                    }
-//                }
-//            }
-//
-//            yield return null;
-//        }
+        private IEnumerator CloseAnyOpenCard(MixedRealityPointerEventData eventData)
+        {
+            bool isCardActive = false;
+
+            foreach (var poi in allPOIs)
+            {
+                if (poi.IsCardActive)
+                {
+                    // eventData needs to be used in case that we are clocing the card because we dont want this click to propagate into the focused handler
+                    eventData?.Use();
+                    isCardActive = true;
+
+                    CardPOI cardPoi = (CardPOI)poi;
+                    GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject((cardPoi) ? cardPoi.GetCardObject.GetComponentInChildren<Collider>().gameObject : poi.IndicatorCollider.gameObject);
+
+                    poi.OnPointerDown(null);
+
+                    Debug.Log("Close card because of input");
+                    break;
+                }
+            }
+
+            // If any magic window card was active then activate all indicator colliders
+            if (isCardActive)
+            {
+                foreach (var poi in allPOIs)
+                {
+                    if (poi.IndicatorCollider)
+                    {
+                        poi.IndicatorCollider.enabled = true;
+                    }
+                }
+            }
+
+            yield return null;
+        }
 
         // Deactivate all pois that might have active card description except the one that is currently focused/touched
         // Note that the focused/touched object could be a planet and not its poi indicator
@@ -234,12 +237,6 @@ namespace GalaxyExplorer
 //
 //        }
 //
-//        // OnInputClicked is triggered with airtap and mouse click
-//        public void OnInputClicked(InputClickedEventData eventData)
-//        {
-//            StartCoroutine(CloseAnyOpenCard(eventData));
-//            StartCoroutine(UpdateActivationOfPOIColliders());
-//        }
 
         // Called by poi if any poi is focused in order to notify all the other pois
         public void OnPOIFocusEnter(PointOfInterest focusedPOI)
@@ -253,5 +250,18 @@ namespace GalaxyExplorer
             }
         }
 
+        public void OnPointerUp(MixedRealityPointerEventData eventData)
+        {
+        }
+
+        public     virtual void OnPointerDown(MixedRealityPointerEventData eventData)
+        {
+            StartCoroutine(CloseAnyOpenCard(eventData));
+            StartCoroutine(UpdateActivationOfPOIColliders());
+        }
+
+        public void OnPointerClicked(MixedRealityPointerEventData eventData)
+        {
+        }
     }
 }

@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 //using HoloToolkit.Unity.InputModule;
+
+using Microsoft.MixedReality.Toolkit.Core.EventDatum.Input;
 using UnityEngine;
 
 /// <summary>
@@ -38,18 +40,18 @@ namespace GalaxyExplorer
             }
         }
 
-//        public override void OnInputClicked(InputClickedEventData eventData)
-//        {
-//            base.OnInputClicked(eventData);
-//
-//            // Fade out card description material
-//            if (CardDescription)
-//            {
-//                StartCoroutine(GalaxyExplorerManager.Instance.GeFadeManager.FadeMaterial(CardDescriptionMaterial, GEFadeManager.FadeType.FadeOut, GalaxyExplorerManager.Instance.CardPoiManager.POIFadeOutTime, GalaxyExplorerManager.Instance.CardPoiManager.POIOpacityCurve));
-//            }
-//
-//            GalaxyExplorerManager.Instance.TransitionManager.LoadNextScene(SceneToLoad);
-//        }
+        public override void OnPointerDown(MixedRealityPointerEventData eventData)
+        {
+            base.OnPointerDown(eventData);
+
+            // Fade out card description material
+            if (CardDescription)
+            {
+                StartCoroutine(GalaxyExplorerManager.Instance.GeFadeManager.FadeMaterial(CardDescriptionMaterial, GEFadeManager.FadeType.FadeOut, GalaxyExplorerManager.Instance.CardPoiManager.POIFadeOutTime, GalaxyExplorerManager.Instance.CardPoiManager.POIOpacityCurve));
+            }
+
+            GalaxyExplorerManager.Instance.TransitionManager.LoadNextScene(SceneToLoad);
+        }
 
         public override void OnFocusEnter()
         {

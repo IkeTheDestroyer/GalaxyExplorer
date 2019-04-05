@@ -5,6 +5,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Microsoft.MixedReality.Toolkit.SDK.UX;
+using Microsoft.MixedReality.Toolkit.SDK.UX.Iteractable;
 using UnityEngine;
 
 namespace GalaxyExplorer
@@ -71,8 +72,8 @@ namespace GalaxyExplorer
                 allButtonColliders.Add(collider);
             }
 
-            ShowButton?.SetActive(false);
-            BackButton?.SetActive(false);
+            ShowButton.SetActive(false);
+            BackButton.SetActive(false);
 
             boundingBox = FindObjectOfType<BoundingBox>();
 
@@ -253,8 +254,9 @@ namespace GalaxyExplorer
         // Show tools by activating button colliders and fade in button materials
         private IEnumerator ShowToolsAsync()
         {
-            if (GalaxyExplorerManager.IsHoloLens || GalaxyExplorerManager.IsImmersiveHMD)
+            if (GalaxyExplorerManager.IsHoloLens || GalaxyExplorerManager.IsImmersiveHMD || GalaxyExplorerManager.IsDesktop)
             {
+                
                 panel.gameObject.SetActive(true);
                 ToolsVisible = true;
                 SetCollidersEnabled(true);

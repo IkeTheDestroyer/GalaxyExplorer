@@ -4,6 +4,7 @@
 //using HoloToolkit.Unity.InputModule;
 using UnityEngine;
 using System.Collections;
+using Microsoft.MixedReality.Toolkit.Core.EventDatum.Input;
 
 /// <summary>
 /// Its attached to the poi if the poi is supposed to launch a card when selected
@@ -96,69 +97,69 @@ namespace GalaxyExplorer
             }
         }
 
-//        public override void OnInputClicked(InputClickedEventData eventData)
-//        {
-//            if (CardObject)
-//            {
-//                if (!CardObject.activeSelf)
-//                {
-//                    isCardActive = true;
-//
-//                    StartCoroutine(GalaxyExplorerManager.Instance.GeFadeManager.FadeContent(poiFader, GEFadeManager.FadeType.FadeOut, GalaxyExplorerManager.Instance.CardPoiManager.POIFadeOutTime, GalaxyExplorerManager.Instance.CardPoiManager.POIOpacityCurve));
-//
-//                    CardObject.SetActive(true);
-//
-//                    if (CardAnimator)
-//                    {
-//                        CardAnimator.SetBool("CardVisible", true);
-//                    }
-//
-//                    if (CardAudio && GalaxyExplorerManager.Instance.VoManager)
-//                    {
-//                        GalaxyExplorerManager.Instance.VoManager.Stop(true);
-//                        GalaxyExplorerManager.Instance.VoManager.PlayClip(CardAudio);
-//                    }
-//
-//                    if (LineBase)
-//                    {
-//                        CardObject.transform.position = LineBase.transform.position;
-//                    }
-//                    else
-//                    {
-//                        CardObject.transform.position = transform.position;
-//                    }
-//
-//                    Vector3 forwardDirection = transform.position - Camera.main.transform.position;
-//                    CardObject.transform.rotation = Quaternion.LookRotation(forwardDirection.normalized, Camera.main.transform.up);
-//                    cardRotation = CardObject.transform.rotation;
-//
-//                    cardOffset = cardOffsetTransform.position - CardObject.transform.position;
-//
-//                    StartCoroutine(SlideCardOut());
-//                }
-//                else
-//                {
-//                    isCardActive = false;
-//
-//                    StartCoroutine(GalaxyExplorerManager.Instance.GeFadeManager.FadeContent(poiFader, GEFadeManager.FadeType.FadeIn, GalaxyExplorerManager.Instance.CardPoiManager.POIFadeOutTime, GalaxyExplorerManager.Instance.CardPoiManager.POIOpacityCurve));
-//
-//                    // TODO this need to be removed and happen in the animation, but it doesnt
-//                    CardObject.SetActive(false);
-//
-//                    if (CardAnimator)
-//                    {
-//                        CardAnimator.SetBool("CardVisible", false);
-//                    }
-//
-//                    if (GalaxyExplorerManager.Instance.VoManager)
-//                    {
-//                        GalaxyExplorerManager.Instance.VoManager.Stop(true);
-//                    }
-//
-//                    StartCoroutine(SlideCardIn());
-//                }
-//            }
-//        }
+        public override void OnPointerDown(MixedRealityPointerEventData eventData)
+        {
+            if (CardObject)
+            {
+                if (!CardObject.activeSelf)
+                {
+                    isCardActive = true;
+
+                    StartCoroutine(GalaxyExplorerManager.Instance.GeFadeManager.FadeContent(poiFader, GEFadeManager.FadeType.FadeOut, GalaxyExplorerManager.Instance.CardPoiManager.POIFadeOutTime, GalaxyExplorerManager.Instance.CardPoiManager.POIOpacityCurve));
+
+                    CardObject.SetActive(true);
+
+                    if (CardAnimator)
+                    {
+                        CardAnimator.SetBool("CardVisible", true);
+                    }
+
+                    if (CardAudio && GalaxyExplorerManager.Instance.VoManager)
+                    {
+                        GalaxyExplorerManager.Instance.VoManager.Stop(true);
+                        GalaxyExplorerManager.Instance.VoManager.PlayClip(CardAudio);
+                    }
+
+                    if (LineBase)
+                    {
+                        CardObject.transform.position = LineBase.transform.position;
+                    }
+                    else
+                    {
+                        CardObject.transform.position = transform.position;
+                    }
+
+                    Vector3 forwardDirection = transform.position - Camera.main.transform.position;
+                    CardObject.transform.rotation = Quaternion.LookRotation(forwardDirection.normalized, Camera.main.transform.up);
+                    cardRotation = CardObject.transform.rotation;
+
+                    cardOffset = cardOffsetTransform.position - CardObject.transform.position;
+
+                    StartCoroutine(SlideCardOut());
+                }
+                else
+                {
+                    isCardActive = false;
+
+                    StartCoroutine(GalaxyExplorerManager.Instance.GeFadeManager.FadeContent(poiFader, GEFadeManager.FadeType.FadeIn, GalaxyExplorerManager.Instance.CardPoiManager.POIFadeOutTime, GalaxyExplorerManager.Instance.CardPoiManager.POIOpacityCurve));
+
+                    // TODO this need to be removed and happen in the animation, but it doesnt
+                    CardObject.SetActive(false);
+
+                    if (CardAnimator)
+                    {
+                        CardAnimator.SetBool("CardVisible", false);
+                    }
+
+                    if (GalaxyExplorerManager.Instance.VoManager)
+                    {
+                        GalaxyExplorerManager.Instance.VoManager.Stop(true);
+                    }
+
+                    StartCoroutine(SlideCardIn());
+                }
+            }
+        }
 
         public override void OnFocusEnter()
         {
