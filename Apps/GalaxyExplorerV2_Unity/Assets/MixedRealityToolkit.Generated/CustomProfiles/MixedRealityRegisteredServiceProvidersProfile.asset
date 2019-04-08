@@ -80,3 +80,10 @@ MonoBehaviour:
     runtimePlatform: 16
     configurationProfile: {fileID: 11400000, guid: 41478039094d47641bf4e09c20e61a5a,
       type: 2}
+  - componentType:
+      reference: AudioService, Assembly-CSharp
+    componentName: Audio Provider
+    priority: 10
+    runtimePlatform: -1
+    configurationProfile: {fileID: 11400000, guid: d002b8ed936608e4a9faeec5732441e8,
+      type: 2}

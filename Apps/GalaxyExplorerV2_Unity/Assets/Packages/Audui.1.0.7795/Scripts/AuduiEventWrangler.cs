@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------
 
 using System.Collections;
+using Microsoft.MixedReality.Toolkit.Core.EventDatum.Input;
+using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem.Handlers;
 using Microsoft.MixedReality.Toolkit.Core.Services;
 using UnityEngine;
 
@@ -15,7 +17,7 @@ namespace MRS.Audui
     /// and translates relevent input events into 'UI Actions' that can be
     /// handled and consumed independently of the originating event.
     /// </summary>
-    public class AuduiEventWrangler : MonoBehaviour
+    public class AuduiEventWrangler : MonoBehaviour, IMixedRealityPointerHandler//IInputHandler, IInputClickHandler
     {
         /// <summary>
         /// A bank of Inspector settings.
@@ -27,7 +29,11 @@ namespace MRS.Audui
         public string DefaultPrimaryActionEvent = "Default_Primary";
         public string DefaultSecondaryActionEvent;
 
-//        private HoloToolkit.Unity.UAudioManager AudioManager;
+        [SerializeField] private AudioClip defaultFocus;
+        [SerializeField] private AudioClip defaultPrimary;
+        
+
+        private IAudioService AudioManager;
         private GameObject FocusedObject = null;
 
         private void OnEnable()
@@ -41,30 +47,28 @@ namespace MRS.Audui
             yield return null;
 
             // Audui requires an instantiated UAudioManager, FocusManager and InputManager;
-//            AudioManager = HoloToolkit.Unity.UAudioManager.Instance;
-//            if (AudioManager)
-//            {
-//                // if we have all three, set up as required
-////                FocusManager.Instance.FocusEntered += OnFocusEnter;
-////                FocusManager.Instance.FocusExited += OnFocusExit;
-//                MixedRealityToolkit.InputSystem.Register(gameObject);
-//            }
-//            else
-//            {
-//                Debug.LogWarning("AuduiEventWrangler: could not access all three required companion components; disabling.");
-//                enabled = false;
-//            }
+            AudioManager = MixedRealityToolkit.Instance.GetService<IAudioService>();
+            if (AudioManager != null)
+            {
+                // if we have all three, set up as required
+//                FocusManager.Instance.FocusEntered += OnFocusEnter;
+//                FocusManager.Instance.FocusExited += OnFocusExit;
+            }
+            else
+            {
+                Debug.LogWarning("AuduiEventWrangler: could not access all three required companion components; disabling.");
+                enabled = false;
+            }
         }
 
         private void OnDisable()
         {
-//            if (AudioManager)
-//            {
+            if (AudioManager != null)
+            {
 //                FocusManager.Instance.FocusExited -= OnFocusExit;
 //                FocusManager.Instance.FocusEntered -= OnFocusEnter;
-//                MixedRealityToolkit.InputSystem.Unregister(gameObject);
-//                AudioManager = null;
-//            }
+                AudioManager = null;
+            }
         }
 
         private void HandleAuduiEvent(UiAction action)
@@ -192,11 +196,11 @@ namespace MRS.Audui
             FocusedObject = (focusedObject && focusedObject.layer == LayerMask.NameToLayer("UI")) ? focusedObject : null;
         }
 
-//        /// <summary>
-//        /// IInputHandler implementation.
-//        /// Raise an 'ActionStarted' event.
-//        /// </summary>
-//        /// <param name="eventData"></param>
+        /// <summary>
+        /// IInputHandler implementation.
+        /// Raise an 'ActionStarted' event.
+        /// </summary>
+        /// <param name="eventData"></param>
 //        public void OnInputDown(InputEventData eventData)
 //        {
 //            HandleAuduiEvent(UiAction.ActionStarted);
@@ -221,5 +225,20 @@ namespace MRS.Audui
 //        {
 //            HandleAuduiEvent(UiAction.PrimaryAction);
 //        }
+
+        public void OnPointerUp(MixedRealityPointerEventData eventData)
+        {
+            HandleAuduiEvent(UiAction.ActionEnded);
+        }
+
+        public void OnPointerDown(MixedRealityPointerEventData eventData)
+        {
+            HandleAuduiEvent(UiAction.ActionStarted);
+        }
+
+        public void OnPointerClicked(MixedRealityPointerEventData eventData)
+        {
+            HandleAuduiEvent(UiAction.PrimaryAction);
+        }
     }
 }

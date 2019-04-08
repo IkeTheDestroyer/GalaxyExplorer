@@ -53,14 +53,14 @@ namespace GalaxyExplorer
             GalaxyExplorerManager.Instance.TransitionManager.LoadNextScene(SceneToLoad);
         }
 
-        public override void OnFocusEnter()
+        public override void OnFocusEnter(FocusEventData eventData)
         {
-            base.OnFocusEnter();
+            base.OnFocusEnter(eventData);
         }
 
-        public override void OnFocusExit()
+        public override void OnFocusExit(FocusEventData eventData)
         {
-            base.OnFocusExit();
+            base.OnFocusExit(eventData);
         }
     }
 }

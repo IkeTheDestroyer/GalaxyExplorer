@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Microsoft.MixedReality.Toolkit.Core.EventDatum.Input;
 using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem;
 using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem.Handlers;
+using Microsoft.MixedReality.Toolkit.Core.Services;
 using Microsoft.MixedReality.Toolkit.SDK.UX.Interactable;
 using Microsoft.MixedReality.Toolkit.SDK.UX.Interactable.Events;
 using Microsoft.MixedReality.Toolkit.SDK.UX.Interactable.States;
@@ -15,7 +16,7 @@ using UnityEngine;
 
 namespace GalaxyExplorer
 {
-    public class PointOfInterest : MonoBehaviour, IMixedRealityPointerHandler//, IInputClickHandler, IFocusable, IControllerTouchpadHandler
+    public class PointOfInterest : MonoBehaviour, IMixedRealityPointerHandler, IMixedRealityFocusHandler//, IInputClickHandler, IFocusable, IControllerTouchpadHandler
     {
         [SerializeField]
         protected GameObject CardDescription = null;
@@ -54,6 +55,9 @@ namespace GalaxyExplorer
 
         // A list of all colliders realted to this poi
         protected List<Collider> allPoiColliders = new List<Collider>();
+
+        protected IAudioService audioService;
+        
 
         protected enum POIState
         {
@@ -94,24 +98,6 @@ namespace GalaxyExplorer
             get; set;
         }
 
-        public virtual void OnFocusEnter()
-        {
-            currentState = POIState.kOnFocusEnter;
-            timer = 0.0f;
-
-            if (CardDescription)
-            {
-                CardDescription.SetActive(true);
-                GalaxyExplorerManager.Instance.CardPoiManager.OnPOIFocusEnter(this);
-            }
-        }
-
-        public virtual void OnFocusExit()
-        {
-            currentState = POIState.kOnFocusExit;
-            timer = 0.0f;
-        }
-
         // If any othe poi is focused then need to deactivate any card description that is on
         public virtual void OnAnyPoiFocus()
         {
@@ -132,6 +118,8 @@ namespace GalaxyExplorer
                 IndicatorLine.points[1] = gameObject.transform;
                 IndicatorLine.material.color = IndicatorDefaultColor;
             }
+
+            audioService = MixedRealityToolkit.Instance.GetService<IAudioService>();
         }
 
         protected virtual void Start()
@@ -318,12 +306,47 @@ namespace GalaxyExplorer
 
         public virtual void OnPointerDown(MixedRealityPointerEventData eventData)
         {
-            Debug.Log("!!^!! on input clicked");
+            if (currentState == POIState.kOnFocusEnter)
+            {
+                audioService.PlayClip(AudioId.CardSelect);
+            } 
+            else if (currentState == POIState.kOnFocusExit)
+            {
+                audioService.PlayClip(AudioId.CardDeselect);    
+            }
             currentState = POIState.kOnInputClicked;
         }
 
         public virtual void OnPointerClicked(MixedRealityPointerEventData eventData)
         {
+        }
+
+        public void OnBeforeFocusChange(FocusEventData eventData)
+        {
+        }
+
+        public void OnFocusChanged(FocusEventData eventData)
+        {
+        }
+
+        public virtual void OnFocusEnter(FocusEventData eventData)
+        {
+            
+            currentState = POIState.kOnFocusEnter;
+            timer = 0.0f;
+
+            if (CardDescription)
+            {
+                CardDescription.SetActive(true);
+                GalaxyExplorerManager.Instance.CardPoiManager.OnPOIFocusEnter(this);
+            }
+            audioService.PlayClip(AudioId.Focus);
+        }
+
+        public virtual void OnFocusExit(FocusEventData eventData)
+        {
+            currentState = POIState.kOnFocusExit;
+            timer = 0.0f;
         }
     }
 }

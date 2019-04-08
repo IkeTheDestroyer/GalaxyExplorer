@@ -206,7 +206,7 @@ namespace GalaxyExplorer
                         }
                     }
 
-                    poi.OnFocusExit();
+                    poi.OnFocusExit(null);
                 }
             }
         }

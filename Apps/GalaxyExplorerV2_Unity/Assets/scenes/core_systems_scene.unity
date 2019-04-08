@@ -1338,6 +1338,8 @@ MonoBehaviour:
   DefaultActionEndedEvent: 
   DefaultPrimaryActionEvent: Default_Primary
   DefaultSecondaryActionEvent: 
+  defaultFocus: {fileID: 8300000, guid: 4614daeb1c62e6c468f313ab13761cf2, type: 3}
+  defaultPrimary: {fileID: 8300000, guid: 5df739e4e6519b44c8b0b84fa9451fa1, type: 3}
 --- !u!1 &499409397
 GameObject:
   m_ObjectHideFlags: 0
@@ -1351,6 +1353,7 @@ GameObject:
   - component: {fileID: 499409401}
   - component: {fileID: 499409400}
   - component: {fileID: 499409399}
+  - component: {fileID: 499409402}
   m_Layer: 5
   m_Name: About
   m_TagString: Untagged
@@ -1604,6 +1607,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.2, z: 0.01}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &499409402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499409397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2acad24591a3903429b129830e512a07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onFocus: 1
+  onClick: 2
 --- !u!1 &501530024
 GameObject:
   m_ObjectHideFlags: 0
@@ -3432,7 +3449,7 @@ Transform:
   m_GameObject: {fileID: 1278074896}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 392308216}
   m_Father: {fileID: 1618593080}
@@ -4428,6 +4445,7 @@ GameObject:
   - component: {fileID: 1642965384}
   - component: {fileID: 1642965385}
   - component: {fileID: 1642965383}
+  - component: {fileID: 1642965386}
   m_Layer: 5
   m_Name: Back
   m_TagString: Untagged
@@ -4681,6 +4699,20 @@ MonoBehaviour:
   CustomPrimaryActionEvent: Menu_Select
   CustomSecondaryActionEvent: 
   OverrideDefaultSound: 1
+--- !u!114 &1642965386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1642965381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2acad24591a3903429b129830e512a07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onFocus: 1
+  onClick: 2
 --- !u!1 &1654972568
 GameObject:
   m_ObjectHideFlags: 0
@@ -6795,6 +6827,7 @@ GameObject:
   - component: {fileID: 2098339876}
   - component: {fileID: 2098339874}
   - component: {fileID: 2098339875}
+  - component: {fileID: 2098339877}
   m_Layer: 5
   m_Name: Reset
   m_TagString: Untagged
@@ -7048,6 +7081,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.2, z: 0.01}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2098339877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2098339872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2acad24591a3903429b129830e512a07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onFocus: 1
+  onClick: 2
 --- !u!1 &2129971421
 GameObject:
   m_ObjectHideFlags: 0

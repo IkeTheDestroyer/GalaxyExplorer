@@ -16,14 +16,14 @@ namespace GalaxyExplorer
         public GameObject AboutDesktopButton = null;
         public GameObject AboutMenuButton = null;
 
-        private bool isAboutButtonClicked = false;
+//        private bool isAboutButtonClicked = false;
 
         private void Awake()
         {
             DisableLinks();
             AboutMaterial.SetFloat("_TransitionAlpha", 0);
 
-            isAboutButtonClicked = false;
+//            isAboutButtonClicked = false;
 
             transform.localScale = transform.localScale * GalaxyExplorerManager.SlateScaleFactor;
         }
@@ -58,15 +58,15 @@ namespace GalaxyExplorer
             }
         }
 
-        private void Update()
-        {
-            isAboutButtonClicked = false;
-        }
+//        private void Update()
+//        {
+//            isAboutButtonClicked = false;
+//        }
 
         // Callback when Desktop About button is clicked/touched/selected
         public void ButtonClicked()
         {
-            isAboutButtonClicked = true;
+//            isAboutButtonClicked = true;
         }
 
         // Is user touching the About slate area
