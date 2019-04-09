@@ -11,7 +11,7 @@ using UnityEditor;
 #endif
 using UnityEngine;
 
-    public class AudioService : BaseExtensionService, IAudioService
+    public class AudioService : BaseExtensionService, IAudioService<AudioId>
 {
     private List<AudioSource> audioSources;
     private Dictionary<AudioId, AudioClip> audioClipCache;
