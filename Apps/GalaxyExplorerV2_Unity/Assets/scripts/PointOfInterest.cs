@@ -56,7 +56,7 @@ namespace GalaxyExplorer
         // A list of all colliders realted to this poi
         protected List<Collider> allPoiColliders = new List<Collider>();
 
-        protected IAudioService audioService;
+        protected IAudioService<AudioId> audioService;
         
 
         protected enum POIState
@@ -119,7 +119,7 @@ namespace GalaxyExplorer
                 IndicatorLine.material.color = IndicatorDefaultColor;
             }
 
-            audioService = MixedRealityToolkit.Instance.GetService<IAudioService>();
+            audioService = MixedRealityToolkit.Instance.GetService<IAudioService<AudioId>>();
         }
 
         protected virtual void Start()

@@ -33,7 +33,7 @@ namespace MRS.Audui
         [SerializeField] private AudioClip defaultPrimary;
         
 
-        private IAudioService AudioManager;
+        private IAudioService<AudioId> AudioManager;
         private GameObject FocusedObject = null;
 
         private void OnEnable()
@@ -47,7 +47,7 @@ namespace MRS.Audui
             yield return null;
 
             // Audui requires an instantiated UAudioManager, FocusManager and InputManager;
-            AudioManager = MixedRealityToolkit.Instance.GetService<IAudioService>();
+            AudioManager = MixedRealityToolkit.Instance.GetService<IAudioService<AudioId>>();
             if (AudioManager != null)
             {
                 // if we have all three, set up as required

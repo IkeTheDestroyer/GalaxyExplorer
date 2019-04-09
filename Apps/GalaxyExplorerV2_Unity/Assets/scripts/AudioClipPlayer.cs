@@ -10,11 +10,11 @@ public class AudioClipPlayer : MonoBehaviour, IMixedRealityPointerHandler, IMixe
     [SerializeField] private AudioId onFocus;
     [SerializeField] private AudioId onClick;
 
-    private IAudioService audioService;
+    private IAudioService<AudioId> audioService;
     
     void Awake()
     {
-        audioService = MixedRealityToolkit.Instance.GetService<IAudioService>();
+        audioService = MixedRealityToolkit.Instance.GetService<IAudioService<AudioId>>();
     }
     
     public void OnPointerUp(MixedRealityPointerEventData eventData)
