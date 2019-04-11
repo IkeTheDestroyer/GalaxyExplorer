@@ -3,7 +3,6 @@
 
 using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem;
 using System.Collections.Generic;
-using GLTF.Schema;
 
 namespace Microsoft.MixedReality.Toolkit.SDK.UX.Pointers
 {

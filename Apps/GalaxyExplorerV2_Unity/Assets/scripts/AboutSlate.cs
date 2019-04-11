@@ -1,29 +1,29 @@
 ﻿// Copyright Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using HoloToolkit.Unity.InputModule;
 using System.Collections;
+using Microsoft.MixedReality.Toolkit.Core.Services;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace GalaxyExplorer
 {
-    public class AboutSlate : MonoBehaviour, IInputClickHandler, IControllerTouchpadHandler
+    public class AboutSlate : MonoBehaviour//, IInputClickHandler, IControllerTouchpadHandler
     {
         public Material AboutMaterial;
         public GameObject Slate;
         public float TransitionDuration = 1.0f;
-        public GEInteractiveToggle AboutDesktopButton = null;
-        public GEInteractiveToggle AboutMenuButton = null;
+        public GameObject AboutDesktopButton = null;
+        public GameObject AboutMenuButton = null;
 
-        private bool isAboutButtonClicked = false;
+//        private bool isAboutButtonClicked = false;
 
         private void Awake()
         {
             DisableLinks();
             AboutMaterial.SetFloat("_TransitionAlpha", 0);
 
-            isAboutButtonClicked = false;
+//            isAboutButtonClicked = false;
 
             transform.localScale = transform.localScale * GalaxyExplorerManager.SlateScaleFactor;
         }
@@ -44,7 +44,7 @@ namespace GalaxyExplorer
 
         private void Start()
         {
-            InputManager.Instance.AddGlobalListener(gameObject);
+            MixedRealityToolkit.InputSystem.Register(gameObject);
 
             if (AboutDesktopButton == null)
             {
@@ -58,15 +58,15 @@ namespace GalaxyExplorer
             }
         }
 
-        private void Update()
-        {
-            isAboutButtonClicked = false;
-        }
+//        private void Update()
+//        {
+//            isAboutButtonClicked = false;
+//        }
 
         // Callback when Desktop About button is clicked/touched/selected
         public void ButtonClicked()
         {
-            isAboutButtonClicked = true;
+//            isAboutButtonClicked = true;
         }
 
         // Is user touching the About slate area
@@ -75,10 +75,10 @@ namespace GalaxyExplorer
             Collider[] allChildren = GetComponentsInChildren<Collider>();
             foreach (var entity in allChildren)
             {
-                if (entity.gameObject == InputManager.Instance.OverrideFocusedObject)
-                {
-                    return true;
-                }
+//                if (entity.gameObject == InputManager.Instance.OverrideFocusedObject)
+//                {
+//                    return true;
+//                }
             }
 
             return false;
@@ -111,33 +111,33 @@ namespace GalaxyExplorer
         }
 
         // On every user's click, check if the click is outside the about area and if it is and About card is on then deactivate it
-        public void OnInputClicked(InputClickedEventData eventData)
-        {
+//        public void OnInputClicked(InputClickedEventData eventData)
+//        {
             // Focused object is either the gazed one in hololens or the overriden my mouse click one for desktop
-            GameObject focusedObject = (FocusManager.Instance) ? FocusManager.Instance.TryGetFocusedObject(eventData) : null;
-            focusedObject = (focusedObject == null) ? InputManager.Instance.OverrideFocusedObject : focusedObject;
+//            GameObject focusedObject = (FocusManager.Instance) ? FocusManager.Instance.TryGetFocusedObject(eventData) : null;
+//            focusedObject = (focusedObject == null) ? InputManager.Instance.OverrideFocusedObject : focusedObject;
 
-            ToggleAboutSlateLogic(IsClickOnAboutSlate(focusedObject));
-        }
+//            ToggleAboutSlateLogic(IsClickOnAboutSlate(focusedObject));
+//        }
 
-        private void ToggleAboutSlateLogic(bool isAboutSelected)
-        {
-            bool isButtonSelected = (AboutMenuButton && AboutMenuButton.IsSelected) || (AboutDesktopButton && AboutDesktopButton.IsSelected);
-
-            if (!isAboutSelected && !isAboutButtonClicked && isButtonSelected)
-            {
-                Debug.Log("User clicked outside About Slate so toggle its button state");
-
-                if (AboutMenuButton && AboutMenuButton.IsSelected)
-                {
-                    AboutMenuButton.ToggleLogic();
-                }
-                else if (AboutDesktopButton && AboutDesktopButton.IsSelected)
-                {
-                    AboutDesktopButton.ToggleLogic();
-                }
-            }
-        }
+//        private void ToggleAboutSlateLogic(bool isAboutSelected)
+//        {
+//            bool isButtonSelected = (AboutMenuButton && AboutMenuButton.IsSelected) || (AboutDesktopButton && AboutDesktopButton.IsSelected);
+//
+//            if (!isAboutSelected && !isAboutButtonClicked && isButtonSelected)
+//            {
+//                Debug.Log("User clicked outside About Slate so toggle its button state");
+//
+//                if (AboutMenuButton && AboutMenuButton.IsSelected)
+//                {
+//                    AboutMenuButton.ToggleLogic();
+//                }
+//                else if (AboutDesktopButton && AboutDesktopButton.IsSelected)
+//                {
+//                    AboutDesktopButton.ToggleLogic();
+//                }
+//            }
+//        }
 
         private IEnumerator AnimateToOpacity(float target)
         {
@@ -176,20 +176,20 @@ namespace GalaxyExplorer
 
         private void EnableLinks()
         {
-            var links = GetComponentsInChildren<Hyperlink>(includeInactive: true);
-            foreach (var link in links)
-            {
-                link.gameObject.SetActive(true);
-            }
+//            var links = GetComponentsInChildren<Hyperlink>(includeInactive: true);
+//            foreach (var link in links)
+//            {
+//                link.gameObject.SetActive(true);
+//            }
         }
 
         private void DisableLinks()
         {
-            var links = GetComponentsInChildren<Hyperlink>(includeInactive: true);
-            foreach (var link in links)
-            {
-                link.gameObject.SetActive(false);
-            }
+//            var links = GetComponentsInChildren<Hyperlink>(includeInactive: true);
+//            foreach (var link in links)
+//            {
+//                link.gameObject.SetActive(false);
+//            }
         }
 
         public void Show()
@@ -209,19 +209,19 @@ namespace GalaxyExplorer
             }
         }
 
-        public void OnTouchpadTouched(InputEventData eventData)
-        {
-       
-        }
-
-        public void OnTouchpadReleased(InputEventData eventData)
-        {
-            ToggleAboutSlateLogic(IsUserTouchingAboutSlate());
-        }
-
-        public void OnInputPositionChanged(InputPositionEventData eventData)
-        {
-   
-        }
+//        public void OnTouchpadTouched(InputEventData eventData)
+//        {
+//       
+//        }
+//
+//        public void OnTouchpadReleased(InputEventData eventData)
+//        {
+//            ToggleAboutSlateLogic(IsUserTouchingAboutSlate());
+//        }
+//
+//        public void OnInputPositionChanged(InputPositionEventData eventData)
+//        {
+//   
+//        }
     }
 }

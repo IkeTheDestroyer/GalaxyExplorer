@@ -1,16 +1,19 @@
 ﻿// Copyright Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using HoloToolkit.Unity.InputModule;
+//using HoloToolkit.Unity.InputModule;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using HoloToolkit.Unity;
+using Microsoft.MixedReality.Toolkit.Core.EventDatum.Input;
+using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem.Handlers;
+//using HoloToolkit.Unity;
 using Microsoft.MixedReality.Toolkit.Core.Services;
+using UnityEngine.EventSystems;
 
 namespace GalaxyExplorer
 {
-    public class CardPOIManager : MonoBehaviour, IInputClickHandler, IControllerTouchpadHandler
+    public class CardPOIManager : MonoBehaviour, IMixedRealityPointerHandler//, IInputClickHandler, IControllerTouchpadHandler
     {
         [Header("Galaxy Card POI Fading")]
         [Tooltip("The time it takes for all points of interest to completely fade out when a card point of interest is selected.")]
@@ -33,15 +36,15 @@ namespace GalaxyExplorer
         private void Start()
         {
 //            InputManager.Instance.AddGlobalListener(gameObject);
-            MixedRealityToolkit.InputSystem.Register(gameObject);
+//            MixedRealityToolkit.InputSystem.Register(gameObject);
 
-            if (GalaxyExplorerManager.Instance.MouseInput)
-            {
-                GalaxyExplorerManager.Instance.MouseInput.OnMouseClickDelegate += OnMouseClickDelegate;
-                GalaxyExplorerManager.Instance.MouseInput.OnMouseClickUpDelegate += OnMouseClickUpDelegate;
-                GalaxyExplorerManager.Instance.MouseInput.OnMouseOnHoverDelegate += OnMouseOnHoverDelegate;
-                GalaxyExplorerManager.Instance.MouseInput.OnMouseOnUnHoverDelegate += OnMouseOnUnHoverDelegate;
-            }
+//            if (GalaxyExplorerManager.Instance.MouseInput)
+//            {
+//                GalaxyExplorerManager.Instance.MouseInput.OnMouseClickDelegate += OnMouseClickDelegate;
+//                GalaxyExplorerManager.Instance.MouseInput.OnMouseClickUpDelegate += OnMouseClickUpDelegate;
+//                GalaxyExplorerManager.Instance.MouseInput.OnMouseOnHoverDelegate += OnMouseOnHoverDelegate;
+//                GalaxyExplorerManager.Instance.MouseInput.OnMouseOnUnHoverDelegate += OnMouseOnUnHoverDelegate;
+//            }
 
             if (GalaxyExplorerManager.Instance.ToolsManager)
             {
@@ -147,7 +150,7 @@ namespace GalaxyExplorer
         }
 
         // Find if a card POI is active and its card is on/visible, close the card and trigger audio
-        private IEnumerator CloseAnyOpenCard(InputEventData eventData)
+        private IEnumerator CloseAnyOpenCard(MixedRealityPointerEventData eventData)
         {
             bool isCardActive = false;
 
@@ -162,7 +165,7 @@ namespace GalaxyExplorer
                     CardPOI cardPoi = (CardPOI)poi;
                     GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject((cardPoi) ? cardPoi.GetCardObject.GetComponentInChildren<Collider>().gameObject : poi.IndicatorCollider.gameObject);
 
-                    poi.OnInputClicked(null);
+                    poi.OnPointerDown(null);
 
                     Debug.Log("Close card because of input");
                     break;
@@ -203,43 +206,37 @@ namespace GalaxyExplorer
                         }
                     }
 
-                    poi.OnFocusExit();
+                    poi.OnFocusExit(null);
                 }
             }
         }
 
-        public void OnTouchpadTouched(InputEventData eventData)
-        {
+//        public void OnTouchpadTouched(InputEventData eventData)
+//        {
+//
+//        }
 
-        }
+//        public void OnTouchpadReleased(InputEventData eventData)
+//        {
+//            // GETouchScreenInputSource sets InputManager.Instance.OverrideFocusedObject on collider touch
+////            GameObject focusedObj = InputManager.Instance.OverrideFocusedObject; 
+////            DeactivateAllDescriptionsHandlers(focusedObj);
+//
+//            bool isAnyCardActive = IsAnyCardActive();
+//            StartCoroutine(CloseAnyOpenCard(eventData));
+//            StartCoroutine(UpdateActivationOfPOIColliders());
+//
+//            if (isAnyCardActive)
+//            {
+//                GalaxyExplorerManager.Instance.AudioEventWrangler.OnInputClicked(null);
+//            }
+//        }
 
-        public void OnTouchpadReleased(InputEventData eventData)
-        {
-            // GETouchScreenInputSource sets InputManager.Instance.OverrideFocusedObject on collider touch
-            GameObject focusedObj = InputManager.Instance.OverrideFocusedObject; 
-            DeactivateAllDescriptionsHandlers(focusedObj);
-
-            bool isAnyCardActive = IsAnyCardActive();
-            StartCoroutine(CloseAnyOpenCard(eventData));
-            StartCoroutine(UpdateActivationOfPOIColliders());
-
-            if (isAnyCardActive)
-            {
-                GalaxyExplorerManager.Instance.AudioEventWrangler.OnInputClicked(null);
-            }
-        }
-
-        public void OnInputPositionChanged(InputPositionEventData eventData)
-        {
-
-        }
-
-        // OnInputClicked is triggered with airtap and mouse click
-        public void OnInputClicked(InputClickedEventData eventData)
-        {
-            StartCoroutine(CloseAnyOpenCard(eventData));
-            StartCoroutine(UpdateActivationOfPOIColliders());
-        }
+//        public void OnInputPositionChanged(InputPositionEventData eventData)
+//        {
+//
+//        }
+//
 
         // Called by poi if any poi is focused in order to notify all the other pois
         public void OnPOIFocusEnter(PointOfInterest focusedPOI)
@@ -253,5 +250,18 @@ namespace GalaxyExplorer
             }
         }
 
+        public void OnPointerUp(MixedRealityPointerEventData eventData)
+        {
+        }
+
+        public     virtual void OnPointerDown(MixedRealityPointerEventData eventData)
+        {
+            StartCoroutine(CloseAnyOpenCard(eventData));
+            StartCoroutine(UpdateActivationOfPOIColliders());
+        }
+
+        public void OnPointerClicked(MixedRealityPointerEventData eventData)
+        {
+        }
     }
 }
