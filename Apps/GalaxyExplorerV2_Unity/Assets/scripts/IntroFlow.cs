@@ -3,7 +3,7 @@
 
 using MRS.FlowManager;
 using System.Collections;
-using System.Collections.Generic;
+using Microsoft.MixedReality.Toolkit.Core.Services;
 using UnityEngine;
 
 namespace GalaxyExplorer
@@ -21,6 +21,10 @@ namespace GalaxyExplorer
         private MusicManager musicManagerScript = null;
         private FlowManager flowManagerScript = null;
         private ViewLoader viewLoaderScript = null;
+        private IAudioService audioService;
+
+        private const string WelcomeSnapShot = "01_Welcome";
+        private const float TransitionTime = 3.8f;
 
         public delegate void IntroFinishedCallback();
         public IntroFinishedCallback OnIntroFinished;
@@ -72,6 +76,7 @@ namespace GalaxyExplorer
 
         void Start()
         {
+            audioService = MixedRealityToolkit.Instance.GetService<IAudioService>();
             StartCoroutine(Initialization());
         }
 
@@ -148,7 +153,7 @@ namespace GalaxyExplorer
 
             if (musicManagerScript)
             {
-                musicManagerScript.FindSnapshotAndTransition(musicManagerScript.WelcomeTrack);
+                audioService.TryTransitionMixerSnapshot(WelcomeSnapShot, TransitionTime);
             }
 
             yield return null;

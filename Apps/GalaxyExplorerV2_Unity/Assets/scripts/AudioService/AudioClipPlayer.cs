@@ -10,13 +10,14 @@ public class AudioClipPlayer : MonoBehaviour, IMixedRealityPointerHandler, IMixe
     [SerializeField] private AudioId onFocus;
     [SerializeField] private AudioId onClick;
 
-    private IAudioService<AudioId> audioService;
+    private IAudioService audioService;
     
     void Awake()
     {
-        audioService = MixedRealityToolkit.Instance.GetService<IAudioService<AudioId>>();
+        audioService = MixedRealityToolkit.Instance.GetService<IAudioService>();
     }
-    
+
+    #region IMixedRealityPointerHandlerFunctions
     public void OnPointerUp(MixedRealityPointerEventData eventData)
     {
     }
@@ -29,7 +30,9 @@ public class AudioClipPlayer : MonoBehaviour, IMixedRealityPointerHandler, IMixe
     public void OnPointerClicked(MixedRealityPointerEventData eventData)
     {
     }
+    #endregion
 
+    #region IMixedRealityFocusHandlerFunctions
     public void OnBeforeFocusChange(FocusEventData eventData)
     {
     }
@@ -46,4 +49,5 @@ public class AudioClipPlayer : MonoBehaviour, IMixedRealityPointerHandler, IMixe
     public void OnFocusExit(FocusEventData eventData)
     {
     }
+    #endregion
 }

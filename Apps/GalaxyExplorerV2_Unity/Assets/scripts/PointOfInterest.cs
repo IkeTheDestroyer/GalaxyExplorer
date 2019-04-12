@@ -35,6 +35,7 @@ namespace GalaxyExplorer
 
         [SerializeField]
         private Color IndicatorDefaultColor = Color.cyan;
+        
 
         [SerializeField]
         protected Vector3 indicatorOffset = Vector3.up * 0.4f;
@@ -56,7 +57,7 @@ namespace GalaxyExplorer
         // A list of all colliders realted to this poi
         protected List<Collider> allPoiColliders = new List<Collider>();
 
-        protected IAudioService<AudioId> audioService;
+        protected IAudioService audioService;
         
 
         protected enum POIState
@@ -119,7 +120,7 @@ namespace GalaxyExplorer
                 IndicatorLine.material.color = IndicatorDefaultColor;
             }
 
-            audioService = MixedRealityToolkit.Instance.GetService<IAudioService<AudioId>>();
+            audioService = MixedRealityToolkit.Instance.GetService<IAudioService>();
         }
 
         protected virtual void Start()
