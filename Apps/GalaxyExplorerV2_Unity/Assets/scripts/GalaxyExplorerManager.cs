@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using MRS.FlowManager;
-//using HoloToolkit.Unity;
-//using HoloToolkit.Unity.InputModule;
 using TouchScript.Examples.CameraControl;
 using UnityEngine;
 using UnityEngine.XR;
@@ -55,11 +53,6 @@ namespace GalaxyExplorer
 //        {
 //            get; set;
 //        }
-
-        public MusicManager MusicManagerScript
-        {
-            get; set;
-        }
 
         public ViewLoader ViewLoaderScript
         {
@@ -313,8 +306,6 @@ namespace GalaxyExplorer
             else 
             {
                 Platform = PlatformId.Desktop;
-//                GazeManager.Instance.enabled = false;
-//                FocusManager.Instance.enabled = false;
             }
 
             if (MyAppPlatformManagerInitialized != null)
@@ -326,9 +317,6 @@ namespace GalaxyExplorer
             VoManager = FindObjectOfType<VOManager>();
             GeFadeManager = FindObjectOfType<GEFadeManager>();
             ToolsManager = FindObjectOfType<ToolManager>();
-//            MouseInput = FindObjectOfType<GEMouseInputSource>();
-//            InputRouter = FindObjectOfType<InputRouter>();
-            MusicManagerScript = FindObjectOfType<MusicManager>();
             ViewLoaderScript = FindObjectOfType<ViewLoader>();
             CardPoiManager = FindObjectOfType<CardPOIManager>();
             CameraControllerHandler = FindObjectOfType<CameraController>();

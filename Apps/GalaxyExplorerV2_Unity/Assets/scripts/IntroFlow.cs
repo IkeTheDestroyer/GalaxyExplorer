@@ -18,7 +18,6 @@ namespace GalaxyExplorer
         private IntroFlowState currentState = IntroFlowState.kNone;
         private float timer = 0.0f;
 
-        private MusicManager musicManagerScript = null;
         private FlowManager flowManagerScript = null;
         private ViewLoader viewLoaderScript = null;
         private IAudioService audioService;
@@ -138,11 +137,7 @@ namespace GalaxyExplorer
                 }
             }
 
-            if (musicManagerScript == null)
-            {
-                musicManagerScript = GalaxyExplorerManager.Instance.MusicManagerScript;
-                StartCoroutine(PlayWelcomeMusic());
-            }
+            StartCoroutine(PlayWelcomeMusic());
 
             yield return null;
         }
@@ -151,10 +146,7 @@ namespace GalaxyExplorer
         {
             yield return new WaitForEndOfFrame();
 
-            if (musicManagerScript)
-            {
-                audioService.TryTransitionMixerSnapshot(WelcomeSnapShot, TransitionTime);
-            }
+            audioService.TryTransitionMixerSnapshot(WelcomeSnapShot, TransitionTime);
 
             yield return null;
         }
