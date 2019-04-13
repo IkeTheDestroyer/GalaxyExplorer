@@ -4,7 +4,6 @@
 using MRS.FlowManager;
 //using HoloToolkit.Unity;
 //using HoloToolkit.Unity.InputModule;
-using MRS.Audui;
 using TouchScript.Examples.CameraControl;
 using UnityEngine;
 using UnityEngine.XR;
@@ -33,11 +32,6 @@ namespace GalaxyExplorer
         }
 
         public VOManager VoManager
-        {
-            get; set;
-        }
-
-        public AuduiEventWrangler AudioEventWrangler
         {
             get; set;
         }
@@ -328,7 +322,6 @@ namespace GalaxyExplorer
                 MyAppPlatformManagerInitialized.Invoke();
             }
 
-            AudioEventWrangler = FindObjectOfType<AuduiEventWrangler>();
             TransitionManager = FindObjectOfType<TransitionManager>();
             VoManager = FindObjectOfType<VOManager>();
             GeFadeManager = FindObjectOfType<GEFadeManager>();
