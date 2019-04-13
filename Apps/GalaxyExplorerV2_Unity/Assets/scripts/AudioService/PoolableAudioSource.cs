@@ -6,8 +6,6 @@ public class PoolableAudioSource : APoolable
 {
     [SerializeField] public AudioSource audioSource;
 
-    private Coroutine updateRoutine;
-
     public bool IsPlaying
     {
         get { return audioSource.isPlaying; }
@@ -31,42 +29,20 @@ public class PoolableAudioSource : APoolable
         audioSource.volume = volume;
         audioSource.time = 0;
         audioSource.Play();
-        if (updateRoutine != null)
-        {
-            StopCoroutine(updateRoutine);
-        }
-        updateRoutine = StartCoroutine(SlowUpdate());
+        StartCoroutine(DestroyWithDelay(clip.length));
     }
 
-    private IEnumerator SlowUpdate()
+    private IEnumerator DestroyWithDelay(float delay)
     {
-        var waitForOneSecond = new WaitForSeconds(1);
-        while (gameObject.activeInHierarchy)
-        {
-            yield return waitForOneSecond;
-            if (!IsPlaying)
-            {
-                Destroy();
-            }
-        }
-        updateRoutine = null;
+        yield return new WaitForSeconds(delay + .1f);
+        Destroy();
     }
 
-
-    public override void Destroy()
+    protected override void Reset()
     {
         audioSource.clip = null;
         audioSource.volume = 1;
         audioSource.outputAudioMixerGroup = null;
-        base.Destroy();
-    }
-
-    private void OnDisable()
-    {
-        if (updateRoutine != null)
-        {
-            StopCoroutine(updateRoutine);
-        }
-        updateRoutine = null;
+        base.Reset();
     }
 }

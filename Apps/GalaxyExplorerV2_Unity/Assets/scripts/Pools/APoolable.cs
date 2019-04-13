@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 
+#pragma warning disable CS0660, CS0661  
 namespace Pools
 {
-   public class APoolable : MonoBehaviour
+   public abstract class APoolable : MonoBehaviour
    {
-
       public delegate void OnDestroyPoolable(APoolable poolable);
       public event OnDestroyPoolable OnDestroy;
 
@@ -53,7 +52,7 @@ namespace Pools
          {
             return !a.IsActive;
          }
-         return a.Equals(b);
+         return ReferenceEquals(a,b);
       }
 
       public static bool operator != (APoolable a, APoolable b)
@@ -62,3 +61,4 @@ namespace Pools
       }
    }
 }
+#pragma warning restore CS0660, CS0661  

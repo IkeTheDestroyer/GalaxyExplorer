@@ -2860,7 +2860,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolSize: 0
-  objectPrefab: {fileID: 0}
+  maxPoolSize: 0
 --- !u!1 &1064927353
 GameObject:
   m_ObjectHideFlags: 0
@@ -7139,8 +7139,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2acad24591a3903429b129830e512a07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onFocus: 2
-  onClick: 3
+  onFocus: 1
+  onClick: 2
 --- !u!1 &2129971421
 GameObject:
   m_ObjectHideFlags: 0

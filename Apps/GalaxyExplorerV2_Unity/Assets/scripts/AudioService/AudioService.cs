@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.MixedReality.Toolkit.Core.Definitions;
 using Microsoft.MixedReality.Toolkit.Core.Services;
 using Pools;
@@ -10,8 +11,11 @@ using UnityEngine.Audio;
 
 public class AudioService : BaseExtensionService, IAudioService
 {
+    private static float SameClipCoolDownTime = .05f;
+    
     private Dictionary<AudioId, AudioInfo> audioClipCache;
     private Dictionary<Transform, List<PoolableAudioSource>> playingCache;
+    private Dictionary<string, DateTime> lastPlayedTimes;
     private ObjectPooler objectPooler;
     private Transform mainCameraTransform;
     private AudioServiceProfile audioProfile;
@@ -31,6 +35,7 @@ public class AudioService : BaseExtensionService, IAudioService
         {
             audioClipCache = new Dictionary<AudioId, AudioInfo>();
             playingCache = new Dictionary<Transform, List<PoolableAudioSource>>();
+            lastPlayedTimes = new Dictionary<string, DateTime>();
             foreach (var audioInfo in audioProfile.audioClips)
             {
                 if (!audioClipCache.ContainsKey(audioInfo.audioId))
@@ -46,27 +51,37 @@ public class AudioService : BaseExtensionService, IAudioService
 
     }
 
-    public void PlayClip(AudioId audioId, Transform target)
+    public void PlayClip(AudioId audioId, Transform target, float volume)
     {
         if (audioClipCache != null && audioClipCache.ContainsKey(audioId))
         {
             var audioInfo = audioClipCache[audioId];
-            var source = GetTargetSource(GetTarget(target));
-            source.PlayClip(audioInfo.clip, audioInfo.volume);
+            PlayClip(audioInfo.clip, target, volume == -1 ? audioInfo.volume : volume);
         }
     }
 
-    public void PlayClip(AudioClip clip, Transform target)
+    public void PlayClip(AudioClip clip, Transform target, float volume)
     {
-        var source = GetTargetSource(GetTarget(target));
-        source.PlayClip(clip);
+        AudioSource source;
+        PlayClip(clip, out source, target, volume);
     }
 
-    public void PlayClip(AudioClip clip, out AudioSource playedSource, Transform target)
+    public void PlayClip(AudioClip clip, out AudioSource playedSource, Transform target, float volume)
     {
+        if (lastPlayedTimes.ContainsKey(clip.name))
+        {
+            var lastPlayTime = lastPlayedTimes[clip.name];
+            if ((DateTime.UtcNow - lastPlayTime).TotalSeconds < SameClipCoolDownTime)
+            {
+                playedSource = null;
+                return;
+            }
+            
+        }
         var source = GetTargetSource(GetTarget(target));
         playedSource = source.audioSource;
         source.PlayClip(clip);
+        lastPlayedTimes[clip.name] = DateTime.UtcNow;
     }
 
     public bool TryTransitionMixerSnapshot(string name, float transitionTime)
