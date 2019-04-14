@@ -9,15 +9,13 @@ public interface IAudioService<IdType> : IMixedRealityExtensionService where IdT
     void PlayClip(AudioClip clip, Transform target = null, float volume = -1);
 
     void PlayClip(AudioClip clip, out AudioSource playedSource, Transform target = null, float volume = -1);
-
-    bool TryTransitionMixerSnapshot(string name, float transitionTime);
 }
 
 // This is a convenience interface that defines the id type used in this application
 // so that the code that uses the generic interface is not required to continually
 // define the generic type.  
 // IAudioService<AudioId> becomes IAudioService
-public interface IAudioService : IAudioService<AudioId>
+public interface IAudioService : IAudioService<AudioId>, IAudioMixer
 {
     
 }
