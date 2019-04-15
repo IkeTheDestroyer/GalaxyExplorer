@@ -2,10 +2,10 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 //using HoloToolkit.Unity.InputModule;
+using Microsoft.MixedReality.Toolkit.Input;
 using System;
 using System.Collections;
 using System.Linq;
-using Microsoft.MixedReality.Toolkit.Core.EventDatum.Input;
 using UnityEngine;
 
 namespace GalaxyExplorer
@@ -54,7 +54,7 @@ namespace GalaxyExplorer
 
             if (curve != null)
             {
-                var duration = curve.keys.Last().time; 
+                var duration = curve.keys.Last().time;
                 float currentTime = 0;
 
                 while (currentTime <= duration)
@@ -114,7 +114,6 @@ namespace GalaxyExplorer
                 {
                     GalaxyExplorerManager.Instance.VoManager.Stop(true);
                 }
-
 
                 if (AlternateDescription != null)
                 {

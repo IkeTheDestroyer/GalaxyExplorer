@@ -3,9 +3,11 @@
 
 using UnityEngine.Events;
 
-namespace Microsoft.MixedReality.Toolkit.SDK.Input.Events
+namespace Microsoft.MixedReality.Toolkit.UI
 {
-
+    /// <summary>
+    /// A UnityEvent callback containing a TouchEventData payload.
+    /// </summary>
     [System.Serializable]
     public class TouchEvent : UnityEvent<TouchEventData> { }
 }

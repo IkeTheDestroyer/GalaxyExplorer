@@ -3,7 +3,7 @@
 
 //using HoloToolkit.Unity.InputModule;
 
-using Microsoft.MixedReality.Toolkit.Core.EventDatum.Input;
+using Microsoft.MixedReality.Toolkit.Input;
 using UnityEngine;
 
 /// <summary>

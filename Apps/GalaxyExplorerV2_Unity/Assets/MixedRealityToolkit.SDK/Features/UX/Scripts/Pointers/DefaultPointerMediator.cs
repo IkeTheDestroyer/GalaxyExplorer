@@ -1,10 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem;
 using System.Collections.Generic;
 
-namespace Microsoft.MixedReality.Toolkit.SDK.UX.Pointers
+namespace Microsoft.MixedReality.Toolkit.Input
 {
     public class DefaultPointerMediator : IMixedRealityPointerMediator
     {
@@ -37,16 +36,14 @@ namespace Microsoft.MixedReality.Toolkit.SDK.UX.Pointers
                     farInteractPointers.Add(pointer);
                 }
 
-                HashSet<IMixedRealityPointer> children = null;
-                var validPointer = pointerByInputSourceParent != null && pointer.InputSourceParent != null;
-                if (validPointer && !pointerByInputSourceParent.TryGetValue(pointer.InputSourceParent, out children))
+                if (pointer.InputSourceParent != null)
                 {
-                    children = new HashSet<IMixedRealityPointer>();
-                    pointerByInputSourceParent.Add(pointer.InputSourceParent, children);
-                }
-
-                if (children != null)
-                {
+                    HashSet<IMixedRealityPointer> children;
+                    if (!pointerByInputSourceParent.TryGetValue(pointer.InputSourceParent, out children))
+                    {
+                        children = new HashSet<IMixedRealityPointer>();
+                        pointerByInputSourceParent.Add(pointer.InputSourceParent, children);
+                    }
                     children.Add(pointer);
                 }
             }
@@ -105,15 +102,18 @@ namespace Microsoft.MixedReality.Toolkit.SDK.UX.Pointers
                     pointer.IsActive = true;
                     unassignedPointers.Remove(pointer);
 
-                    foreach (IMixedRealityPointer otherPointer in pointerByInputSourceParent[pointer.InputSourceParent])
+                    if (pointer.InputSourceParent != null)
                     {
-                        if (!unassignedPointers.Contains(otherPointer))
+                        foreach (IMixedRealityPointer otherPointer in pointerByInputSourceParent[pointer.InputSourceParent])
                         {
-                            continue;
-                        }
+                            if (!unassignedPointers.Contains(otherPointer))
+                            {
+                                continue;
+                            }
 
-                        otherPointer.IsActive = false;
-                        unassignedPointers.Remove(otherPointer);
+                            otherPointer.IsActive = false;
+                            unassignedPointers.Remove(otherPointer);
+                        }
                     }
                 }
             }
@@ -132,15 +132,18 @@ namespace Microsoft.MixedReality.Toolkit.SDK.UX.Pointers
                     pointer.IsActive = true;
                     unassignedPointers.Remove(pointer);
 
-                    foreach (IMixedRealityPointer otherPointer in pointerByInputSourceParent[pointer.InputSourceParent])
+                    if (pointer.InputSourceParent != null)
                     {
-                        if (!unassignedPointers.Contains(otherPointer))
+                        foreach (IMixedRealityPointer otherPointer in pointerByInputSourceParent[pointer.InputSourceParent])
                         {
-                            continue;
-                        }
+                            if (!unassignedPointers.Contains(otherPointer))
+                            {
+                                continue;
+                            }
 
-                        otherPointer.IsActive = false;
-                        unassignedPointers.Remove(otherPointer);
+                            otherPointer.IsActive = false;
+                            unassignedPointers.Remove(otherPointer);
+                        }
                     }
                 }
             }

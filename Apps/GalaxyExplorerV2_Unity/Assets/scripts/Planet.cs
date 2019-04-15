@@ -3,13 +3,11 @@
 
 //using HoloToolkit.Unity.InputModule;
 
-using Microsoft.MixedReality.Toolkit.Core.EventDatum.Input;
-using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem.Handlers;
+using Microsoft.MixedReality.Toolkit.Input;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 /// <summary>
-/// Planet script is attached to every planet gameobject, the actual sphere of the planet so user is able to aitap, mouse click or touch the planet 
+/// Planet script is attached to every planet gameobject, the actual sphere of the planet so user is able to aitap, mouse click or touch the planet
 /// </summary>
 namespace GalaxyExplorer
 {
@@ -18,35 +16,35 @@ namespace GalaxyExplorer
         [SerializeField]
         private PointOfInterest POI = null;
 
-//        public void OnFocusEnter()
-//        {
-//            POI?.OnFocusEnter();
-//        }
-//
-//        public void OnFocusExit()
-//        {
-//            POI?.OnFocusExit();
-//        }
+        //        public void OnFocusEnter()
+        //        {
+        //            POI?.OnFocusEnter();
+        //        }
+        //
+        //        public void OnFocusExit()
+        //        {
+        //            POI?.OnFocusExit();
+        //        }
 
-//        public void OnInputClicked(InputClickedEventData eventData)
-//        {
-//            POI?.OnInputClicked(eventData);
-//        }
-//
-//        public void OnInputPositionChanged(InputPositionEventData eventData)
-//        {
-//            POI?.OnInputPositionChanged(eventData);
-//        }
-//
-//        public void OnTouchpadReleased(InputEventData eventData)
-//        {
-//            POI?.OnTouchpadReleased(eventData);
-//        }
-//
-//        public void OnTouchpadTouched(InputEventData eventData)
-//        {
-//            POI?.OnTouchpadTouched(eventData);
-//        }
+        //        public void OnInputClicked(InputClickedEventData eventData)
+        //        {
+        //            POI?.OnInputClicked(eventData);
+        //        }
+        //
+        //        public void OnInputPositionChanged(InputPositionEventData eventData)
+        //        {
+        //            POI?.OnInputPositionChanged(eventData);
+        //        }
+        //
+        //        public void OnTouchpadReleased(InputEventData eventData)
+        //        {
+        //            POI?.OnTouchpadReleased(eventData);
+        //        }
+        //
+        //        public void OnTouchpadTouched(InputEventData eventData)
+        //        {
+        //            POI?.OnTouchpadTouched(eventData);
+        //        }
         public void OnPointerUp(MixedRealityPointerEventData eventData)
         {
             if (POI != null)

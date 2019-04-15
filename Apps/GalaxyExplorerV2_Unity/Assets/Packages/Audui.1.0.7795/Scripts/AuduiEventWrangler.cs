@@ -4,10 +4,9 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using Microsoft.MixedReality.Toolkit;
+using Microsoft.MixedReality.Toolkit.Input;
 using System.Collections;
-using Microsoft.MixedReality.Toolkit.Core.EventDatum.Input;
-using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem.Handlers;
-using Microsoft.MixedReality.Toolkit.Core.Services;
 using UnityEngine;
 
 namespace MRS.Audui
@@ -23,6 +22,7 @@ namespace MRS.Audui
         /// A bank of Inspector settings.
         /// </summary>
         public string DefaultFocusEvent = "Default_Focus";
+
         public string DefaultBlurEvent;
         public string DefaultActionStartedEvent;
         public string DefaultActionEndedEvent;
@@ -31,7 +31,6 @@ namespace MRS.Audui
 
         [SerializeField] private AudioClip defaultFocus;
         [SerializeField] private AudioClip defaultPrimary;
-        
 
         private IAudioService<AudioId> AudioManager;
         private GameObject FocusedObject = null;
@@ -51,8 +50,8 @@ namespace MRS.Audui
             if (AudioManager != null)
             {
                 // if we have all three, set up as required
-//                FocusManager.Instance.FocusEntered += OnFocusEnter;
-//                FocusManager.Instance.FocusExited += OnFocusExit;
+                //                FocusManager.Instance.FocusEntered += OnFocusEnter;
+                //                FocusManager.Instance.FocusExited += OnFocusExit;
             }
             else
             {
@@ -65,8 +64,8 @@ namespace MRS.Audui
         {
             if (AudioManager != null)
             {
-//                FocusManager.Instance.FocusExited -= OnFocusExit;
-//                FocusManager.Instance.FocusEntered -= OnFocusEnter;
+                //                FocusManager.Instance.FocusExited -= OnFocusExit;
+                //                FocusManager.Instance.FocusEntered -= OnFocusEnter;
                 AudioManager = null;
             }
         }
@@ -78,7 +77,7 @@ namespace MRS.Audui
                 return;
             }
 
-//            Debug.Log("AuduiEventWrangler: HandleAuduiEvent " + action.ToString());
+            //            Debug.Log("AuduiEventWrangler: HandleAuduiEvent " + action.ToString());
 
             var eventData = new AuduiEventData(action);
 
@@ -95,7 +94,7 @@ namespace MRS.Audui
                     {
                         responders[i].HandleAuduiEvent(eventData);
                     }
-//                    Debug.Log("  passed to: " + targetTfrm.gameObject.name);
+                    //                    Debug.Log("  passed to: " + targetTfrm.gameObject.name);
                     break;
                 }
                 targetTfrm = targetTfrm.parent;
@@ -104,7 +103,7 @@ namespace MRS.Audui
             if (eventData.used)
             {
                 // Event was consumed, do not locally handle.
-//                Debug.Log("  event consumed by target");
+                //                Debug.Log("  event consumed by target");
                 return;
             }
 
@@ -113,47 +112,47 @@ namespace MRS.Audui
                 case UiAction.None:
                     break;
 
-//                case UiAction.Focus:
-//                    if (DefaultFocusEvent.Length > 0)
-//                    {
-//                        AudioManager.PlayEvent(DefaultFocusEvent);
-//                    }
-//                    break;
-//
-//                case UiAction.Blur:
-//                    if (DefaultBlurEvent.Length > 0)
-//                    {
-//                        AudioManager.PlayEvent(DefaultBlurEvent);
-//                    }
-//                    break;
-//
-//                case UiAction.ActionStarted:
-//                    if (DefaultActionStartedEvent.Length > 0)
-//                    {
-//                        AudioManager.PlayEvent(DefaultActionStartedEvent);
-//                    }
-//                    break;
-//
-//                case UiAction.ActionEnded:
-//                    if (DefaultActionEndedEvent.Length > 0)
-//                    {
-//                        AudioManager.PlayEvent(DefaultActionEndedEvent);
-//                    }
-//                    break;
-//
-//                case UiAction.PrimaryAction:
-//                    if (DefaultPrimaryActionEvent.Length > 0)
-//                    {
-//                        AudioManager.PlayEvent(DefaultPrimaryActionEvent);
-//                    }
-//                    break;
-//
-//                case UiAction.SecondaryAction:
-//                    if (DefaultSecondaryActionEvent.Length > 0)
-//                    {
-//                        AudioManager.PlayEvent(DefaultSecondaryActionEvent);
-//                    }
-//                    break;
+                    //                case UiAction.Focus:
+                    //                    if (DefaultFocusEvent.Length > 0)
+                    //                    {
+                    //                        AudioManager.PlayEvent(DefaultFocusEvent);
+                    //                    }
+                    //                    break;
+                    //
+                    //                case UiAction.Blur:
+                    //                    if (DefaultBlurEvent.Length > 0)
+                    //                    {
+                    //                        AudioManager.PlayEvent(DefaultBlurEvent);
+                    //                    }
+                    //                    break;
+                    //
+                    //                case UiAction.ActionStarted:
+                    //                    if (DefaultActionStartedEvent.Length > 0)
+                    //                    {
+                    //                        AudioManager.PlayEvent(DefaultActionStartedEvent);
+                    //                    }
+                    //                    break;
+                    //
+                    //                case UiAction.ActionEnded:
+                    //                    if (DefaultActionEndedEvent.Length > 0)
+                    //                    {
+                    //                        AudioManager.PlayEvent(DefaultActionEndedEvent);
+                    //                    }
+                    //                    break;
+                    //
+                    //                case UiAction.PrimaryAction:
+                    //                    if (DefaultPrimaryActionEvent.Length > 0)
+                    //                    {
+                    //                        AudioManager.PlayEvent(DefaultPrimaryActionEvent);
+                    //                    }
+                    //                    break;
+                    //
+                    //                case UiAction.SecondaryAction:
+                    //                    if (DefaultSecondaryActionEvent.Length > 0)
+                    //                    {
+                    //                        AudioManager.PlayEvent(DefaultSecondaryActionEvent);
+                    //                    }
+                    //                    break;
             }
         }
 
@@ -201,30 +200,30 @@ namespace MRS.Audui
         /// Raise an 'ActionStarted' event.
         /// </summary>
         /// <param name="eventData"></param>
-//        public void OnInputDown(InputEventData eventData)
-//        {
-//            HandleAuduiEvent(UiAction.ActionStarted);
-//        }
-//
-//        /// <summary>
-//        /// IInputHandler implementation.
-//        /// Raise an 'ActionEnded' event.
-//        /// </summary>
-//        /// <param name="eventData"></param>
-//        public void OnInputUp(InputEventData eventData)
-//        {
-//            HandleAuduiEvent(UiAction.ActionEnded);
-//        }
-//
-//        /// <summary>
-//        /// IInputClickHandler implementation.
-//        /// Raise a 'PrimaryAction' event.
-//        /// </summary>
-//        /// <param name="eventData"></param>
-//        public void OnInputClicked(InputClickedEventData eventData)
-//        {
-//            HandleAuduiEvent(UiAction.PrimaryAction);
-//        }
+        //        public void OnInputDown(InputEventData eventData)
+        //        {
+        //            HandleAuduiEvent(UiAction.ActionStarted);
+        //        }
+        //
+        //        /// <summary>
+        //        /// IInputHandler implementation.
+        //        /// Raise an 'ActionEnded' event.
+        //        /// </summary>
+        //        /// <param name="eventData"></param>
+        //        public void OnInputUp(InputEventData eventData)
+        //        {
+        //            HandleAuduiEvent(UiAction.ActionEnded);
+        //        }
+        //
+        //        /// <summary>
+        //        /// IInputClickHandler implementation.
+        //        /// Raise a 'PrimaryAction' event.
+        //        /// </summary>
+        //        /// <param name="eventData"></param>
+        //        public void OnInputClicked(InputClickedEventData eventData)
+        //        {
+        //            HandleAuduiEvent(UiAction.PrimaryAction);
+        //        }
 
         public void OnPointerUp(MixedRealityPointerEventData eventData)
         {

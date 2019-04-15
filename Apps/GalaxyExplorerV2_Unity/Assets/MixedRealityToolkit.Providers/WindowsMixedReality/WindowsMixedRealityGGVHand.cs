@@ -1,31 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using Microsoft.MixedReality.Toolkit.Core.Attributes;
-using Microsoft.MixedReality.Toolkit.Core.Definitions.Devices;
-using Microsoft.MixedReality.Toolkit.Core.Definitions.InputSystem;
-using Microsoft.MixedReality.Toolkit.Core.Definitions.Utilities;
-using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem;
-using Microsoft.MixedReality.Toolkit.Core.Services;
+using Microsoft.MixedReality.Toolkit.Input;
+using Microsoft.MixedReality.Toolkit.Utilities;
 
-#if UNITY_WSA
-using Microsoft.MixedReality.Toolkit.Core.Devices.Hands;
-using UnityEngine;
-using UnityEngine.XR.WSA.Input;
-#endif
-
-#if WINDOWS_UWP
-using Microsoft.MixedReality.Toolkit.Core.EventDatum.Input;
-using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem.Handlers;
-using Microsoft.MixedReality.Toolkit.Core.Utilities;
-using System;
-using System.Collections.Generic;
-using Windows.Perception;
-using Windows.Perception.People;
-using Windows.UI.Input.Spatial;
-#endif
-
-namespace Microsoft.MixedReality.Toolkit.Providers.WindowsMixedReality
+namespace Microsoft.MixedReality.Toolkit.WindowsMixedReality.Input
 {
     /// <summary>
     /// A Windows Mixed Reality Controller Instance.

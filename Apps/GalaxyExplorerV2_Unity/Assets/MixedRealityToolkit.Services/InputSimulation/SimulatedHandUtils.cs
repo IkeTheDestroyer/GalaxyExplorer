@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using Microsoft.MixedReality.Toolkit.Core.Definitions.Utilities;
+using Microsoft.MixedReality.Toolkit.Utilities;
 using System;
 using System.Linq;
 using UnityEngine;
 
-namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
+namespace Microsoft.MixedReality.Toolkit.Input
 {
     public class SimulatedHandUtils
     {
@@ -33,13 +33,14 @@ namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
             for (int fingerIndex = 0; fingerIndex < numFingers; fingerIndex++)
             {
                 int jointsCurrentFinger = jointsPerFinger[fingerIndex];
-                int lowIndex = 2 + jointsPerFinger.Take(fingerIndex).Sum();
+                int lowIndex = (int)TrackedHandJoint.ThumbMetacarpalJoint + jointsPerFinger.Take(fingerIndex).Sum();
                 int highIndex = lowIndex + jointsCurrentFinger - 1;
 
-                for (int jointStartidx = lowIndex; jointStartidx < highIndex; jointStartidx++)
+                for (int jointStartidx = lowIndex; jointStartidx <= highIndex; jointStartidx++)
                 {
-                    int jointEndidx = jointStartidx + 1;
-                    Vector3 boneForward = jointPositions[jointEndidx] - jointPositions[jointStartidx];
+                    // If we are at the lowIndex (metacarpals) use the wrist as the previous joint.
+                    int jointEndidx = jointStartidx == lowIndex ? (int)TrackedHandJoint.Wrist : jointStartidx - 1;
+                    Vector3 boneForward = jointPositions[jointStartidx] - jointPositions[jointEndidx];
                     Vector3 boneUp = Vector3.Cross(boneForward, GetPalmRightVector(handedness, jointPositions));
                     if (boneForward.magnitude > float.Epsilon && boneUp.magnitude > float.Epsilon)
                     {
@@ -58,15 +59,12 @@ namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
                         jointOrientationsOut[jointStartidx] = Quaternion.identity;
                     }
                 }
-                jointOrientationsOut[highIndex] = jointOrientationsOut[highIndex - 1];
             }
             jointOrientationsOut[(int)TrackedHandJoint.Palm] = Quaternion.LookRotation(GetPalmForwardVector(jointPositions), GetPalmUpVector(handedness, jointPositions));
         }
 
         /// <summary>
-        /// Gets vector corresponding to +z using the same coordinate space
-        /// as Leap Motion does.
-        /// In Leap motion, the forward vecotr moves from the ThumbMetaCarpal to the index finger.
+        /// Gets vector corresponding to +z.
         /// </summary>
         /// <returns></returns>
         public static Vector3 GetPalmForwardVector(Vector3[] jointPositions)
@@ -79,8 +77,7 @@ namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
         }
 
         /// <summary>
-        /// Gets the vector corresponding to +y using same coordinate space as leap motion
-        /// In Leap Motion the up vector moves out of the palm.
+        /// Gets the vector corresponding to +y.
         /// </summary>
         /// <returns></returns>
         public static Vector3 GetPalmUpVector(Handedness handedness, Vector3[] jointPositions)

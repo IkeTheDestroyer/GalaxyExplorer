@@ -1,9 +1,9 @@
-﻿// Copyright Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using UnityEngine;
 
-namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
+namespace Microsoft.MixedReality.Toolkit.Input
 {
     /// <summary>
     /// Class for manually controlling the camera in the Unity editor. Attach to the MainCamera object.
@@ -51,7 +51,7 @@ namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
 
         private static float GetKeyDir(string neg, string pos)
         {
-            return Input.GetKey(neg) ? -1.0f : Input.GetKey(pos) ? 1.0f : 0.0f;
+            return UnityEngine.Input.GetKey(neg) ? -1.0f : UnityEngine.Input.GetKey(pos) ? 1.0f : 0.0f;
         }
 
         private Vector3 GetCameraControlTranslation(Transform transform)
@@ -64,7 +64,7 @@ namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
             {
                 try
                 {
-                    deltaPosition += InputCurve(Input.GetAxis("Fly")) * transform.up;
+                    deltaPosition += InputCurve(UnityEngine.Input.GetAxis("Fly")) * transform.up;
                 }
                 catch (System.Exception)
                 {
@@ -77,18 +77,18 @@ namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
                 deltaPosition += GetKeyDir("page down", "page up") * Vector3.up;
             }
 
-            deltaPosition += InputCurve(Input.GetAxis(profile.MoveHorizontal)) * transform.right;
+            deltaPosition += InputCurve(UnityEngine.Input.GetAxis(profile.MoveHorizontal)) * transform.right;
 
             if (profile.CurrentControlMode == InputSimulationControlMode.Walk)
             {
-                deltaPosition += InputCurve(Input.GetAxis(profile.MoveVertical)) * new Vector3(transform.forward.x, 0, transform.forward.z).normalized;
+                deltaPosition += InputCurve(UnityEngine.Input.GetAxis(profile.MoveVertical)) * new Vector3(transform.forward.x, 0, transform.forward.z).normalized;
             }
             else
             {
-                deltaPosition += InputCurve(Input.GetAxis(profile.MoveVertical)) * transform.forward;
+                deltaPosition += InputCurve(UnityEngine.Input.GetAxis(profile.MoveVertical)) * transform.forward;
             }
 
-            float accel = Input.GetKey(profile.FastControlKey) ? profile.ControlFastSpeed : profile.ControlSlowSpeed;
+            float accel = UnityEngine.Input.GetKey(profile.FastControlKey) ? profile.ControlFastSpeed : profile.ControlSlowSpeed;
             return accel * deltaPosition;
         }
 
@@ -103,8 +103,8 @@ namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
                 try
                 {
                     // Get the axes information from the right stick of X360 controller
-                    rot.x += InputCurve(Input.GetAxis(profile.LookVertical)) * inversionFactor;
-                    rot.y += InputCurve(Input.GetAxis(profile.LookHorizontal));
+                    rot.x += InputCurve(UnityEngine.Input.GetAxis(profile.LookVertical)) * inversionFactor;
+                    rot.y += InputCurve(UnityEngine.Input.GetAxis(profile.LookHorizontal));
                 }
                 catch (System.Exception)
                 {
@@ -176,13 +176,13 @@ namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
         {
             // Use frame-to-frame mouse delta in pixels to determine mouse rotation. The traditional
             // GetAxis("Mouse X") method doesn't work under Remote Desktop.
-            Vector3 mousePositionDelta = Input.mousePosition - this.lastMousePosition;
-            this.lastMousePosition = Input.mousePosition;
+            Vector3 mousePositionDelta = UnityEngine.Input.mousePosition - this.lastMousePosition;
+            this.lastMousePosition = UnityEngine.Input.mousePosition;
 
             if (UnityEngine.Cursor.lockState == CursorLockMode.Locked)
             {
-                mousePositionDelta.x = Input.GetAxis(profile.MouseX);
-                mousePositionDelta.y = Input.GetAxis(profile.MouseY);
+                mousePositionDelta.x = UnityEngine.Input.GetAxis(profile.MouseX);
+                mousePositionDelta.y = UnityEngine.Input.GetAxis(profile.MouseY);
             }
             else
             {
@@ -211,27 +211,27 @@ namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
                 }
                 else if (profile.MouseLookButton <= InputSimulationMouseButton.Middle)
                 {
-                    return Input.GetMouseButton((int)profile.MouseLookButton);
+                    return UnityEngine.Input.GetMouseButton((int)profile.MouseLookButton);
                 }
                 else if (profile.MouseLookButton == InputSimulationMouseButton.Control)
                 {
-                    return Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
+                    return UnityEngine.Input.GetKey(KeyCode.LeftControl) || UnityEngine.Input.GetKey(KeyCode.RightControl);
                 }
                 else if (profile.MouseLookButton == InputSimulationMouseButton.Shift)
                 {
-                    return Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+                    return UnityEngine.Input.GetKey(KeyCode.LeftShift) || UnityEngine.Input.GetKey(KeyCode.RightShift);
                 }
                 else if (profile.MouseLookButton == InputSimulationMouseButton.Focused)
                 {
                     if (!this.wasLooking)
                     {
                         // any kind of click will capture focus
-                        return Input.GetMouseButtonDown((int)InputSimulationMouseButton.Left) || Input.GetMouseButtonDown((int)InputSimulationMouseButton.Right) || Input.GetMouseButtonDown((int)InputSimulationMouseButton.Middle);
+                        return UnityEngine.Input.GetMouseButtonDown((int)InputSimulationMouseButton.Left) || UnityEngine.Input.GetMouseButtonDown((int)InputSimulationMouseButton.Right) || UnityEngine.Input.GetMouseButtonDown((int)InputSimulationMouseButton.Middle);
                     }
                     else
                     {
                         // pressing escape will stop capture
-                        return !Input.GetKeyDown(KeyCode.Escape);
+                        return !UnityEngine.Input.GetKeyDown(KeyCode.Escape);
                     }
                 }
 
@@ -258,7 +258,7 @@ namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
                     // hide the cursor
                     UnityEngine.Cursor.visible = false;
 
-                    this.lastMousePosition = Input.mousePosition;
+                    this.lastMousePosition = UnityEngine.Input.mousePosition;
                 }
                 else
                 {

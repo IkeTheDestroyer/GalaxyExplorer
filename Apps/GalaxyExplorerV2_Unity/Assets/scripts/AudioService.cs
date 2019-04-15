@@ -1,29 +1,27 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Threading.Tasks;
-using Microsoft.MixedReality.Toolkit.Core.Definitions;
-using Microsoft.MixedReality.Toolkit.Core.Providers;
-using Microsoft.MixedReality.Toolkit.Core.Services;
+﻿using System.Collections.Generic;
+using Microsoft.MixedReality.Toolkit;
+
 #if UNITY_EDITOR
+
 using UnityEditor;
+
 #endif
+
 using UnityEngine;
 
-    public class AudioService : BaseExtensionService, IAudioService<AudioId>
+public class AudioService : BaseExtensionService, IAudioService<AudioId>
 {
     private List<AudioSource> audioSources;
     private Dictionary<AudioId, AudioClip> audioClipCache;
-    
-    public AudioService(string name, uint priority, BaseMixedRealityProfile profile) : base(name, priority, profile)
+
+    public AudioService(IMixedRealityServiceRegistrar registrar, string name, uint priority, BaseMixedRealityProfile profile) : base(registrar, name, priority, profile)
     {
 #if UNITY_EDITOR
         if (!EditorApplication.isPlaying)
         {
             return;
         }
-        
+
 #endif
         var audioProfile = ConfigurationProfile as AudioServiceProfile;
         if (audioProfile != null)
@@ -36,20 +34,17 @@ using UnityEngine;
                 {
                     audioSources.Add(mainCamera.gameObject.AddComponent<AudioSource>());
                 }
-                
             }
             audioClipCache = new Dictionary<AudioId, AudioClip>();
             foreach (var audioTuple in audioProfile.audioClips)
             {
                 if (!audioClipCache.ContainsKey(audioTuple.audioId))
                 {
-                    audioClipCache.Add(audioTuple.audioId,audioTuple.clip);
+                    audioClipCache.Add(audioTuple.audioId, audioTuple.clip);
                 }
             }
         }
     }
-
-
 
     public void PlayClip(AudioId audioId)
     {

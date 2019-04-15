@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Microsoft.MixedReality.Toolkit.Core.EventDatum.Input;
-using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem.Handlers;
-using Microsoft.MixedReality.Toolkit.Core.Services;
+﻿using Microsoft.MixedReality.Toolkit;
+using Microsoft.MixedReality.Toolkit.Input;
 using UnityEngine;
 
 public class AudioClipPlayer : MonoBehaviour, IMixedRealityPointerHandler, IMixedRealityFocusHandler
@@ -11,12 +8,12 @@ public class AudioClipPlayer : MonoBehaviour, IMixedRealityPointerHandler, IMixe
     [SerializeField] private AudioId onClick;
 
     private IAudioService<AudioId> audioService;
-    
-    void Awake()
+
+    private void Awake()
     {
         audioService = MixedRealityToolkit.Instance.GetService<IAudioService<AudioId>>();
     }
-    
+
     public void OnPointerUp(MixedRealityPointerEventData eventData)
     {
     }

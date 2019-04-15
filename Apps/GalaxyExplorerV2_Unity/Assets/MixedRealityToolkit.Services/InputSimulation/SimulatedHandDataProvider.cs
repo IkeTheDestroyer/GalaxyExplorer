@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using Microsoft.MixedReality.Toolkit.Core.Utilities;
-using Microsoft.MixedReality.Toolkit.Core.Definitions.Utilities;
-using UnityEngine;
+using Microsoft.MixedReality.Toolkit.Utilities;
 using System;
+using UnityEngine;
 
 /// <summary>
 /// Provides per-frame data access to simulated hand data
@@ -14,7 +13,7 @@ using System;
 /// - Left mouse button brings index and thumb together
 /// - Mouse moves left and right hand.
 /// </summary>
-namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
+namespace Microsoft.MixedReality.Toolkit.Input
 {
     public class SimulatedHandData
     {
@@ -186,29 +185,29 @@ namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
             bool wasLeftVisible = stateLeft.IsVisible;
             bool wasRightVisible = stateRight.IsVisible;
 
-            if (Input.GetKeyDown(profile.ToggleLeftHandKey))
+            if (UnityEngine.Input.GetKeyDown(profile.ToggleLeftHandKey))
             {
                 stateLeft.IsAlwaysTracked = !stateLeft.IsAlwaysTracked;
             }
-            if (Input.GetKeyDown(profile.ToggleRightHandKey))
+            if (UnityEngine.Input.GetKeyDown(profile.ToggleRightHandKey))
             {
                 stateRight.IsAlwaysTracked = !stateRight.IsAlwaysTracked;
             }
 
-            if (Input.GetKeyDown(profile.LeftHandManipulationKey))
+            if (UnityEngine.Input.GetKeyDown(profile.LeftHandManipulationKey))
             {
                 stateLeft.IsSimulated = true;
             }
-            if (Input.GetKeyUp(profile.LeftHandManipulationKey))
+            if (UnityEngine.Input.GetKeyUp(profile.LeftHandManipulationKey))
             {
                 stateLeft.IsSimulated = false;
             }
 
-            if (Input.GetKeyDown(profile.RightHandManipulationKey))
+            if (UnityEngine.Input.GetKeyDown(profile.RightHandManipulationKey))
             {
                 stateRight.IsSimulated = true;
             }
-            if (Input.GetKeyUp(profile.RightHandManipulationKey))
+            if (UnityEngine.Input.GetKeyUp(profile.RightHandManipulationKey))
             {
                 stateRight.IsSimulated = false;
             }
@@ -232,27 +231,27 @@ namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
             mouseDelta.z += UnityEngine.Input.GetAxis("Mouse ScrollWheel") * profile.HandDepthMultiplier;
             float rotationDelta = profile.HandRotationSpeed * Time.deltaTime;
             Vector3 rotationDeltaEulerAngles = Vector3.zero;
-            if (Input.GetKey(profile.YawHandCCWKey))
+            if (UnityEngine.Input.GetKey(profile.YawHandCCWKey))
             {
                 rotationDeltaEulerAngles.y = -rotationDelta;
             }
-            if (Input.GetKey(profile.YawHandCWKey))
+            if (UnityEngine.Input.GetKey(profile.YawHandCWKey))
             {
                 rotationDeltaEulerAngles.y = rotationDelta;
             }
-            if (Input.GetKey(profile.PitchHandCCWKey))
+            if (UnityEngine.Input.GetKey(profile.PitchHandCCWKey))
             {
                 rotationDeltaEulerAngles.x = rotationDelta;
             }
-            if (Input.GetKey(profile.PitchHandCWKey))
+            if (UnityEngine.Input.GetKey(profile.PitchHandCWKey))
             {
                 rotationDeltaEulerAngles.x = -rotationDelta;
             }
-            if (Input.GetKey(profile.RollHandCCWKey))
+            if (UnityEngine.Input.GetKey(profile.RollHandCCWKey))
             {
                 rotationDeltaEulerAngles.z = rotationDelta;
             }
-            if (Input.GetKey(profile.RollHandCWKey))
+            if (UnityEngine.Input.GetKey(profile.RollHandCWKey))
             {
                 rotationDeltaEulerAngles.z = -rotationDelta;
             }
@@ -296,15 +295,15 @@ namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
 
         private SimulatedHandPose.GestureId SelectGesture()
         {
-            if (Input.GetMouseButton(0))
+            if (UnityEngine.Input.GetMouseButton(0))
             {
                 return profile.LeftMouseHandGesture;
             }
-            else if (Input.GetMouseButton(1))
+            else if (UnityEngine.Input.GetMouseButton(1))
             {
                 return profile.RightMouseHandGesture;
             }
-            else if (Input.GetMouseButton(2))
+            else if (UnityEngine.Input.GetMouseButton(2))
             {
                 return profile.MiddleMouseHandGesture;
             }
@@ -316,15 +315,15 @@ namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
 
         private SimulatedHandPose.GestureId ToggleGesture(SimulatedHandPose.GestureId gesture)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (UnityEngine.Input.GetMouseButtonDown(0))
             {
                 return (gesture != profile.LeftMouseHandGesture ? profile.LeftMouseHandGesture : profile.DefaultHandGesture);
             }
-            else if (Input.GetMouseButtonDown(1))
+            else if (UnityEngine.Input.GetMouseButtonDown(1))
             {
                 return (gesture != profile.RightMouseHandGesture ? profile.RightMouseHandGesture : profile.DefaultHandGesture);
             }
-            else if (Input.GetMouseButtonDown(2))
+            else if (UnityEngine.Input.GetMouseButtonDown(2))
             {
                 return (gesture != profile.MiddleMouseHandGesture ? profile.MiddleMouseHandGesture : profile.DefaultHandGesture);
             }
