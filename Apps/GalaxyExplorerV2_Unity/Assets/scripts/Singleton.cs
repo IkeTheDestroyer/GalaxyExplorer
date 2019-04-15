@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using Microsoft.MixedReality.Toolkit.Core.Extensions;
+using Microsoft.MixedReality.Toolkit;
 using UnityEngine;
 
 /// <summary>
 /// Singleton behaviour class, used for components that should only have one instance.
-/// <remarks>Singleton classes live on through scene transitions and will mark their 
+/// <remarks>Singleton classes live on through scene transitions and will mark their
 /// parent root GameObject with <see cref="Object.DontDestroyOnLoad"/></remarks>
 /// </summary>
 /// <typeparam name="T">The Singleton Type</typeparam>
@@ -70,7 +70,7 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
         T access = Instance;
         return IsInitialized;
     }
-    
+
     /// <summary>
     /// Base Awake method that sets the Singleton's unique instance.
     /// Called by Unity when initializing a MonoBehaviour.

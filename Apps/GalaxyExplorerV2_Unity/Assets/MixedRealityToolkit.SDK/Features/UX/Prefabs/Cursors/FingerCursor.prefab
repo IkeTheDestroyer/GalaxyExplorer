@@ -84,7 +84,9 @@ MonoBehaviour:
   rotationLerpTime: 0.1
   lookRotationBlend: 0.5
   PrimaryCursorVisual: {fileID: 7521151737680088869}
+  IsPointerDown: 0
   defaultCursorDistance: 2
+  checkForGrabbables: 0
   skinSurfaceOffset: 0.01
   alignWithSurfaceDistance: 0.1
   indexFingerRingRenderer: {fileID: 4444203996422047544}
@@ -295,7 +297,7 @@ MonoBehaviour:
     nearRadius: 0.05
     farRadius: 0.2
     nearDistance: 0.02
-    farDistance: 0.1
-    centerColor: {r: 1, g: 1, b: 1, a: 1}
-    middleColor: {r: 0.01, g: 0.63, b: 1, a: 0.75}
-    outerColor: {r: 2.24, g: 0, b: 2.625, a: 0}
+    minNearSizePercentage: 0.35
+    centerColor: {r: 0.078431375, g: 0.4745098, b: 0.98039216, a: 0}
+    middleColor: {r: 0.011764706, g: 0.43529412, b: 1, a: 0.32941177}
+    outerColor: {r: 1.372549, g: 0, b: 3.745098, a: 1}

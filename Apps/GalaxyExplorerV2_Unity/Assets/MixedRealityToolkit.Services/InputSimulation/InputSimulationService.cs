@@ -1,28 +1,19 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using Microsoft.MixedReality.Toolkit.Core.Attributes;
-using Microsoft.MixedReality.Toolkit.Core.Definitions;
-using Microsoft.MixedReality.Toolkit.Core.Definitions.Devices;
-using Microsoft.MixedReality.Toolkit.Core.Definitions.Utilities;
-using Microsoft.MixedReality.Toolkit.Core.Devices.Hands;
-using Microsoft.MixedReality.Toolkit.Core.Interfaces;
-using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem;
-using Microsoft.MixedReality.Toolkit.Core.Providers;
-using Microsoft.MixedReality.Toolkit.Core.Services;
-using Microsoft.MixedReality.Toolkit.Core.Utilities;
-using System;
+using Microsoft.MixedReality.Toolkit.Utilities;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
+namespace Microsoft.MixedReality.Toolkit.Input
 {
     [MixedRealityDataProvider(
         typeof(IMixedRealityInputSystem),
         SupportedPlatforms.WindowsEditor,
-        "Profiles/DefaultMixedRealityInputSimulationProfile.asset", "MixedRealityToolkit.SDK")]
-    public class InputSimulationService : BaseDeviceManager, IMixedRealityExtensionService
+        "Input Simulation Service",
+        "Profiles/DefaultMixedRealityInputSimulationProfile.asset", 
+        "MixedRealityToolkit.SDK")]
+    public class InputSimulationService : BaseInputDeviceManager
     {
         private ManualCameraControl cameraControl = null;
         private SimulatedHandDataProvider handDataProvider = null;
@@ -32,9 +23,16 @@ namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
         /// </summary>
         private readonly Dictionary<Handedness, SimulatedHand> trackedHands = new Dictionary<Handedness, SimulatedHand>();
 
-        #region BaseDeviceManager Implementation
+        #region BaseInputDeviceManager Implementation
 
-        public InputSimulationService(string name, uint priority, BaseMixedRealityProfile profile) : base(name, priority, profile)
+        public InputSimulationService(
+            IMixedRealityServiceRegistrar registrar, 
+            IMixedRealityInputSystem inputSystem,
+            MixedRealityInputSystemProfile inputSystemProfile,
+            Transform playspace,
+            string name, 
+            uint priority, 
+            BaseMixedRealityProfile profile) : base(registrar, inputSystem, inputSystemProfile, playspace, name, priority, profile)
         {
         }
 
@@ -73,6 +71,11 @@ namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
                 DisableCameraControl();
             }
 
+            if (profile.SimulateEyePosition)
+            {
+                MixedRealityToolkit.InputSystem?.EyeGazeProvider?.UpdateEyeGaze(null, new Ray(CameraCache.Main.transform.position, CameraCache.Main.transform.forward), System.DateTime.UtcNow);
+            }
+
             switch (profile.HandSimulationMode)
             {
                 case HandSimulationMode.Disabled:
@@ -91,7 +94,7 @@ namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
             }
         }
 
-        #endregion BaseDeviceManager Implementation
+        #endregion BaseInputDeviceManager Implementation
 
         /// <summary>
         /// Return the service profile and ensure that the type is correct
@@ -199,7 +202,7 @@ namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
             SupportedControllerType st = simulationMode == HandSimulationMode.Gestures ? SupportedControllerType.GGVHand : SupportedControllerType.ArticulatedHand;
             IMixedRealityPointer[] pointers = RequestPointers(st, handedness);
 
-            var inputSource = MixedRealityToolkit.InputSystem?.RequestNewGenericInputSource($"{handedness} Hand", pointers);
+            var inputSource = MixedRealityToolkit.InputSystem?.RequestNewGenericInputSource($"{handedness} Hand", pointers, InputSourceType.Hand);
             switch (simulationMode)
             {
                 case HandSimulationMode.Articulated:

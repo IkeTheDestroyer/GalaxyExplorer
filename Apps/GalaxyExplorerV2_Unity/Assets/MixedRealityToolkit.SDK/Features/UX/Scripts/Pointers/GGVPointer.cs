@@ -1,20 +1,13 @@
-﻿using UnityEngine;
-using System.Collections;
-using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem;
-using Microsoft.MixedReality.Toolkit.Core.Definitions.Physics;
-using Microsoft.MixedReality.Toolkit.Core.Interfaces.Devices;
-using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem.Handlers;
-using Microsoft.MixedReality.Toolkit.Core.Interfaces.Physics;
-using Microsoft.MixedReality.Toolkit.Core.Interfaces.TeleportSystem;
-using Microsoft.MixedReality.Toolkit.Core.Services;
-using Microsoft.MixedReality.Toolkit.Services.InputSystem;
-using Microsoft.MixedReality.Toolkit.Core.EventDatum.Input;
-using Microsoft.MixedReality.Toolkit.Core.Definitions.InputSystem;
-using Microsoft.MixedReality.Toolkit.Core.Definitions.Devices;
-using Microsoft.MixedReality.Toolkit.Core.Definitions.Utilities;
-using Microsoft.MixedReality.Toolkit.SDK.UX.Cursors;
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
 
-namespace Microsoft.MixedReality.Toolkit.SDK.UX.Pointers
+using UnityEngine;
+using System.Collections;
+using Microsoft.MixedReality.Toolkit.Utilities;
+using Microsoft.MixedReality.Toolkit.Teleport;
+using Microsoft.MixedReality.Toolkit.Physics;
+
+namespace Microsoft.MixedReality.Toolkit.Input
 {
     public class GGVPointer : InputSystemGlobalListener, IMixedRealityPointer, IMixedRealityInputHandler, IMixedRealityInputHandler<MixedRealityPose>, IMixedRealitySourcePoseHandler, IMixedRealitySourceStateHandler
     {
@@ -35,7 +28,7 @@ namespace Microsoft.MixedReality.Toolkit.SDK.UX.Pointers
         private IMixedRealityInputSource inputSourceParent;
 
 
-        /// <inheritdoc cref="IMixedRealityController" />
+        /// <inheritdoc />
         public IMixedRealityController Controller
         {
             get { return controller; }
@@ -90,25 +83,14 @@ namespace Microsoft.MixedReality.Toolkit.SDK.UX.Pointers
 
         public ICursorModifier CursorModifier { get; set; }
 
-        public IMixedRealityTeleportHotSpot TeleportHotSpot { get; set; }
-
         public bool IsInteractionEnabled => IsActive;
 
         public bool IsActive { get; set; }
 
         /// <inheritdoc />
         public bool IsFocusLocked { get; set; }
-        public float PointerExtent
-        {
-            get
-            {
-                return MixedRealityToolkit.InputSystem.FocusProvider.GlobalPointingExtent;
-            }
-            set { throw new System.NotImplementedException(); }
-        }
 
         public RayStep[] Rays { get; protected set; } = { new RayStep(Vector3.zero, Vector3.forward) };
-
 
         public LayerMask[] PrioritizedLayerMasksOverride { get; set; }
 
@@ -118,10 +100,8 @@ namespace Microsoft.MixedReality.Toolkit.SDK.UX.Pointers
         public IPointerResult Result { get; set; }
 
         /// <inheritdoc />
-        public IBaseRayStabilizer RayStabilizer { get; set; }
-
-        /// <inheritdoc />
         public virtual SceneQueryType SceneQueryType { get; set; } = SceneQueryType.SimpleRaycast;
+
         public float SphereCastRadius
         {
             get
@@ -144,6 +124,7 @@ namespace Microsoft.MixedReality.Toolkit.SDK.UX.Pointers
         {
             return left.Equals(right);
         }
+
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
@@ -164,6 +145,7 @@ namespace Microsoft.MixedReality.Toolkit.SDK.UX.Pointers
         {
             return obj.GetHashCode();
         }
+
         public override int GetHashCode()
         {
             unchecked
@@ -182,7 +164,13 @@ namespace Microsoft.MixedReality.Toolkit.SDK.UX.Pointers
 
         public void OnPreSceneQuery()
         {
-            Rays[0] = gazeProvider.GazePointer.Rays[0];
+            Vector3 newGazeOrigin = gazeProvider.GazePointer.Rays[0].Origin;
+            Vector3 endPoint = newGazeOrigin + (gazeProvider.GazePointer.Rays[0].Direction * MixedRealityToolkit.InputSystem.FocusProvider.GlobalPointingExtent);
+            Rays[0].UpdateRayStep(ref newGazeOrigin, ref endPoint);
+        }
+
+        public void OnPreCurrentPointerTargetChange()
+        {
         }
 
         /// <inheritdoc />
@@ -228,7 +216,6 @@ namespace Microsoft.MixedReality.Toolkit.SDK.UX.Pointers
                 }
             }
         }
-
 
         /// <inheritdoc />
         public void OnInputDown(InputEventData eventData)

@@ -7,7 +7,7 @@ using UnityEngine.XR.WSA;
 using Windows.Perception.Spatial;
 #endif // WINDOWS_UWP
 
-namespace Microsoft.MixedReality.Toolkit.Providers.WindowsMixedReality
+namespace Microsoft.MixedReality.Toolkit.WindowsMixedReality.Input
 {
     public static class WindowsMixedRealityUtilities
     {

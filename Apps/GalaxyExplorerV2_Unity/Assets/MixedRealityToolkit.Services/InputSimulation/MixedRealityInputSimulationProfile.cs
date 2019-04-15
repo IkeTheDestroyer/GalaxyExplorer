@@ -1,12 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using Microsoft.MixedReality.Toolkit.Core.Definitions;
+using Microsoft.MixedReality.Toolkit.Utilities;
 using UnityEngine;
 
-namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
+namespace Microsoft.MixedReality.Toolkit.Input
 {
-    [CreateAssetMenu(menuName = "Mixed Reality Toolkit/Mixed Reality Simulated Input Profile", fileName = "MixedRealityInputSimulationProfile", order = 4)]
+    [CreateAssetMenu(menuName = "Mixed Reality Toolkit/Mixed Reality Simulated Input Profile", fileName = "MixedRealityInputSimulationProfile", order = (int)CreateProfileMenuItemIndices.InputSimulation)]
+    [MixedRealityServiceProfile(typeof(InputSimulationService))]
     public class MixedRealityInputSimulationProfile : BaseMixedRealityProfile
     {
         [Header("Camera Control")]
@@ -76,6 +77,11 @@ namespace Microsoft.MixedReality.Toolkit.Services.InputSimulation
         private string lookVertical = "LookVertical";
         public string LookVertical => lookVertical;
 
+        [Header("Eye Simulation")]
+        [SerializeField]
+        [Tooltip("Enable eye simulation")]
+        private bool simulateEyePosition = false;
+        public bool SimulateEyePosition => simulateEyePosition;
 
         [Header("Hand Simulation")]
         [SerializeField]

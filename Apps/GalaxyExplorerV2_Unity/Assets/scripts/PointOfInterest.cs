@@ -2,11 +2,10 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 //using HoloToolkit.Unity.InputModule;
+using Microsoft.MixedReality.Toolkit;
+using Microsoft.MixedReality.Toolkit.Input;
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.MixedReality.Toolkit.Core.EventDatum.Input;
-using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem.Handlers;
-using Microsoft.MixedReality.Toolkit.Core.Services;
 using UnityEngine;
 
 namespace GalaxyExplorer
@@ -30,7 +29,6 @@ namespace GalaxyExplorer
 
         [SerializeField]
         private Color IndicatorDefaultColor = Color.cyan;
-        
 
         [SerializeField]
         protected Vector3 indicatorOffset = Vector3.up * 0.4f;
@@ -43,6 +41,7 @@ namespace GalaxyExplorer
         // interest (uses targetPosition) with scale, rotation, and offset and targetOffset to maintain the same
         // distance from that target
         protected Vector3 targetPosition;
+
         protected Vector3 targetOffset;
 
         protected float timer = 0.0f;
@@ -147,7 +146,6 @@ namespace GalaxyExplorer
 
         protected virtual void OnDestroy()
         {
-
         }
 
         protected void Update()
@@ -158,7 +156,6 @@ namespace GalaxyExplorer
 
         protected void LateUpdate()
         {
-
         }
 
         // Need to register poi after the end of frame as sometimes it ends up the manager to be initialized after pois and the list of pois becomes null
@@ -192,7 +189,7 @@ namespace GalaxyExplorer
         {
             // do not let the points of interest scale or rotate with the solar system
             float lossyScale = Mathf.Max(gameObject.transform.lossyScale.x, gameObject.transform.lossyScale.y, gameObject.transform.lossyScale.z);
-            float localScale =  Mathf.Max(gameObject.transform.localScale.x, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+            float localScale = Mathf.Max(gameObject.transform.localScale.x, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
             float desiredScale = (!Mathf.Approximately(lossyScale, 0.0f)) ? localScale / lossyScale : 0.0f;
             if (!Mathf.Approximately(desiredScale, 0.0f))
             {
@@ -215,41 +212,41 @@ namespace GalaxyExplorer
             }
         }
 
-//        public void OnTouchpadTouched(InputEventData eventData)
-//        {
-//  
-//        }
-//
-//        public void OnTouchpadReleased(InputEventData eventData)
-//        {
-//            // First touch focus on poi
-//            if (CardDescription && !CardDescription.activeSelf)
-//            {
-//                OnFocusEnter();
-//
-////                GameObject focusedObj = (InputManager.Instance.OverrideFocusedObject) ? InputManager.Instance.OverrideFocusedObject : FocusManager.Instance.TryGetFocusedObject(eventData);
-////                GalaxyExplorerManager.Instance.AudioEventWrangler?.OnFocusEnter(focusedObj);
-//                GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject(null);
-//            }
-//            // Second touch select that poi
-//            else
-//            {
-//                OnInputClicked(null);
-//
-////                GameObject focusedObj = (InputManager.Instance.OverrideFocusedObject) ? InputManager.Instance.OverrideFocusedObject : FocusManager.Instance.TryGetFocusedObject(eventData);
-////                GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject(focusedObj);
-//                GalaxyExplorerManager.Instance.AudioEventWrangler?.OnInputClicked(null);
-//                GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject(null);
-//            }
-//        }
-//
-//        public void OnInputPositionChanged(InputPositionEventData eventData)
-//        {
-//
-//        }
-//
+        //        public void OnTouchpadTouched(InputEventData eventData)
+        //        {
+        //
+        //        }
+        //
+        //        public void OnTouchpadReleased(InputEventData eventData)
+        //        {
+        //            // First touch focus on poi
+        //            if (CardDescription && !CardDescription.activeSelf)
+        //            {
+        //                OnFocusEnter();
+        //
+        ////                GameObject focusedObj = (InputManager.Instance.OverrideFocusedObject) ? InputManager.Instance.OverrideFocusedObject : FocusManager.Instance.TryGetFocusedObject(eventData);
+        ////                GalaxyExplorerManager.Instance.AudioEventWrangler?.OnFocusEnter(focusedObj);
+        //                GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject(null);
+        //            }
+        //            // Second touch select that poi
+        //            else
+        //            {
+        //                OnInputClicked(null);
+        //
+        ////                GameObject focusedObj = (InputManager.Instance.OverrideFocusedObject) ? InputManager.Instance.OverrideFocusedObject : FocusManager.Instance.TryGetFocusedObject(eventData);
+        ////                GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject(focusedObj);
+        //                GalaxyExplorerManager.Instance.AudioEventWrangler?.OnInputClicked(null);
+        //                GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject(null);
+        //            }
+        //        }
+        //
+        //        public void OnInputPositionChanged(InputPositionEventData eventData)
+        //        {
+        //
+        //        }
+        //
 
-        // Scale POI collider in order to cover the whole POI + poi line. 
+        // Scale POI collider in order to cover the whole POI + poi line.
         // Calculate the collider when collider is enabled so in end of transitions that has its final length
         protected IEnumerator ResizePOICollider()
         {
@@ -305,10 +302,10 @@ namespace GalaxyExplorer
             if (currentState == POIState.kOnFocusEnter)
             {
                 audioService.PlayClip(AudioId.CardSelect);
-            } 
+            }
             else if (currentState == POIState.kOnFocusExit)
             {
-                audioService.PlayClip(AudioId.CardDeselect);    
+                audioService.PlayClip(AudioId.CardDeselect);
             }
             currentState = POIState.kOnInputClicked;
         }
@@ -327,7 +324,6 @@ namespace GalaxyExplorer
 
         public virtual void OnFocusEnter(FocusEventData eventData)
         {
-            
             currentState = POIState.kOnFocusEnter;
             timer = 0.0f;
 

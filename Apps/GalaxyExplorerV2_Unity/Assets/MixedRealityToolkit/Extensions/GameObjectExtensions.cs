@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Microsoft.MixedReality.Toolkit.Core.Extensions
+namespace Microsoft.MixedReality.Toolkit
 {
     /// <summary>
     /// Extension methods for Unity's GameObject class
@@ -127,23 +127,6 @@ namespace Microsoft.MixedReality.Toolkit.Core.Extensions
             foreach (T i in gameObject.GetComponents<T>())
             {
                 action(i);
-            }
-        }
-        
-        /// <summary>
-        /// Gets the GameObject's root Parent object.
-        /// </summary>
-        /// <param name="child">The GameObject we're trying to find the root parent for.</param>
-        /// <returns>The Root parent GameObject.</returns>
-        public static GameObject GetParentRoot(this GameObject child)
-        {
-            if (child.transform.parent == null)
-            {
-                return child;
-            }
-            else
-            {
-                return GetParentRoot(child.transform.parent.gameObject);
             }
         }
     }

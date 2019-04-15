@@ -1,12 +1,10 @@
-﻿using Microsoft.MixedReality.Toolkit.Core.Definitions.Utilities;
-using Microsoft.MixedReality.Toolkit.Core.Devices.Hands;
-using Microsoft.MixedReality.Toolkit.Core.Interfaces.Devices;
-using Microsoft.MixedReality.Toolkit.Core.Interfaces.InputSystem;
-using Microsoft.MixedReality.Toolkit.Core.Services;
-using Microsoft.MixedReality.Toolkit.SDK.UX.Pointers;
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
+using Microsoft.MixedReality.Toolkit.Utilities;
 using UnityEngine;
 
-namespace Microsoft.MixedReality.Toolkit.SDK.UX.Cursors
+namespace Microsoft.MixedReality.Toolkit.Input
 {
     /// <summary>
     /// Cursor used to aide in near finger interactions.
@@ -214,8 +212,10 @@ namespace Microsoft.MixedReality.Toolkit.SDK.UX.Cursors
         /// Tries and get's hand joints based on the current pointer.
         /// </summary>
         /// <param name="joint">The joint type to get.</param>
-        /// <param name="position">Out parameter filled with joint position, otherwise <see cref="Vector3.zero"</param>
-        /// <param name="rotation">Out parameter filled with joint rotation, otherwise <see cref="Quaternion.identity"</param>
+        /// <param name="position">Out parameter filled with joint position, otherwise 
+        /// <see href="https://docs.unity3d.com/ScriptReference/Vector3-zero.html">Vector3.zero</see></param>
+        /// <param name="rotation">Out parameter filled with joint rotation, otherwise 
+        /// <see href="https://docs.unity3d.com/ScriptReference/Quaternion-identity.html">Quaternion.identity</see></param>
         /// <returns></returns>
         protected bool TryGetJoint(TrackedHandJoint joint, out Vector3 position, out Quaternion rotation)
         {
@@ -252,7 +252,7 @@ namespace Microsoft.MixedReality.Toolkit.SDK.UX.Cursors
 
         private void RotateToSurfaceNormal(Transform target, float deltaTime, Vector3 surfaceNormal)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(surfaceNormal);
+            Quaternion targetRotation = Quaternion.LookRotation(-surfaceNormal);
             target.rotation = Quaternion.Lerp(target.rotation, targetRotation, deltaTime / RotationLerpTime);
         }
     }

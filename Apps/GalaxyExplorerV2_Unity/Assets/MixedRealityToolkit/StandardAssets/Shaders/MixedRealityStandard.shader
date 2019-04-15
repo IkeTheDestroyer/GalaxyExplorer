@@ -51,6 +51,7 @@ Shader "Mixed Reality Toolkit/Standard"
         [Toggle(_HOVER_COLOR_OVERRIDE)] _EnableHoverColorOverride("Hover Color Override", Float) = 0.0
         _HoverColorOverride("Hover Color Override", Color) = (1.0, 1.0, 1.0, 1.0)
         [Toggle(_PROXIMITY_LIGHT)] _ProximityLight("Proximity Light", Float) = 0.0
+        [Toggle(_PROXIMITY_LIGHT_TWO_SIDED)] _ProximityLightTwoSided("Proximity Light Two Sided", Float) = 0.0
         [Toggle(_ROUND_CORNERS)] _RoundCorners("Round Corners", Float) = 0.0
         _RoundCornerRadius("Round Corner Radius", Range(0.0, 0.5)) = 0.25
         _RoundCornerMargin("Round Corner Margin", Range(0.0, 0.5)) = 0.01
@@ -215,6 +216,7 @@ Shader "Mixed Reality Toolkit/Standard"
             #pragma shader_feature _HOVER_LIGHT
             #pragma shader_feature _HOVER_COLOR_OVERRIDE
             #pragma shader_feature _PROXIMITY_LIGHT
+            #pragma shader_feature _PROXIMITY_LIGHT_TWO_SIDED
             #pragma shader_feature _ROUND_CORNERS
             #pragma shader_feature _BORDER_LIGHT
             #pragma shader_feature _BORDER_LIGHT_USES_HOVER_COLOR
@@ -437,7 +439,7 @@ Shader "Mixed Reality Toolkit/Standard"
 
 #if defined(_PROXIMITY_LIGHT) || defined(_NEAR_LIGHT_FADE)
 #define PROXIMITY_LIGHT_COUNT 2
-#define PROXIMITY_LIGHT_DATA_SIZE 5
+#define PROXIMITY_LIGHT_DATA_SIZE 6
             float4 _ProximityLightData[PROXIMITY_LIGHT_COUNT * PROXIMITY_LIGHT_DATA_SIZE];
 #endif     
 
@@ -502,26 +504,34 @@ Shader "Mixed Reality Toolkit/Standard"
 #endif
 
 #if defined(_HOVER_LIGHT)
-            inline float HoverLight(float4 hoverLight, float radius, float3 worldPosition)
+            inline float HoverLight(float4 hoverLight, float inverseRadius, float3 worldPosition)
             {
-                return (1.0 - saturate(length(hoverLight.xyz - worldPosition) / radius)) * hoverLight.w;
+                return (1.0 - saturate(length(hoverLight.xyz - worldPosition) * inverseRadius)) * hoverLight.w;
             }
 #endif
 
 #if defined(_PROXIMITY_LIGHT)
-            inline float ProximityLight(float4 proximityLight, float4 proximityLightParams, float3 worldPosition, float3 worldNormal)
+            inline float ProximityLight(float4 proximityLight, float4 proximityLightParams, float4 proximityLightPulseParams, float3 worldPosition, float3 worldNormal, out fixed colorValue)
             {
-                float3 diff = proximityLight.xyz - worldPosition;
-                float normalDistance = dot(diff, worldNormal);
-                float t = saturate((normalDistance - proximityLightParams.z) * proximityLightParams.w);
-                float radius = lerp(proximityLightParams.x, proximityLightParams.y, t);
-                return (1.0 - saturate(length(diff) / radius)) * proximityLight.w;
+                float proximityLightDistance = dot(proximityLight.xyz - worldPosition, worldNormal);
+                float normalizedProximityLightDistance = saturate(proximityLightDistance * proximityLightParams.y);
+#if defined(_PROXIMITY_LIGHT_TWO_SIDED)
+                float3 projectedProximityLight = proximityLight.xyz - (worldNormal * proximityLightDistance);
+#else
+                float3 projectedProximityLight = proximityLight.xyz - (worldNormal * saturate(proximityLightDistance));
+#endif
+                float projectedProximityLightDistance = length(projectedProximityLight - worldPosition);
+                float attenuation = (1.0 - pow(normalizedProximityLightDistance, 2.0)) * proximityLight.w;
+                colorValue = saturate(projectedProximityLightDistance * proximityLightParams.z);
+                float pulse = step(proximityLightPulseParams.x, projectedProximityLightDistance) * proximityLightPulseParams.y;
+
+                return smoothstep(1.0, 0.0, projectedProximityLightDistance / (proximityLightParams.x * max(normalizedProximityLightDistance, proximityLightParams.w))) * pulse * attenuation;
             }
 
-            inline fixed3 MixProximityLightColor(fixed proximityValue, fixed4 centerColor, fixed4 middleColor, fixed4 outerColor)
+            inline fixed3 MixProximityLightColor(fixed4 centerColor, fixed4 middleColor, fixed4 outerColor, fixed t)
             {
-                fixed3 color = lerp(outerColor.rgb, middleColor.rgb, smoothstep(outerColor.a, middleColor.a, proximityValue));
-                return lerp(color, centerColor, smoothstep(middleColor.a, centerColor.a, proximityValue));
+                fixed3 color = lerp(centerColor.rgb, middleColor.rgb, smoothstep(centerColor.a, middleColor.a, t));
+                return lerp(color, outerColor, smoothstep(middleColor.a, outerColor.a, t));
             }
 #endif
 
@@ -869,14 +879,14 @@ Shader "Mixed Reality Toolkit/Standard"
 #if !defined(_HOVER_LIGHT)
                 pointToLight = 0.0;
 #endif
-
                 [unroll]
                 for (int proximityLightIndex = 0; proximityLightIndex < PROXIMITY_LIGHT_COUNT; ++proximityLightIndex)
                 {
                     int dataIndex = proximityLightIndex * PROXIMITY_LIGHT_DATA_SIZE;
-                    fixed proximityValue = ProximityLight(_ProximityLightData[dataIndex], _ProximityLightData[dataIndex + 1], i.worldPosition.xyz, i.worldNormal);
+                    fixed colorValue;
+                    fixed proximityValue = ProximityLight(_ProximityLightData[dataIndex], _ProximityLightData[dataIndex + 1], _ProximityLightData[dataIndex + 2], i.worldPosition.xyz, i.worldNormal, colorValue);
                     pointToLight += proximityValue;
-                    fixed3 proximityColor = MixProximityLightColor(proximityValue, _ProximityLightData[dataIndex + 2], _ProximityLightData[dataIndex + 3], _ProximityLightData[dataIndex + 4]);
+                    fixed3 proximityColor = MixProximityLightColor(_ProximityLightData[dataIndex + 3], _ProximityLightData[dataIndex + 4], _ProximityLightData[dataIndex + 5], colorValue);
                     lightColor += lerp(fixed3(0.0, 0.0, 0.0), proximityColor, proximityValue);
                 }
 #endif    
@@ -1065,5 +1075,5 @@ Shader "Mixed Reality Toolkit/Standard"
     }
     
     FallBack "VertexLit"
-    CustomEditor "Microsoft.MixedReality.Toolkit.Core.Inspectors.MixedRealityStandardShaderGUI"
+    CustomEditor "Microsoft.MixedReality.Toolkit.Editor.MixedRealityStandardShaderGUI"
 }

@@ -2,9 +2,9 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 //using HoloToolkit.Unity.InputModule;
-using UnityEngine;
+using Microsoft.MixedReality.Toolkit.Input;
 using System.Collections;
-using Microsoft.MixedReality.Toolkit.Core.EventDatum.Input;
+using UnityEngine;
 
 /// <summary>
 /// Its attached to the poi if the poi is supposed to launch a card when selected
@@ -36,7 +36,6 @@ namespace GalaxyExplorer
             get { return CardObject; }
         }
 
-
         protected override void Start()
         {
             base.Start();
@@ -58,10 +57,10 @@ namespace GalaxyExplorer
             cardOffsetTransform = transform.parent.parent.parent;
 
             // Scale card/magic window based on platform
-            CardObject.transform.localScale *=  GalaxyExplorerManager.MagicWindowScaleFactor;
+            CardObject.transform.localScale *= GalaxyExplorerManager.MagicWindowScaleFactor;
         }
 
-        new void LateUpdate()
+        private new void LateUpdate()
         {
             base.LateUpdate();
 
@@ -69,8 +68,8 @@ namespace GalaxyExplorer
             if (CardObject && CardObject.activeSelf)
             {
                 CardObject.transform.rotation = cardRotation;
-                CardObject.transform.position = cardOffsetTransform.position - cardOffset; 
-          
+                CardObject.transform.position = cardOffsetTransform.position - cardOffset;
+
                 // Card description needs to keep the same distance from the card
                 CardDescription.transform.position = CardObject.transform.position - cardDescriptionOffset;
             }
@@ -189,7 +188,7 @@ namespace GalaxyExplorer
             MeshCollider collider = CardObject.GetComponentInChildren<MeshCollider>();
             float radius = (collider) ? collider.bounds.extents.y : 1.0f;
             Vector3 endPosition = CardObject.transform.position + radius * GalaxyExplorerManager.Instance.CardPoiManager.DescriptionSlideDirection.normalized;
-  
+
             do
             {
                 time += Time.deltaTime;
@@ -207,13 +206,13 @@ namespace GalaxyExplorer
         private IEnumerator SlideCardIn()
         {
             float time = 0.0f;
- 
+
             Vector3 startLocalPosition = CardDescription.transform.localPosition;
-        
+
             do
             {
                 time += Time.deltaTime;
-        
+
                 float timeFraction = Mathf.Clamp01(time / GalaxyExplorerManager.Instance.CardPoiManager.DescriptionSlideInTime);
                 float tValue = GalaxyExplorerManager.Instance.CardPoiManager.DescriptionSlideCurve.Evaluate(timeFraction);
                 CardDescription.transform.localPosition = Vector3.Lerp(startLocalPosition, descriptionStoppedLocalPosition, tValue);
