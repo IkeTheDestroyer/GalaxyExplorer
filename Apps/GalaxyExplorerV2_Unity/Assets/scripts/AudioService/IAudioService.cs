@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.MixedReality.Toolkit.Core.Interfaces;
+using Microsoft.MixedReality.Toolkit;
 using UnityEngine;
 
 public interface IAudioService<IdType> : IMixedRealityExtensionService where IdType : Enum 

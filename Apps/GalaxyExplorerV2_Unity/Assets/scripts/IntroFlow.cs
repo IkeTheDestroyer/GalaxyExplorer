@@ -3,7 +3,7 @@
 
 using MRS.FlowManager;
 using System.Collections;
-using Microsoft.MixedReality.Toolkit.Core.Services;
+using Microsoft.MixedReality.Toolkit;
 using UnityEngine;
 
 namespace GalaxyExplorer

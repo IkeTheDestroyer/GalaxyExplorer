@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.MixedReality.Toolkit.Core.Definitions;
-using Microsoft.MixedReality.Toolkit.Core.Services;
+using Microsoft.MixedReality.Toolkit;
 using Pools;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -20,7 +19,7 @@ public class AudioService : BaseExtensionService, IAudioService
     private Transform mainCameraTransform;
     private AudioServiceProfile audioProfile;
     
-    public AudioService(string name, uint priority, BaseMixedRealityProfile profile) : base(name, priority, profile)
+    public AudioService(IMixedRealityServiceRegistrar registrar, string name, uint priority, BaseMixedRealityProfile profile) : base(registrar, name, priority, profile)
     {
 #if UNITY_EDITOR
         if (!EditorApplication.isPlaying)
