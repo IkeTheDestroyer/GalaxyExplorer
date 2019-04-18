@@ -299,6 +299,7 @@ namespace GalaxyExplorer
 
         public virtual void OnPointerDown(MixedRealityPointerEventData eventData)
         {
+            Debug.Log($"!!^!! on pointer down in POI base");
             if (currentState == POIState.kOnFocusEnter)
             {
                 audioService.PlayClip(AudioId.CardSelect);
