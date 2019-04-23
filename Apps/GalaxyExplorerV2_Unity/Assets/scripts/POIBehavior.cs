@@ -11,19 +11,40 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
     [SerializeField] private List<Renderer> objectsToFade;
     [SerializeField] private List<TextMeshPro> textsToFade;
     [SerializeField] private float alphaColor = .2f;
+    [SerializeField] private float scale = 1f;
+    [SerializeField] private Vector2 offset = Vector2.zero;
     [SerializeField] private GameObject pressableButton;
+    [SerializeField] private Renderer windowRenderer;
+    [SerializeField] private Material windowMaterial;
+    [SerializeField] private Material occlusionMaterial;
+    [SerializeField] private Texture2D windowImage;
+    [SerializeField] private float windowImageScale;
+    [SerializeField] private Vector2 windowImageOffset;
+    
     
     private BoxCollider boxCollider;
     private GameObject camera;
     private Transform[] corners;
     private bool fading;
-    private bool forceFading;
     private List<Material> materialsToFade;
+    private Vector3 colliderSize;
+    private Color currentColor;
     
     RaycastHit[] raycastResults = new RaycastHit[1];
+
+    private void Awake()
+    {
+        windowMaterial = Instantiate(windowMaterial);
+        windowMaterial.SetFloat("_Scale", windowImageScale);
+        windowMaterial.SetTexture("_MainTex", windowImage);
+        windowMaterial.SetTextureOffset("_MainTex", windowImageOffset);
+        windowRenderer.materials = new[] {windowMaterial, occlusionMaterial};
+    }
+
     void Start()
     {
         boxCollider = GetComponent<BoxCollider>();
+        colliderSize = boxCollider.size;
         camera = Camera.main.gameObject;
         corners = new Transform[5];
         Vector3[] verts = new Vector3[5]; 
@@ -61,21 +82,25 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
     // Update is called once per frame
     void Update()
     {
-        if (forceFading)
+        if (fading)
         {
             return;
         }
+
+        boxCollider.size = colliderSize;
         var allPointsVisible = IsPointVisible(corners[0].position);;
         allPointsVisible = allPointsVisible && IsPointVisible(corners[1].position);
         allPointsVisible = allPointsVisible && IsPointVisible(corners[2].position);
         allPointsVisible = allPointsVisible && IsPointVisible(corners[3].position);
         allPointsVisible = allPointsVisible && IsPointVisible(corners[4].position);
         Fade(allPointsVisible);
+        transform.localPosition = offset;
+        transform.localScale = scale * Vector3.one;
     }
 
     private bool IsPointVisible(Vector3 position)
     {
-        var layerMask = 1 <<LayerMask.NameToLayer("POI");
+        var layerMask = 1 << LayerMask.NameToLayer("POI");
         var direction = (position - camera.transform.position).normalized;
         Debug.DrawRay(camera.transform.position, (position - camera.transform.position)*2, Color.green);
         RaycastHit hit;
@@ -94,9 +119,8 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
     }
 
 
-    public void Fade(bool fadeIn, bool force = false)
+    public void Fade(bool fadeIn)
     {
-        forceFading = force;
         StartCoroutine(FadeRoutine(fadeIn));
         pressableButton.SetActive(fadeIn);
 
@@ -104,25 +128,41 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
 
     private IEnumerator FadeRoutine(bool fadeIn)
     {
+        fading = true;
         var fadingColor = fadeIn ? Color.white:  new Color(1,1,1,alphaColor);
+        var startColor = currentColor;
+      
+        boxCollider.size = fadeIn ? colliderSize : Vector3.zero;
+        var overTime = .3f;
+        var timeSoFar = 0f;
+        while (timeSoFar < overTime)
+        {
+            foreach (var material in materialsToFade)
+            {
+                material.color = Color.Lerp(startColor, fadingColor, timeSoFar / overTime);
+            }
+        
+            foreach (var fadingText in textsToFade)
+            {
+                fadingText.color = Color.Lerp(startColor, fadingColor, timeSoFar / overTime);
+            }
+            yield return null;
+            timeSoFar += Time.deltaTime;
+        }
+        
         foreach (var material in materialsToFade)
         {
-            material.color = fadingColor;
+            material.color =  fadingColor;
         }
         
         foreach (var fadingText in textsToFade)
         {
             fadingText.color = fadingColor;
         }
-        yield return null;
-//        var overTime = 1f;
-//        var timeSoFar = 0f;
-//        while (timeSoFar < overTime)
-//        {
-//            text.color = new Color(text.color.r, text.color.g, text.color.b, timeSoFar/overTime);
-//            yield return null;
-//            timeSoFar += Time.deltaTime;
-//        }
+
+        currentColor = fadingColor;
+
+        fading = false;
     }
 
     public void OnPointerUp(MixedRealityPointerEventData eventData)
