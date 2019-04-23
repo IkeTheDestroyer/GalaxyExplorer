@@ -80,7 +80,8 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
     {
         var controllerFwd = ControllerTracker.transform.forward;
         var ray = new Ray(transform.position-controllerFwd*100, controllerFwd);
-        Debug.Assert(_attractionCollider.Raycast(ray, out var hitInfo, 150));
+        var hit = _attractionCollider.Raycast(ray, out var hitInfo, 150);
+        Debug.Assert(hit);
         return transform.position - hitInfo.point;
     }
 
