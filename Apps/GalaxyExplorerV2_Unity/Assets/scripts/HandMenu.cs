@@ -3,9 +3,6 @@
 public class HandMenu : MonoBehaviour
 {
     [SerializeField]
-    private ControllerTransformTracker _controllerTransformTracker;
-
-    [SerializeField]
     private GameObject _menuParent;
 
     [SerializeField]
