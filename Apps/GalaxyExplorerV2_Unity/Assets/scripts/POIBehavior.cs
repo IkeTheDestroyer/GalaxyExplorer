@@ -8,6 +8,8 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
 {
+    private const float INITIAL_DELAY = 5f; 
+    
     [SerializeField] private List<Renderer> objectsToFade;
     [SerializeField] private List<TextMeshPro> textsToFade;
     [SerializeField] private float alphaColor = .2f;
@@ -34,17 +36,14 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
 
     private void Awake()
     {
+        boxCollider = GetComponent<BoxCollider>();
+        colliderSize = boxCollider.size;
         windowMaterial = Instantiate(windowMaterial);
         windowMaterial.SetFloat("_Scale", windowImageScale);
         windowMaterial.SetTexture("_MainTex", windowImage);
         windowMaterial.SetTextureOffset("_MainTex", windowImageOffset);
         windowRenderer.materials = new[] {windowMaterial, occlusionMaterial};
-    }
-
-    void Start()
-    {
-        boxCollider = GetComponent<BoxCollider>();
-        colliderSize = boxCollider.size;
+        
         camera = Camera.main.gameObject;
         corners = new Transform[5];
         Vector3[] verts = new Vector3[5]; 
@@ -65,7 +64,7 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
         var anchor = new GameObject("Anchor");
         anchor.transform.SetParent(transform.parent, false);
         anchor.transform.localPosition = transform.localPosition;
-
+        
         materialsToFade = new List<Material>();
 
         foreach (var fadingObject in objectsToFade)
@@ -77,9 +76,10 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
         {
             fadingText.color = Color.clear;
         }
+        Fade(false, 0, 0);
+        Fade(false, INITIAL_DELAY, 0);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (fading)
@@ -119,21 +119,21 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
     }
 
 
-    public void Fade(bool fadeIn)
+    public void Fade(bool fadeIn, float overTime = .3f, float alpha = -1)
     {
-        StartCoroutine(FadeRoutine(fadeIn));
+        StartCoroutine(FadeRoutine(fadeIn, overTime, alpha));
         pressableButton.SetActive(fadeIn);
 
     }
 
-    private IEnumerator FadeRoutine(bool fadeIn)
+    private IEnumerator FadeRoutine(bool fadeIn, float overTime = .3f, float alpha = -1f)
     {
         fading = true;
-        var fadingColor = fadeIn ? Color.white:  new Color(1,1,1,alphaColor);
+        alpha = alpha != -1 ? alpha : alphaColor;
+        var fadingColor = fadeIn ? Color.white:  new Color(1,1,1,alpha);
         var startColor = currentColor;
       
         boxCollider.size = fadeIn ? colliderSize : Vector3.zero;
-        var overTime = .3f;
         var timeSoFar = 0f;
         while (timeSoFar < overTime)
         {
@@ -163,20 +163,5 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
         currentColor = fadingColor;
 
         fading = false;
-    }
-
-    public void OnPointerUp(MixedRealityPointerEventData eventData)
-    {
-        Debug.Log($"!!^!! on pointer up");
-    }
-
-    public void OnPointerDown(MixedRealityPointerEventData eventData)
-    {
-        Debug.Log($"!!^!! on pointer down");
-    }
-
-    public void OnPointerClicked(MixedRealityPointerEventData eventData)
-    {
-        Debug.Log($"!!^!! on pointer clicked");
     }
 }

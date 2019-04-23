@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationOffset: {x: 0, y: 0, z: 0}
-  forceToWorldUp: 0
+  forceToWorldUp: 1
   forceCameraUp: 0
   forceParentUp: 0
 --- !u!114 &5961469593804789380
@@ -327,8 +327,8 @@ MonoBehaviour:
   - {fileID: 6537940290421354926}
   - {fileID: 7181117166402863539}
   alphaColor: 0.05
-  scale: 0.5
-  offset: {x: 0.15, y: 0}
+  scale: 0.4
+  offset: {x: 0.13, y: 0}
   pressableButton: {fileID: 5994954606316266880}
   windowRenderer: {fileID: 8296629017261504894}
   windowMaterial: {fileID: 2100000, guid: bf930e14fb10907419fb9f8113e1d135, type: 2}
@@ -1759,7 +1759,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.002
+    widthMultiplier: 0.003
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -1846,8 +1846,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7781558157922629370}
   - component: {fileID: 1013014481181140548}
-  - component: {fileID: 1546467235747378440}
   - component: {fileID: 9023100839944605486}
+  - component: {fileID: 6789960692932327421}
   m_Layer: 0
   m_Name: POI
   m_TagString: Untagged
@@ -1888,28 +1888,6 @@ MonoBehaviour:
   forceToWorldUp: 0
   forceCameraUp: 0
   forceParentUp: 0
---- !u!114 &1546467235747378440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7651418928513237176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3755957f3a0764b42b4dfdab8ff099e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CardDescription: {fileID: 8318723560332992032}
-  Indicator: {fileID: 0}
-  IndicatorLine: {fileID: 8277989632806149088}
-  TargetPoint: {fileID: 8318732413448722084}
-  LineBase: {fileID: 8318213537334899788}
-  IndicatorDefaultColor: {r: 0.42352942, g: 0.8117647, b: 0.8666667, a: 0.54901963}
-  indicatorOffset: {x: 0, y: 0.15, z: 0}
-  CardObject: {fileID: 8318258547731970954}
-  CardAnimator: {fileID: 8224724131543153832}
-  CardAudio: {fileID: 8300000, guid: bd177e6d210813a489a3d191d1aab5c6, type: 3}
 --- !u!114 &9023100839944605486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1926,6 +1904,28 @@ MonoBehaviour:
   PoiAlternateCard: {fileID: 0}
   PoiIndicator: {fileID: 0}
   movePoiStartingPosition: 0
+--- !u!114 &6789960692932327421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7651418928513237176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3755957f3a0764b42b4dfdab8ff099e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CardDescription: {fileID: 8318723560332992032}
+  Indicator: {fileID: 7651418928513237176}
+  IndicatorLine: {fileID: 0}
+  TargetPoint: {fileID: 0}
+  LineBase: {fileID: 8318213537334899788}
+  IndicatorDefaultColor: {r: 0, g: 1, b: 1, a: 1}
+  indicatorOffset: {x: 0, y: 0.4, z: 0}
+  CardObject: {fileID: 8318258547731970954}
+  CardAnimator: {fileID: 8224724131543153832}
+  CardAudio: {fileID: 0}
 --- !u!1 &8177043750443272328
 GameObject:
   m_ObjectHideFlags: 0
@@ -2515,7 +2515,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8318732413448722084}
-  m_LocalRotation: {x: -0, y: -0, z: 0.0000000027357598, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.669, y: -0, z: -0.337}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

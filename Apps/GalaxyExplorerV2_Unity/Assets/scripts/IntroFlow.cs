@@ -75,7 +75,7 @@ namespace GalaxyExplorer
 
         void Start()
         {
-            audioService = MixedRealityToolkit.Instance.GetService<IAudioService>();
+            
             StartCoroutine(Initialization());
         }
 
@@ -112,6 +112,7 @@ namespace GalaxyExplorer
             //yield return new WaitForSeconds(1);
             yield return new WaitForEndOfFrame();
 
+            audioService = MixedRealityToolkit.Instance.GetService<IAudioService>();
             PlacementControl placement = FindObjectOfType<PlacementControl>();
             if (placement)
             {

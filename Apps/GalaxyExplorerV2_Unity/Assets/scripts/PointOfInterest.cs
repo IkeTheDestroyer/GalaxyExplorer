@@ -259,7 +259,7 @@ namespace GalaxyExplorer
 
             if (indicatorCollider && IndicatorLine && IndicatorLine.points != null && IndicatorLine.points.Length >= 2)
             {
-                BoxCollider boxCollider = (BoxCollider)indicatorCollider;
+                BoxCollider boxCollider = indicatorCollider as BoxCollider;
                 if (boxCollider)
                 {
                     Vector3 initialSize = boxCollider.size;
@@ -299,7 +299,6 @@ namespace GalaxyExplorer
 
         public virtual void OnPointerDown(MixedRealityPointerEventData eventData)
         {
-            Debug.Log($"!!^!! on pointer down in POI base");
             if (currentState == POIState.kOnFocusEnter)
             {
                 audioService.PlayClip(AudioId.CardSelect);
