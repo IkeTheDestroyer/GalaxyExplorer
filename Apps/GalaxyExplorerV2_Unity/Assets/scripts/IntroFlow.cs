@@ -75,7 +75,6 @@ namespace GalaxyExplorer
 
         void Start()
         {
-            audioService = MixedRealityToolkit.Instance.GetService<IAudioService>();
             StartCoroutine(Initialization());
         }
 
@@ -111,6 +110,8 @@ namespace GalaxyExplorer
             // need to wait otherwise the viewloader subscription to callback becomes null in holoLens
             //yield return new WaitForSeconds(1);
             yield return new WaitForEndOfFrame();
+            
+            audioService = MixedRealityToolkit.Instance.GetService<IAudioService>();
 
             PlacementControl placement = FindObjectOfType<PlacementControl>();
             if (placement)

@@ -3,6 +3,7 @@
 
 using Microsoft.MixedReality.Toolkit.Physics;
 using System.Collections;
+using Microsoft.MixedReality.Toolkit.UI;
 using UnityEngine;
 
 namespace GalaxyExplorer
@@ -11,6 +12,7 @@ namespace GalaxyExplorer
     {
         private bool isPlaced;
         private Camera _cameraMain;
+        private PlacementConfirmationButton _confirmationButton;
         
         [SerializeField]
         private float DesktopDuration = 2.0f;
@@ -21,6 +23,12 @@ namespace GalaxyExplorer
         public delegate void ContentPlacedCallback(Vector3 position);
 
         public ContentPlacedCallback OnContentPlaced;
+        public Interactable PlacementConfirmationButton;
+
+        private void Awake()
+        {
+            _confirmationButton = GetComponentInChildren<PlacementConfirmationButton>();
+        }
 
         private void Start()
         {
@@ -41,6 +49,8 @@ namespace GalaxyExplorer
 
             gameObject.transform.position =
                 _cameraMain.transform.position + _cameraMain.transform.forward * 2f + offset;
+            
+            PlacementConfirmationButton.OnClick.AddListener(ConfirmPlacement);
         }
 
         private IEnumerator ReleaseContent(float waitingTime)
@@ -59,9 +69,10 @@ namespace GalaxyExplorer
         {
             if (!isPlaced)
             {
-                StartCoroutine(ReleaseContent(1));
+                StartCoroutine(ReleaseContent(0));
             }
             isPlaced = true;
+            _confirmationButton.Hide();
         }
     }
 }
