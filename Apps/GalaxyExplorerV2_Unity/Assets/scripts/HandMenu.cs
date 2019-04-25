@@ -39,20 +39,24 @@ public class HandMenu : MonoBehaviour
                 if (!_handMenuManager.IsAMenuVisible)
                 {
                     SetMenuVisibility(true);
-                    _handMenuManager.PlayMenuAudio(_menuParent.transform.position, true);
+                    _handMenuManager.PlayMenuAudio(_menuParent.transform.position, MenuStates.Appearing);
                 }
             }
             else if (_currentAngle < _minShowingAngle && IsVisible)
             {
                 SetMenuVisibility(false);
-                _handMenuManager.PlayMenuAudio(_menuParent.transform.position, false);
+                _handMenuManager.PlayMenuAudio(_menuParent.transform.position, MenuStates.Disappearing);
             }
         }
     }
 
     private void OnTrackingLost()
     {
-        SetMenuVisibility(false);
+        if (IsVisible)
+        {
+            _handMenuManager.PlayMenuAudio(_menuParent.transform.position, MenuStates.Disappearing);
+            SetMenuVisibility(false);
+        }
     }
 
     private void SetMenuVisibility(bool isVisible)

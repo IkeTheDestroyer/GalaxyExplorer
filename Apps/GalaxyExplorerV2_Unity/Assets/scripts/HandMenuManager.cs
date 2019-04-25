@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+public enum MenuStates { Appearing, Disappearing };
+
 public class HandMenuManager : MonoBehaviour
 {
     [SerializeField]
@@ -22,15 +24,20 @@ public class HandMenuManager : MonoBehaviour
         get { return _handMenuLeft.IsVisible || _handMenuRight.IsVisible; }
     }
 
-    public void PlayMenuAudio(Vector3 position, bool isAppearing)
+    public void PlayMenuAudio(Vector3 position, MenuStates menuState)
     {
-        if (isAppearing)
+        switch (menuState)
         {
-            _movableAudioSource.clip = _menuAppearAudioClip;
-        }
-        else
-        {
-            _movableAudioSource.clip = _menuDisappearAudioClip;
+            case MenuStates.Appearing:
+                _movableAudioSource.clip = _menuAppearAudioClip;
+                break;
+
+            case MenuStates.Disappearing:
+                _movableAudioSource.clip = _menuDisappearAudioClip;
+                break;
+
+            default:
+                break;
         }
 
         _movableAudioSource.transform.position = position;
