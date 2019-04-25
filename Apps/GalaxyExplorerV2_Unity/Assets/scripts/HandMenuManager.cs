@@ -8,8 +8,8 @@ public class HandMenuManager : MonoBehaviour
     [SerializeField]
     private HandMenu _handMenuRight;
 
-    public bool MenuIsAlreadyShowing
+    public bool IsAMenuVisible
     {
-        get { return _handMenuLeft.MenuIsShowingOnThisHand || _handMenuRight.MenuIsShowingOnThisHand; }
+        get { return _handMenuLeft.IsVisible || _handMenuRight.IsVisible; }
     }
 }
