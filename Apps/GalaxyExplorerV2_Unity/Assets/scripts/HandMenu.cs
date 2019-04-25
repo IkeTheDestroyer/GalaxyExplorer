@@ -6,18 +6,18 @@ public class HandMenu : MonoBehaviour
     private GameObject _menuParent;
 
     [SerializeField]
-    private float _minShowingAngle = 130f;
+    private float _minShowingAngle = 135f;
 
     private AttachToControllerSolver _attachToControllerSolver;
     private HandMenuManager _handMenuManager;
     private float _currentAngle = 0f;
     private Transform _cameraTransform;
 
-    public bool MenuIsShowingOnThisHand { get; private set; } = false;
+    public bool IsVisible { get; private set; } = false;
 
     private void Start()
     {
-        ShowHideMenu(false);
+        SetMenuVisibility(false);
 
         _handMenuManager = FindObjectOfType<HandMenuManager>();
 
@@ -33,38 +33,40 @@ public class HandMenu : MonoBehaviour
         {
             _currentAngle = CalculateAngle();
 
-            if (_currentAngle > _minShowingAngle && !MenuIsShowingOnThisHand)
+            if (_currentAngle > _minShowingAngle && !IsVisible)
             {
                 // Check if the menu is already showing on the other hand
-                if (!_handMenuManager.MenuIsAlreadyShowing)
+                if (!_handMenuManager.IsAMenuVisible)
                 {
-                    ShowHideMenu(true);
+                    SetMenuVisibility(true);
                 }
             }
-            else if (_currentAngle < _minShowingAngle && MenuIsShowingOnThisHand)
+            else if (_currentAngle < _minShowingAngle && IsVisible)
             {
-                ShowHideMenu(false);
+                SetMenuVisibility(false);
             }
         }
     }
 
     private void OnTrackingLost()
     {
-        ShowHideMenu(false);
+        SetMenuVisibility(false);
     }
 
-    private void ShowHideMenu(bool show)
+    private void SetMenuVisibility(bool isVisible)
     {
-        _menuParent.SetActive(show);
-        MenuIsShowingOnThisHand = show;
+        _menuParent.SetActive(isVisible);
+        IsVisible = isVisible;
     }
 
     private float CalculateAngle()
     {
-        float angleCos = Vector3.Dot(_menuParent.transform.forward, _cameraTransform.forward);
+        float angleCos = Vector3.Dot(transform.forward, _cameraTransform.forward);
 
         float angle = Mathf.Acos(angleCos);
         angle = angle * Mathf.Rad2Deg;
+
+        Debug.Log("angle = " + angle);
 
         return angle;
     }
