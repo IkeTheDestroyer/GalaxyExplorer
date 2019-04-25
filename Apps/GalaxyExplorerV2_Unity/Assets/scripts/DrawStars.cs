@@ -200,13 +200,6 @@ namespace GalaxyExplorer
                 {
                         commandBuffer.Clear();
                 }
-
-                if (referenceQuad)
-                {
-                    var mesh = referenceQuad.gameObject.GetComponent<MeshFilter>().sharedMesh;
-                    referenceQuad.sharedMaterial.SetFloat("_TransitionAlpha", galaxy.TransitionAlpha);
-                    commandBuffer.DrawMesh(mesh, referenceQuad.localToWorldMatrix, referenceQuad.sharedMaterial, 0, 0);
-                }
             }
 
             commandBuffer.DrawProcedural(galaxy.transform.worldToLocalMatrix, starsMaterial, 0, MeshTopology.Points, starCount, 1);
@@ -275,7 +268,6 @@ namespace GalaxyExplorer
             }
 
             // Draw the galaxy
-            starsMaterial.SetPass(0);
             starsMaterial.SetBuffer("_Stars", starsData);
             starsMaterial.SetVector("_LocalCamDir", camDir);
             starsMaterial.SetFloat("_WSScale", wsScale);
