@@ -39,11 +39,13 @@ public class HandMenu : MonoBehaviour
                 if (!_handMenuManager.IsAMenuVisible)
                 {
                     SetMenuVisibility(true);
+                    _handMenuManager.PlayMenuAudio(_menuParent.transform.position, true);
                 }
             }
             else if (_currentAngle < _minShowingAngle && IsVisible)
             {
                 SetMenuVisibility(false);
+                _handMenuManager.PlayMenuAudio(_menuParent.transform.position, false);
             }
         }
     }
