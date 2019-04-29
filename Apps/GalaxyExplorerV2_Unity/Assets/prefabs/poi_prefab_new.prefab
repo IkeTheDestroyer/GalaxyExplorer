@@ -326,7 +326,7 @@ MonoBehaviour:
   textsToFade:
   - {fileID: 6537940290421354926}
   - {fileID: 7181117166402863539}
-  alphaColor: 0.05
+  alphaColor: 0.2
   scale: 0.4
   offset: {x: 0.13, y: 0}
   pressableButton: {fileID: 5994954606316266880}
