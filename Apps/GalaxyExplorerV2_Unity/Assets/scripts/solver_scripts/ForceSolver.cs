@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Diagnostics;
 using Microsoft.MixedReality.Toolkit.Input;
 using Microsoft.MixedReality.Toolkit.UI;
@@ -22,6 +23,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
     private ManipulationHandler _manipulationHandler;
     private Collider _attractionCollider;
     private Quaternion _rotationOffset, _previousRotation;
+    private float _baseScale;
     
     public State ForceState { get; private set; }
     public Transform RootTransform;
