@@ -11,7 +11,8 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
     private const float INITIAL_DELAY = 5f; 
     
     [SerializeField] private List<Renderer> objectsToFade;
-    [SerializeField] private List<TextMeshPro> textsToFade;
+    [SerializeField] private TextMeshPro mainText;
+    [SerializeField] private TextMeshPro subText;
     [SerializeField] private float alphaColor = .2f;
     [SerializeField] private float scale = 1f;
     [SerializeField] private Vector2 offset = Vector2.zero;
@@ -71,11 +72,8 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
         {
             materialsToFade.Add(fadingObject.material);
         }
-        
-        foreach (var fadingText in textsToFade)
-        {
-            fadingText.color = Color.clear;
-        }
+        mainText.color = Color.clear;
+        subText.color = Color.clear;
         Fade(false, 0, 0);
         Fade(false, INITIAL_DELAY, 0);
     }
@@ -126,7 +124,7 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
 
     }
 
-    private IEnumerator FadeRoutine(bool fadeIn, float overTime = .3f, float alpha = -1f)
+    private IEnumerator FadeRoutine(bool fadeIn, float overTime = .3f, float alpha = -1f, bool fadeMainText = true)
     {
         fading = true;
         alpha = alpha != -1 ? alpha : alphaColor;
@@ -142,10 +140,11 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
                 material.color = Color.Lerp(startColor, fadingColor, timeSoFar / overTime);
             }
         
-            foreach (var fadingText in textsToFade)
+            if (fadeMainText)
             {
-                fadingText.color = Color.Lerp(startColor, fadingColor, timeSoFar / overTime);
+                mainText.color = Color.Lerp(startColor, fadingColor, timeSoFar / overTime);
             }
+            subText.color = Color.Lerp(startColor, fadingColor, timeSoFar / overTime);
             yield return null;
             timeSoFar += Time.deltaTime;
         }
@@ -155,10 +154,11 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
             material.color =  fadingColor;
         }
         
-        foreach (var fadingText in textsToFade)
+        if (fadeMainText)
         {
-            fadingText.color = fadingColor;
+            mainText.color = fadingColor;
         }
+        subText.color = fadingColor;
 
         currentColor = fadingColor;
 
