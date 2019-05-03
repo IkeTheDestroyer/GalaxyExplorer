@@ -105,9 +105,12 @@ namespace GalaxyExplorer
 
         // If a poi card is active then deactivate all poi colliders so user cant activate another one during card presentation
         // This needs to happen in every airtap, mouse click, controller click, keyboard tap so any open magic window card will close
-        private IEnumerator UpdateActivationOfPOIColliders()
+        public IEnumerator UpdateActivationOfPOIColliders(bool waitForEndOfFrame = true)
         {
-            yield return new WaitForEndOfFrame();
+            if (waitForEndOfFrame)
+            {
+                yield return new WaitForEndOfFrame();
+            }
 
             if (GalaxyExplorerManager.Instance.TransitionManager.InTransition)
             {
