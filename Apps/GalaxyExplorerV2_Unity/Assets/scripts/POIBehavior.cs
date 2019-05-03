@@ -27,7 +27,7 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
     
     
     private BoxCollider boxCollider;
-    private GameObject camera;
+    private GameObject cameraObject;
     private Transform[] corners;
     private bool fading;
     private List<Material> materialsToFade;
@@ -48,18 +48,21 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
         windowMaterial.SetTextureOffset("_MainTex", windowImageOffset);
         windowRenderer.materials = new[] {windowMaterial, occlusionMaterial};
         
-        camera = Camera.main.gameObject;
-        corners = new Transform[5];
-        Vector3[] verts = new Vector3[5]; 
+        cameraObject = Camera.main.gameObject;
+        var numberOfPoints = 7;
+        corners = new Transform[numberOfPoints];
+        Vector3[] verts = new Vector3[numberOfPoints]; 
         verts[0] = transform.TransformPoint(boxCollider.center);
-        verts[1] = transform.TransformPoint(boxCollider.center + (new Vector3(boxCollider.size.x, boxCollider.size.y, 0) * 0.4f));
-        verts[2] = transform.TransformPoint(boxCollider.center + (new Vector3(boxCollider.size.x, -boxCollider.size.y, 0) * 0.4f));
-        verts[3] = transform.TransformPoint(boxCollider.center + (new Vector3(-boxCollider.size.x, boxCollider.size.y, 0) * 0.4f));
-        verts[4] = transform.TransformPoint(boxCollider.center + (new Vector3(-boxCollider.size.x, -boxCollider.size.y, 0) * 0.4f));
+        verts[1] = transform.TransformPoint(boxCollider.center + (new Vector3(boxCollider.size.x, boxCollider.size.y, 0) * 0.49f));
+        verts[2] = transform.TransformPoint(boxCollider.center + (new Vector3(boxCollider.size.x, -boxCollider.size.y, 0) * 0.49f));
+        verts[3] = transform.TransformPoint(boxCollider.center + (new Vector3(-boxCollider.size.x, boxCollider.size.y, 0) * 0.49f));
+        verts[4] = transform.TransformPoint(boxCollider.center + (new Vector3(-boxCollider.size.x, -boxCollider.size.y, 0) * 0.49f));
+        verts[5] = transform.TransformPoint(boxCollider.center + (new Vector3(0,-boxCollider.size.y, 0) * 0.49f));
+        verts[6] = transform.TransformPoint(boxCollider.center + (new Vector3(0, boxCollider.size.y, 0) * 0.49f));
 
         for (var i = 0; i < verts.Length; i++)
         {
-            var go = new GameObject($"corner {i}");
+            var go = new GameObject($"Raycast Point {i}");
             go.transform.position = verts[i];
             go.transform.SetParent(transform, true);
             corners[i] = go.transform;
@@ -89,11 +92,15 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
         }
 
         boxCollider.size = colliderSize;
-        var allPointsVisible = IsPointVisible(corners[0].position);;
-        allPointsVisible = allPointsVisible && IsPointVisible(corners[1].position);
-        allPointsVisible = allPointsVisible && IsPointVisible(corners[2].position);
-        allPointsVisible = allPointsVisible && IsPointVisible(corners[3].position);
-        allPointsVisible = allPointsVisible && IsPointVisible(corners[4].position);
+        var allPointsVisible = true;
+        for (int i = 0; i < corners.Length; i++)
+        {
+            if (!IsPointVisible(corners[i].position))
+            {
+                allPointsVisible = false;
+                break;
+            }
+        }
         float alpha = GalaxyExplorerManager.Instance.CardPoiManager.IsAnyCardActive() ? 0f : -1f;
         Fade(allPointsVisible, alpha:alpha);
         transform.localPosition = offset;
@@ -103,17 +110,18 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
     private bool IsPointVisible(Vector3 position)
     {
         var layerMask = 1 << LayerMask.NameToLayer("POI");
-        var direction = (position - camera.transform.position).normalized;
-        Debug.DrawRay(camera.transform.position, (position - camera.transform.position)*2, Color.green);
-        RaycastHit hit;
-        var isVisible = false;
-        if(Physics.Raycast(camera.transform.position, direction, out hit, float.PositiveInfinity, layerMask ))
+        var direction = (position - cameraObject.transform.position).normalized;
+        Debug.DrawRay(cameraObject.transform.position, (position - cameraObject.transform.position)*2, Color.green);
+        if(Physics.RaycastNonAlloc(cameraObject.transform.position, direction, raycastResults, float.PositiveInfinity, layerMask ) > 0)
         {
-            if (hit.collider != null)
+            foreach (var raycastHit in raycastResults)
             {
-                if (hit.collider.gameObject == gameObject)
+                if (raycastHit.collider != null)
                 {
-                    return true;
+                    if (raycastHit.collider.gameObject == gameObject)
+                    {
+                        return true;
+                    }
                 }
             }
         }
