@@ -31,12 +31,14 @@ public class POIContent : MonoBehaviour
         originalTextLocalPosition = poiText.localPosition;
         yield return new WaitForSeconds(textAnimationDelay);
         var startPosition = poiText.position;
+        var startRotation = poiText.rotation;
         
         var overTime = .5f;
         var timeSoFar = 0f;
         while (timeSoFar < overTime && !hiding)
         {
             poiText.position = Vector3.Slerp(startPosition, textTargetLocation.position, timeSoFar/overTime);
+            poiText.rotation = Quaternion.Slerp(startRotation, textTargetLocation.rotation, timeSoFar/overTime);
             yield return null;
             timeSoFar += Time.deltaTime;
         }
@@ -45,13 +47,14 @@ public class POIContent : MonoBehaviour
         {
             yield break;
         }
-        poiText.parent = textTargetLocation;
+        poiText.SetParent(textTargetLocation, true);
         poiText.position = textTargetLocation.position;
+        poiText.localRotation = Quaternion.identity;
     }
 
     private IEnumerator HideRoutine()
     {
-        poiText.parent = originalTextParent;
+        poiText.SetParent(originalTextParent, true);
         var startPosition = poiText.localPosition;
         var startRotation = poiText.localRotation;
         var overTime = .5f;

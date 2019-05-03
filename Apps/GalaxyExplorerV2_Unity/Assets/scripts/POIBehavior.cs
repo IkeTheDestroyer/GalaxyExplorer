@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using GalaxyExplorer;
 using Microsoft.MixedReality.Toolkit.Input;
 using MRS.Layers;
 using TMPro;
@@ -32,12 +33,14 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
     private List<Material> materialsToFade;
     private Vector3 colliderSize;
     private Color currentColor;
+    private PointOfInterest poi;
     
     RaycastHit[] raycastResults = new RaycastHit[1];
 
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
+        poi = GetComponentInParent<PointOfInterest>();
         colliderSize = boxCollider.size;
         windowMaterial = Instantiate(windowMaterial);
         windowMaterial.SetFloat("_Scale", windowImageScale);
@@ -91,7 +94,8 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
         allPointsVisible = allPointsVisible && IsPointVisible(corners[2].position);
         allPointsVisible = allPointsVisible && IsPointVisible(corners[3].position);
         allPointsVisible = allPointsVisible && IsPointVisible(corners[4].position);
-        Fade(allPointsVisible);
+        float alpha = GalaxyExplorerManager.Instance.CardPoiManager.IsAnyCardActive() ? 0f : -1f;
+        Fade(allPointsVisible, alpha:alpha);
         transform.localPosition = offset;
         transform.localScale = scale * Vector3.one;
     }
@@ -119,7 +123,7 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
 
     public void Fade(bool fadeIn, float overTime = .3f, float alpha = -1)
     {
-        StartCoroutine(FadeRoutine(fadeIn, overTime, alpha));
+        StartCoroutine(FadeRoutine(fadeIn, overTime, alpha, !poi.IsCardActive));
         pressableButton.SetActive(fadeIn);
 
     }

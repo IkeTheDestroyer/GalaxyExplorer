@@ -104,7 +104,6 @@ namespace GalaxyExplorer
                 if (!CardObject.gameObject.activeSelf)
                 {
                     isCardActive = true;
-
                     StartCoroutine(GalaxyExplorerManager.Instance.GeFadeManager.FadeContent(poiFader, GEFadeManager.FadeType.FadeOut, GalaxyExplorerManager.Instance.CardPoiManager.POIFadeOutTime, GalaxyExplorerManager.Instance.CardPoiManager.POIOpacityCurve));
 
                     CardObject.gameObject.SetActive(true);
@@ -174,6 +173,12 @@ namespace GalaxyExplorer
         public override void OnFocusExit(FocusEventData eventData)
         {
             base.OnFocusExit(eventData);
+        }
+
+        public void CloseAnyOpenCard()
+        {
+            GalaxyExplorerManager.Instance.CardPoiManager.CloseAnyOpenCard();
+            GalaxyExplorerManager.Instance.CardPoiManager.OnPointerDown(null);
         }
 
         private IEnumerator SlideCardOut()
