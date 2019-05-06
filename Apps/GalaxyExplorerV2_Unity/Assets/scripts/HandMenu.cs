@@ -10,6 +10,9 @@ public class HandMenu : MonoBehaviour
     private GameObject _backButton;
 
     [SerializeField]
+    private AboutSlate _aboutSlate;
+
+    [SerializeField]
     private float _minShowingAngle = 135f;
 
     private AttachToControllerSolver _attachToControllerSolver;
@@ -18,6 +21,7 @@ public class HandMenu : MonoBehaviour
 
     private float _currentAngle = 0f;
     private Transform _cameraTransform;
+    private bool _aboutSlateIsEnabled = false;
 
     public bool IsVisible { get; private set; } = false;
 
@@ -28,7 +32,9 @@ public class HandMenu : MonoBehaviour
         _handMenuManager = FindObjectOfType<HandMenuManager>();
 
         _toolManager = FindObjectOfType<ToolManager>();
-        _toolManager.BackButtonNeedsShowing += OnBackButtonNeedsShowing;
+        _aboutSlate = FindObjectOfType<AboutSlate>();
+
+        _toolManager.BackButtonNeedsShowing += OnBackButtonNeedsToShow;
 
         EnableBackButton(false);
 
@@ -38,7 +44,7 @@ public class HandMenu : MonoBehaviour
         _cameraTransform = Camera.main.transform;
     }
 
-    private void OnBackButtonNeedsShowing(bool show)
+    private void OnBackButtonNeedsToShow(bool show)
     {
         EnableBackButton(show);
     }
@@ -63,6 +69,20 @@ public class HandMenu : MonoBehaviour
                 SetMenuVisibility(false);
                 _handMenuManager.PlayMenuAudio(_menuParent.transform.position, MenuStates.Disappearing);
             }
+        }
+    }
+
+    public void OnAboutButtonPressed()
+    {
+        if (!_aboutSlateIsEnabled)
+        {
+            _aboutSlate.Show();
+            _aboutSlateIsEnabled = true;
+        }
+        else
+        {
+            _aboutSlate.Hide();
+            _aboutSlateIsEnabled = false;
         }
     }
 
