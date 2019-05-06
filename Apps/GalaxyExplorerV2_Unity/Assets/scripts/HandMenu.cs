@@ -45,10 +45,12 @@ public class HandMenu : MonoBehaviour
 
     private void OnPrevSceneChanged(GameObject prevSceneLoaded)
     {
-        // #TODO: Should probably be optimized by adding an event to the transition manager in every place where transitions happen
         if (_transitionManager.PrevSceneLoaded != null && !_backButton.activeSelf)
         {
-            EnableBackButton(true);
+            if (_transitionManager.CurrentIntroStage != TransitionManager.IntroStages.kLastStageIntro && _transitionManager.CurrentIntroStage != TransitionManager.IntroStages.kActiveIntro)
+            {
+                EnableBackButton(true);
+            }
         }
         else
         {
@@ -58,6 +60,8 @@ public class HandMenu : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log("_transitionManager.CurrentIntroStage = " + _transitionManager.CurrentIntroStage);
+
         if (_attachToControllerSolver.IsTracking)
         {
             _currentAngle = CalculateAngle();
