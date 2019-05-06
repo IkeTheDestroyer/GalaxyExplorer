@@ -146,6 +146,7 @@ namespace GalaxyExplorer
 
         private MovableAudioSource movingAudio = null;
         private ZoomInOut ZoomInOutBehaviour = null;
+
         private GameObject prevSceneLoaded;     // tracks the last scene loaded for transitions when loading new scenes
         private string prevSceneLoadedName = "";
 
@@ -242,8 +243,8 @@ namespace GalaxyExplorer
 
             inTransition = true;
             inForwardTransition = false;
-            prevSceneLoaded = FindContent();
-            prevSceneLoadedName = (prevSceneLoaded) ? prevSceneLoaded.name : "";
+            PrevSceneLoaded = FindContent();
+            prevSceneLoadedName = (PrevSceneLoaded) ? PrevSceneLoaded.name : "";
             CurrentActiveScene = null;
 
             GalaxyExplorerManager.Instance.ViewLoaderScript.PopSceneFromStack();
@@ -276,8 +277,8 @@ namespace GalaxyExplorer
 
             inTransition = true;
             inForwardTransition = true;
-            prevSceneLoaded = FindContent();
-            prevSceneLoadedName = (prevSceneLoaded) ? prevSceneLoaded.name : "";
+            PrevSceneLoaded = FindContent();
+            prevSceneLoadedName = (PrevSceneLoaded) ? PrevSceneLoaded.name : "";
             CurrentActiveScene = null;
 
             GalaxyExplorerManager.Instance.ViewLoaderScript.LoadViewAsync(sceneName, NextSceneLoaded);
@@ -299,7 +300,7 @@ namespace GalaxyExplorer
             TransformHandler[] parentContent = FindObjectsOfType<TransformHandler>();
             foreach (var parent in parentContent)
             {
-                if (parent.gameObject != prevSceneLoaded)
+                if (parent.gameObject != PrevSceneLoaded)
                 {
                     return parent.gameObject;
                 }
@@ -329,7 +330,7 @@ namespace GalaxyExplorer
             ZoomInOutBehaviour.ZoomInIsDone = false;
             ZoomInOutBehaviour.ZoomOutIsDone = false;
 
-            SceneTransition previousTransition = (prevSceneLoaded) ? prevSceneLoaded.GetComponentInChildren<SceneTransition>() : null;
+            SceneTransition previousTransition = (PrevSceneLoaded) ? PrevSceneLoaded.GetComponentInChildren<SceneTransition>() : null;
             SceneTransition newTransition = nextSceneContent.GetComponentInChildren<SceneTransition>();
             CurrentActiveScene = nextSceneContent;
 
@@ -345,7 +346,7 @@ namespace GalaxyExplorer
             newTransition.transform.GetChild(0).localScale = Vector3.one * targetSize;
 
             // Initialize zoom in and out transition properties
-            StartCoroutine(ZoomInOutBehaviour.ZoomInOutInitialization(nextSceneContent, prevSceneLoaded));
+            StartCoroutine(ZoomInOutBehaviour.ZoomInOutInitialization(nextSceneContent, PrevSceneLoaded));
 
             // In order for the next scene not being visible while the previous is fading, set scale to zero and deactivate all its colliders
             if (ZoomInOutBehaviour.GetNextScene)
@@ -374,9 +375,9 @@ namespace GalaxyExplorer
             UpdateActivationOfPOIs(newTransition, true);
 
             // Unload previous scene
-            if (prevSceneLoaded != null)
+            if (PrevSceneLoaded != null)
             {
-                UnloadScene(prevSceneLoaded.scene.name, true);
+                UnloadScene(PrevSceneLoaded.scene.name, true);
             }
 
             // Wait until next scene transition is done

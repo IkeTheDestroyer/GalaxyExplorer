@@ -6,8 +6,8 @@ public class HandMenu : MonoBehaviour
     [SerializeField]
     private GameObject _menuParent;
 
-    //[SerializeField]
-    //private GameObject _backButton;
+    [SerializeField]
+    private GameObject _backButton;
 
     [SerializeField]
     private float _minShowingAngle = 135f;
@@ -28,7 +28,7 @@ public class HandMenu : MonoBehaviour
         _handMenuManager = FindObjectOfType<HandMenuManager>();
         _transitionManager = FindObjectOfType<TransitionManager>();
 
-        //_transitionManager.PrevSceneChanged += OnPrevSceneChanged;
+        _transitionManager.PrevSceneChanged += OnPrevSceneChanged;
 
         EnableBackButton(false);
 
@@ -40,21 +40,21 @@ public class HandMenu : MonoBehaviour
 
     private void OnDestroy()
     {
-        //_transitionManager.PrevSceneChanged -= OnPrevSceneChanged;
+        _transitionManager.PrevSceneChanged -= OnPrevSceneChanged;
     }
 
-    //private void OnPrevSceneChanged(GameObject prevSceneLoaded)
-    //{
-    //    // #TODO: Should probably be optimized by adding an event to the transition manager in every place where transitions happen
-    //    if (_transitionManager.PrevSceneLoaded != null && !_backButton.activeSelf)
-    //    {
-    //        EnableBackButton(true);
-    //    }
-    //    else
-    //    {
-    //        EnableBackButton(false);
-    //    }
-    //}
+    private void OnPrevSceneChanged(GameObject prevSceneLoaded)
+    {
+        // #TODO: Should probably be optimized by adding an event to the transition manager in every place where transitions happen
+        if (_transitionManager.PrevSceneLoaded != null && !_backButton.activeSelf)
+        {
+            EnableBackButton(true);
+        }
+        else
+        {
+            EnableBackButton(false);
+        }
+    }
 
     private void Update()
     {
@@ -96,7 +96,7 @@ public class HandMenu : MonoBehaviour
 
     private void EnableBackButton(bool enable)
     {
-        //_backButton.SetActive(enable);
+        _backButton.SetActive(enable);
     }
 
     private float CalculateAngle()
