@@ -1,28 +1,22 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
+[ExecuteInEditMode]
 public class PlanetOffsetScaleController : MonoBehaviour
 {
-    private Animator _animator;
-    private static readonly int Editing = Animator.StringToHash("Editing");
+    public static readonly float TargetEditScaleCm = 30f;
+    public static readonly float TargetOrbitScaleToCm = 0.0215517241f;//this assures a sun diameter of 30cm
+    public static readonly float GlobalPlanetScaleFactor = 15f;
+    
+    public float PlanetDiameterInKilometer = 1000f;
+    public bool UseGlobalPlanetScaleFactor = true;
+    public float CustomPerPlanetScaleFactor = 1f;
 
-    private void Awake()
+    private void Update()
     {
-        _animator = GetComponent<Animator>();
-    }
-
-    private void SetEditBool(bool value)
-    {
-        _animator.SetBool(Editing, value);
-    }
-
-    public void SetToEdit()
-    {
-        SetEditBool(true);
-    }
-
-    public void SetToOrbit()
-    {
-        SetEditBool(false);
+        transform.localScale =
+            Vector3.one * PlanetDiameterInKilometer * .001f * TargetOrbitScaleToCm *
+            (UseGlobalPlanetScaleFactor
+                ? GlobalPlanetScaleFactor
+                : CustomPerPlanetScaleFactor);
     }
 }

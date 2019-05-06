@@ -1310,6 +1310,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 114907465580918774, guid: 5f83d016fa60cbb4eb99ba7794345276,
+        type: 3}
+      propertyPath: SemiMajorAxis
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1949256713972140, guid: 5f83d016fa60cbb4eb99ba7794345276, type: 3}
       propertyPath: m_Layer
       value: 12

@@ -16,35 +16,6 @@ namespace GalaxyExplorer
         [SerializeField]
         private PointOfInterest POI = null;
 
-        //        public void OnFocusEnter()
-        //        {
-        //            POI?.OnFocusEnter();
-        //        }
-        //
-        //        public void OnFocusExit()
-        //        {
-        //            POI?.OnFocusExit();
-        //        }
-
-        //        public void OnInputClicked(InputClickedEventData eventData)
-        //        {
-        //            POI?.OnInputClicked(eventData);
-        //        }
-        //
-        //        public void OnInputPositionChanged(InputPositionEventData eventData)
-        //        {
-        //            POI?.OnInputPositionChanged(eventData);
-        //        }
-        //
-        //        public void OnTouchpadReleased(InputEventData eventData)
-        //        {
-        //            POI?.OnTouchpadReleased(eventData);
-        //        }
-        //
-        //        public void OnTouchpadTouched(InputEventData eventData)
-        //        {
-        //            POI?.OnTouchpadTouched(eventData);
-        //        }
         public void OnPointerUp(MixedRealityPointerEventData eventData)
         {
             if (POI != null)

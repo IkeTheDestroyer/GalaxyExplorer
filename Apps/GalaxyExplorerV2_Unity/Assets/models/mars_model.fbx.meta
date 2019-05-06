@@ -13,8 +13,10 @@ ModelImporter:
     2100002: MarsGlow
     2300000: Mars
     2300002: MarsGlow
+    2300004: //RootNode
     3300000: Mars
     3300002: MarsGlow
+    3300004: //RootNode
     4300000: Mars
     4300002: MarsGlow
   externalObjects: {}
@@ -45,7 +47,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 1
+    isReadable: 0
   meshes:
     lODScreenPercentages: []
     globalScale: 1
@@ -53,7 +55,7 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     importVisibility: 0
-    importBlendShapes: 1
+    importBlendShapes: 0
     importCameras: 0
     importLights: 0
     swapUVChannels: 0
@@ -76,7 +78,7 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
-    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   importAnimation: 0
