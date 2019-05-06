@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 4396102900079101547}
   - component: {fileID: 3690957314900051240}
   m_Layer: 0
-  m_Name: Text (7)
+  m_Name: diameter text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143,7 +143,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.2125, y: -0.053299997}
+  m_AnchoredPosition: {x: 0.22629999, y: -0.048199985}
   m_SizeDelta: {x: 1.03, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &4752476555624737338
@@ -257,7 +257,7 @@ MonoBehaviour:
   m_fontStyle: 0
   m_textAlignment: 257
   m_isAlignmentEnumConverted: 1
-  m_characterSpacing: 0
+  m_characterSpacing: 3
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -858,7 +858,7 @@ GameObject:
   - component: {fileID: 3955845535135577216}
   - component: {fileID: 6164727020093387982}
   m_Layer: 0
-  m_Name: Text (6)
+  m_Name: diameter title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -880,7 +880,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.21260004, y: -0.0485}
+  m_AnchoredPosition: {x: 0.2264, y: -0.0434}
   m_SizeDelta: {x: 1.03, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &5325973466971566953
@@ -994,7 +994,7 @@ MonoBehaviour:
   m_fontStyle: 0
   m_textAlignment: 257
   m_isAlignmentEnumConverted: 1
-  m_characterSpacing: 0
+  m_characterSpacing: 3
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1541,7 +1541,7 @@ MonoBehaviour:
   m_fontStyle: 0
   m_textAlignment: 1026
   m_isAlignmentEnumConverted: 1
-  m_characterSpacing: 0
+  m_characterSpacing: -1.59
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1927,7 +1927,7 @@ GameObject:
   - component: {fileID: 8814268248401515880}
   - component: {fileID: 4657785147376662671}
   m_Layer: 0
-  m_Name: Text (3)
+  m_Name: age text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2063,7 +2063,7 @@ MonoBehaviour:
   m_fontStyle: 0
   m_textAlignment: 257
   m_isAlignmentEnumConverted: 1
-  m_characterSpacing: 0
+  m_characterSpacing: 3
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -2852,7 +2852,7 @@ MonoBehaviour:
   m_fontStyle: 0
   m_textAlignment: 257
   m_isAlignmentEnumConverted: 1
-  m_characterSpacing: 0
+  m_characterSpacing: 3
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -3038,7 +3038,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5516300408708692208}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.1611, y: -0.0565, z: 0}
+  m_LocalPosition: {x: -0.1613, y: -0.0565, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 2611183008954787811}
@@ -3980,7 +3980,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6442832416281861548}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.307, y: 0.0513, z: 0}
+  m_LocalPosition: {x: -0.3002, y: 0.0513, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 0.5}
   m_Children:
   - {fileID: 6572662429617900128}
@@ -4314,13 +4314,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6580514847161336806}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.14350002, y: 0.0081, z: 0}
-  m_LocalScale: {x: 0.08, y: 0.35, z: 0.2}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.1591, y: -0.0002, z: 0}
+  m_LocalScale: {x: 0.08964401, y: 0.08964401, z: 0.16344254}
   m_Children: []
   m_Father: {fileID: 2611183008954787811}
   m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6444019914005842496
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4358,7 +4358,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 33ff8ebdf3db2984fa93d48ab484eb2e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7f0408e22950cb5419d1c9149462b793, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4925,8 +4925,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7382568827197435152}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.2677, y: 0.0047, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.26671726, z: 0.26671726}
+  m_LocalPosition: {x: -0.2677, y: -0.0001, z: 0}
+  m_LocalScale: {x: 0.29732, y: 0.29732, z: 0.29732}
   m_Children: []
   m_Father: {fileID: 2611183008954787811}
   m_RootOrder: 2
@@ -5072,7 +5072,7 @@ GameObject:
   - component: {fileID: 7307553991678224511}
   - component: {fileID: 6767236962992188790}
   m_Layer: 0
-  m_Name: Text (4)
+  m_Name: distance from sun title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5208,7 +5208,7 @@ MonoBehaviour:
   m_fontStyle: 0
   m_textAlignment: 257
   m_isAlignmentEnumConverted: 1
-  m_characterSpacing: 0
+  m_characterSpacing: 3
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -5583,7 +5583,7 @@ GameObject:
   - component: {fileID: 8274262549477297376}
   - component: {fileID: 8246385866367569334}
   m_Layer: 0
-  m_Name: Text (5)
+  m_Name: distance from sun text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5719,7 +5719,7 @@ MonoBehaviour:
   m_fontStyle: 0
   m_textAlignment: 257
   m_isAlignmentEnumConverted: 1
-  m_characterSpacing: 0
+  m_characterSpacing: 3
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -5902,7 +5902,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8315564360763738840
 Transform:
   m_ObjectHideFlags: 0
@@ -6553,7 +6553,7 @@ GameObject:
   - component: {fileID: 5754844199801610060}
   - component: {fileID: 1744505539944438340}
   m_Layer: 0
-  m_Name: Text (2)
+  m_Name: age title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6689,7 +6689,7 @@ MonoBehaviour:
   m_fontStyle: 0
   m_textAlignment: 257
   m_isAlignmentEnumConverted: 1
-  m_characterSpacing: 0
+  m_characterSpacing: 3
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
