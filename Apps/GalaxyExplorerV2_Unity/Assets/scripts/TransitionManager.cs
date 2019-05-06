@@ -124,42 +124,15 @@ namespace GalaxyExplorer
             }
         }
 
-        public delegate void PrevSceneChangedEventHandler(GameObject prevSceneLoaded);
-
-        public event PrevSceneChangedEventHandler PrevSceneChanged;
-
-        private void OnPrevSceneChanged(GameObject prevSceneLoaded)
-        {
-            PrevSceneChanged?.Invoke(prevSceneLoaded);
-        }
-
-        public GameObject PrevSceneLoaded
-        {
-            get { return prevSceneLoaded; }
-
-            set
-            {
-                prevSceneLoaded = value;
-                OnPrevSceneChanged(prevSceneLoaded);
-            }
-        }
-
-        public IntroStages CurrentIntroStage
-        {
-            get { return introStage; }
-        }
-
-        private IntroStages introStage = IntroStages.kInactiveIntro;
-
         private MovableAudioSource movingAudio = null;
         private ZoomInOut ZoomInOutBehaviour = null;
-
         private GameObject prevSceneLoaded;     // tracks the last scene loaded for transitions when loading new scenes
         private string prevSceneLoadedName = "";
 
         private bool inTransition = false;
         private bool inForwardTransition = true;
         private bool isFading = false;
+        private IntroStage introStage = IntroStage.kInactiveIntro;
 
         private TransformSource transformSource = null;
 
@@ -169,7 +142,7 @@ namespace GalaxyExplorer
         [HideInInspector]
         public UnityEvent OnResetMRSceneToOriginComplete;
 
-        public enum IntroStages
+        private enum IntroStage
         {
             kActiveIntro,
             kLastStageIntro,
@@ -188,7 +161,7 @@ namespace GalaxyExplorer
 
         public bool IsInIntroFlow
         {
-            get { return (introStage != IntroStages.kInactiveIntro && introStage != IntroStages.kLastStageIntro); }
+            get { return (introStage != IntroStage.kInactiveIntro && introStage != IntroStage.kLastStageIntro); }
         }
 
         private void Start()
@@ -212,13 +185,13 @@ namespace GalaxyExplorer
         // Callback when introduction flow starts. This is hooked up in FlowManager in editor
         public void OnIntroStarted()
         {
-            introStage = IntroStages.kActiveIntro;
+            introStage = IntroStage.kActiveIntro;
         }
 
         // Callback when introduction flow is completed. This is hooked up in FlowManager in editor
         public void OnIntroFinished()
         {
-            introStage = IntroStages.kLastStageIntro;
+            introStage = IntroStage.kLastStageIntro;
         }
 
         // Called when fade is complete
@@ -249,15 +222,15 @@ namespace GalaxyExplorer
 
             inTransition = true;
             inForwardTransition = false;
-            PrevSceneLoaded = FindContent();
-            prevSceneLoadedName = (PrevSceneLoaded) ? PrevSceneLoaded.name : "";
+            prevSceneLoaded = FindContent();
+            prevSceneLoadedName = (prevSceneLoaded) ? prevSceneLoaded.name : "";
             CurrentActiveScene = null;
 
             GalaxyExplorerManager.Instance.ViewLoaderScript.PopSceneFromStack();
-            GalaxyExplorerManager.Instance.ViewLoaderScript.LoadPreviousScene(OnPrevSceneLoaded);
+            GalaxyExplorerManager.Instance.ViewLoaderScript.LoadPreviousScene(PrevSceneLoaded);
         }
 
-        private void OnPrevSceneLoaded()
+        private void PrevSceneLoaded()
         {
             StartCoroutine(NextSceneLoadedCoroutine());
         }
@@ -283,8 +256,8 @@ namespace GalaxyExplorer
 
             inTransition = true;
             inForwardTransition = true;
-            PrevSceneLoaded = FindContent();
-            prevSceneLoadedName = (PrevSceneLoaded) ? PrevSceneLoaded.name : "";
+            prevSceneLoaded = FindContent();
+            prevSceneLoadedName = (prevSceneLoaded) ? prevSceneLoaded.name : "";
             CurrentActiveScene = null;
 
             GalaxyExplorerManager.Instance.ViewLoaderScript.LoadViewAsync(sceneName, NextSceneLoaded);
@@ -306,7 +279,7 @@ namespace GalaxyExplorer
             TransformHandler[] parentContent = FindObjectsOfType<TransformHandler>();
             foreach (var parent in parentContent)
             {
-                if (parent.gameObject != PrevSceneLoaded)
+                if (parent.gameObject != prevSceneLoaded)
                 {
                     return parent.gameObject;
                 }
@@ -336,7 +309,7 @@ namespace GalaxyExplorer
             ZoomInOutBehaviour.ZoomInIsDone = false;
             ZoomInOutBehaviour.ZoomOutIsDone = false;
 
-            SceneTransition previousTransition = (PrevSceneLoaded) ? PrevSceneLoaded.GetComponentInChildren<SceneTransition>() : null;
+            SceneTransition previousTransition = (prevSceneLoaded) ? prevSceneLoaded.GetComponentInChildren<SceneTransition>() : null;
             SceneTransition newTransition = nextSceneContent.GetComponentInChildren<SceneTransition>();
             CurrentActiveScene = nextSceneContent;
 
@@ -352,7 +325,7 @@ namespace GalaxyExplorer
             newTransition.transform.GetChild(0).localScale = Vector3.one * targetSize;
 
             // Initialize zoom in and out transition properties
-            StartCoroutine(ZoomInOutBehaviour.ZoomInOutInitialization(nextSceneContent, PrevSceneLoaded));
+            StartCoroutine(ZoomInOutBehaviour.ZoomInOutInitialization(nextSceneContent, prevSceneLoaded));
 
             // In order for the next scene not being visible while the previous is fading, set scale to zero and deactivate all its colliders
             if (ZoomInOutBehaviour.GetNextScene)
@@ -381,9 +354,9 @@ namespace GalaxyExplorer
             UpdateActivationOfPOIs(newTransition, true);
 
             // Unload previous scene
-            if (PrevSceneLoaded != null)
+            if (prevSceneLoaded != null)
             {
-                UnloadScene(PrevSceneLoaded.scene.name, true);
+                UnloadScene(prevSceneLoaded.scene.name, true);
             }
 
             // Wait until next scene transition is done
@@ -395,7 +368,7 @@ namespace GalaxyExplorer
             SetActivePOIRotationAnimator(true, previousTransition, newTransition);
 
             // Fade in pois of next scene
-            if (introStage != IntroStages.kActiveIntro)
+            if (introStage != IntroStage.kActiveIntro)
             {
                 isFading = true;
                 GalaxyExplorerManager.Instance.GeFadeManager.Fade(newTransition.GetComponentInChildren<POIMaterialsFader>(), GEFadeManager.FadeType.FadeIn, PoiFadeInDuration, POIOpacityCurveEndTransition);
@@ -409,7 +382,7 @@ namespace GalaxyExplorer
             yield return new WaitForEndOfFrame();
 
             // Activate colliders of next scene
-            if (ZoomInOutBehaviour.GetNextScene && introStage != IntroStages.kActiveIntro)
+            if (ZoomInOutBehaviour.GetNextScene && introStage != IntroStage.kActiveIntro)
             {
                 SetCollidersActivation(ZoomInOutBehaviour.GetNextScene.GetComponentsInChildren<Collider>(), true);
             }
@@ -417,7 +390,7 @@ namespace GalaxyExplorer
             SetActivationOfTouchscript(true);
 
             inTransition = false;
-            introStage = (introStage == IntroStages.kLastStageIntro) ? IntroStages.kInactiveIntro : introStage;
+            introStage = (introStage == IntroStage.kLastStageIntro) ? IntroStage.kInactiveIntro : introStage;
 
             yield return null;
         }
@@ -432,7 +405,7 @@ namespace GalaxyExplorer
             // In previous scene, fade out pois and then fade the rest of the scene
             if (previousTransition)
             {
-                if (introStage == IntroStages.kInactiveIntro)
+                if (introStage == IntroStage.kInactiveIntro)
                 {
                     isFading = true;
                     GalaxyExplorerManager.Instance.GeFadeManager.Fade(previousTransition.GetComponentInChildren<POIMaterialsFader>(), GEFadeManager.FadeType.FadeOut, PoiFadeOutDuration, POIOpacityCurveStartTransition);
@@ -857,7 +830,7 @@ namespace GalaxyExplorer
                 staticClip = BackClips.StaticClip;
                 movingClip = BackClips.MovingClip;
             }
-            else if (introStage == IntroStages.kInactiveIntro)
+            else if (introStage == IntroStage.kInactiveIntro)
             {
                 staticClip = IntroClips.StaticClip;
                 movingClip = IntroClips.MovingClip;
