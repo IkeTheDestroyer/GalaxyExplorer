@@ -14,7 +14,6 @@ public class HandMenu : MonoBehaviour
 
     private AttachToControllerSolver _attachToControllerSolver;
     private HandMenuManager _handMenuManager;
-    private TransitionManager _transitionManager;
     private ToolManager _toolManager;
 
     private float _currentAngle = 0f;
@@ -27,11 +26,9 @@ public class HandMenu : MonoBehaviour
         SetMenuVisibility(false);
 
         _handMenuManager = FindObjectOfType<HandMenuManager>();
-        _toolManager = FindObjectOfType<ToolManager>();
-        _transitionManager = FindObjectOfType<TransitionManager>();
 
+        _toolManager = FindObjectOfType<ToolManager>();
         _toolManager.BackButtonNeedsShowing += OnBackButtonNeedsShowing;
-        _transitionManager.PrevSceneChanged += OnPrevSceneChanged;
 
         EnableBackButton(false);
 
@@ -41,33 +38,6 @@ public class HandMenu : MonoBehaviour
         _cameraTransform = Camera.main.transform;
     }
 
-    private void OnDestroy()
-    {
-        _transitionManager.PrevSceneChanged -= OnPrevSceneChanged;
-    }
-
-    //private void OnPrevSceneChanged(GameObject prevSceneLoaded)
-    //{
-    //    bool showBackButton = _transitionManager.PrevSceneLoaded != null && !_backButton.activeSelf;
-
-    //    if (showBackButton)
-    //    {
-    //        if (_transitionManager.CurrentIntroStage != TransitionManager.IntroStages.kLastStageIntro && _transitionManager.CurrentIntroStage != TransitionManager.IntroStages.kActiveIntro)
-    //        {
-    //            EnableBackButton(true);
-    //        }
-    //    }
-    //    else
-    //    {
-    //        EnableBackButton(false);
-    //    }
-    //}
-
-    private void OnPrevSceneChanged(GameObject prevSceneLoaded)
-    {
-        //EnableBackButton(true);
-    }
-
     private void OnBackButtonNeedsShowing(bool show)
     {
         EnableBackButton(show);
@@ -75,8 +45,6 @@ public class HandMenu : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("_transitionManager.CurrentIntroStage = " + _transitionManager.CurrentIntroStage);
-
         if (_attachToControllerSolver.IsTracking)
         {
             _currentAngle = CalculateAngle();
