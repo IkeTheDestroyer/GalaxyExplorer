@@ -1,15 +1,21 @@
 ﻿using UnityEngine;
+using GalaxyExplorer;
 
 public class HandMenu : MonoBehaviour
 {
     [SerializeField]
     private GameObject _menuParent;
 
+    //[SerializeField]
+    //private GameObject _backButton;
+
     [SerializeField]
     private float _minShowingAngle = 135f;
 
     private AttachToControllerSolver _attachToControllerSolver;
     private HandMenuManager _handMenuManager;
+    private TransitionManager _transitionManager;
+
     private float _currentAngle = 0f;
     private Transform _cameraTransform;
 
@@ -20,12 +26,35 @@ public class HandMenu : MonoBehaviour
         SetMenuVisibility(false);
 
         _handMenuManager = FindObjectOfType<HandMenuManager>();
+        _transitionManager = FindObjectOfType<TransitionManager>();
+
+        //_transitionManager.PrevSceneChanged += OnPrevSceneChanged;
+
+        EnableBackButton(false);
 
         _attachToControllerSolver = GetComponent<AttachToControllerSolver>();
         _attachToControllerSolver.TrackingLost += OnTrackingLost;
 
         _cameraTransform = Camera.main.transform;
     }
+
+    private void OnDestroy()
+    {
+        //_transitionManager.PrevSceneChanged -= OnPrevSceneChanged;
+    }
+
+    //private void OnPrevSceneChanged(GameObject prevSceneLoaded)
+    //{
+    //    // #TODO: Should probably be optimized by adding an event to the transition manager in every place where transitions happen
+    //    if (_transitionManager.PrevSceneLoaded != null && !_backButton.activeSelf)
+    //    {
+    //        EnableBackButton(true);
+    //    }
+    //    else
+    //    {
+    //        EnableBackButton(false);
+    //    }
+    //}
 
     private void Update()
     {
@@ -65,14 +94,17 @@ public class HandMenu : MonoBehaviour
         IsVisible = isVisible;
     }
 
+    private void EnableBackButton(bool enable)
+    {
+        //_backButton.SetActive(enable);
+    }
+
     private float CalculateAngle()
     {
         float angleCos = Vector3.Dot(transform.forward, _cameraTransform.forward);
 
         float angle = Mathf.Acos(angleCos);
         angle = angle * Mathf.Rad2Deg;
-
-        Debug.Log("angle = " + angle);
 
         return angle;
     }
