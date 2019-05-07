@@ -730,7 +730,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4299550562535978}
-  - component: {fileID: 114356065735471916}
   - component: {fileID: 114907465580918774}
   m_Layer: 0
   m_Name: Mars
@@ -752,22 +751,9 @@ Transform:
   m_Children:
   - {fileID: 4287634756020882}
   - {fileID: 4850165743045156}
-  - {fileID: 4611616170019480}
   m_Father: {fileID: 4154012133524900}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 25.19}
---- !u!114 &114356065735471916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1500584379286758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 225eddf64468e974792f73d1754e6538, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114907465580918774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -780,7 +766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a580c750e5b714daa419b43dfdd205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SemiMajorAxis: 1
+  SemiMajorAxis: 1.2
   SemiMajorAxisReal: 227939000
   Eccentricity: 0
   EccentricityReal: 0.0933146
@@ -879,64 +865,6 @@ MonoBehaviour:
   MinSizeRatio: 0.5
   MaxSizeRatio: 6
   LerpSpeed: 100
---- !u!1 &1565339609290930
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4611616170019480}
-  - component: {fileID: 114727713146506410}
-  - component: {fileID: 135659746974136582}
-  m_Layer: 5
-  m_Name: PlanetWideCollider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4611616170019480
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1565339609290930}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4299550562535978}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114727713146506410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1565339609290930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ef7214ec9abe1545a2aa777c722386f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  POI: {fileID: 3249706815278192456}
---- !u!135 &135659746974136582
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1565339609290930}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.01
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1780989332968608
 GameObject:
   m_ObjectHideFlags: 0
@@ -1292,6 +1220,8 @@ GameObject:
   - component: {fileID: 8418483845278690837}
   - component: {fileID: 7081570627356724627}
   - component: {fileID: 4163332159228259097}
+  - component: {fileID: 8303869871599941286}
+  - component: {fileID: 2481915693532229849}
   m_Layer: 0
   m_Name: force_grab_root
   m_TagString: Untagged
@@ -1382,6 +1312,31 @@ MonoBehaviour:
       PublicKeyToken=null
   planetAudioClip: {fileID: 8300000, guid: b716ef324b0efce489ae5b8e4b807eed, type: 3}
   planetAmbiantClip: {fileID: 8300000, guid: 41024565749345243b000aa8378a399b, type: 3}
+--- !u!114 &8303869871599941286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2168159995354372201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 225eddf64468e974792f73d1754e6538, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2481915693532229849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2168159995354372201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ef7214ec9abe1545a2aa777c722386f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  POI: {fileID: 3249706815278192456}
 --- !u!1 &4161151602156202380
 GameObject:
   m_ObjectHideFlags: 0

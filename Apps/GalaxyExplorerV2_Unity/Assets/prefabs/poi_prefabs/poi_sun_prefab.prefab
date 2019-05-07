@@ -2473,6 +2473,8 @@ GameObject:
   - component: {fileID: 1268481174482943301}
   - component: {fileID: 3503645891574481262}
   - component: {fileID: 5148172857946962726}
+  - component: {fileID: 9125657500812468928}
+  - component: {fileID: 1983949197335551634}
   m_Layer: 0
   m_Name: force_grab_root
   m_TagString: Untagged
@@ -2563,6 +2565,31 @@ MonoBehaviour:
       PublicKeyToken=null
   planetAudioClip: {fileID: 8300000, guid: 12abeba8db18116498aecf95f0fe7f78, type: 3}
   planetAmbiantClip: {fileID: 8300000, guid: 6dd662fd3cc154741a903ec1aea5b7dc, type: 3}
+--- !u!114 &9125657500812468928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4727278050112917802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 225eddf64468e974792f73d1754e6538, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1983949197335551634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4727278050112917802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ef7214ec9abe1545a2aa777c722386f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  POI: {fileID: 114644657789262512}
 --- !u!1 &5012415309349672624
 GameObject:
   m_ObjectHideFlags: 0
