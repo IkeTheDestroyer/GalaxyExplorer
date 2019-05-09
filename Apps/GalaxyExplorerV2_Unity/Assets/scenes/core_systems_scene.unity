@@ -2306,7 +2306,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _backButton
       value: 
-      objectReference: {fileID: 1452192459}
+      objectReference: {fileID: 0}
     - target: {fileID: 6805981639628589030, guid: 5bf3e80ceb200cd418107348c786b308,
         type: 3}
       propertyPath: _aboutSlate
@@ -2456,6 +2456,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_isInputParsingRequired
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5455098641145599052, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4431933272864609348, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7697546817199788667, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2082398707281990259, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5bf3e80ceb200cd418107348c786b308, type: 3}
@@ -3619,12 +3639,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1359961545}
   m_Mesh: {fileID: 4300000, guid: 04b57c39dbe4c8c4397ed760b042b9d4, type: 3}
---- !u!1 &1452192459 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6772288112037332194, guid: 5bf3e80ceb200cd418107348c786b308,
-    type: 3}
-  m_PrefabInstance: {fileID: 824967459}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1579602483
 GameObject:
   m_ObjectHideFlags: 0
@@ -6698,11 +6712,11 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1701178538}
+      objectReference: {fileID: 274355709}
     - target: {fileID: 327350185215152540, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadPrevScene
+      value: OnBackButtonPressed
       objectReference: {fileID: 0}
     - target: {fileID: 4804982966700648582, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
         type: 3}
