@@ -10,15 +10,13 @@ public class HandMenu : MonoBehaviour
     private GameObject _backButton;
 
     [SerializeField]
-    private AboutSlate _aboutSlate;
-
-    [SerializeField]
     private float _minShowingAngle = 135f;
 
     private AttachToControllerSolver _attachToControllerSolver;
     private HandMenuManager _handMenuManager;
     private ToolManager _toolManager;
     private TransitionManager _transitionManager;
+    private AboutSlate _aboutSlate;
 
     private float _currentAngle = 0f;
     private Transform _cameraTransform;
