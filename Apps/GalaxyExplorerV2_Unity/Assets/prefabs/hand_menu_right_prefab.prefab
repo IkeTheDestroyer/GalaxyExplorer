@@ -89,7 +89,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _menuParent: {fileID: 6793838486947976180}
   _backButton: {fileID: 4431933273317361098}
-  _aboutSlate: {fileID: 0}
   _minShowingAngle: 130
 --- !u!1001 &636656184833556551
 PrefabInstance:
@@ -158,65 +157,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7063602863815955004, guid: a02bea9ba5102f44294381b8c1835a10,
+    - target: {fileID: 5915390375683369774, guid: a02bea9ba5102f44294381b8c1835a10,
         type: 3}
-      propertyPath: m_Mesh
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7063602863815955010, guid: a02bea9ba5102f44294381b8c1835a10,
+      objectReference: {fileID: 6805981639628589030}
+    - target: {fileID: 5915390375683369774, guid: a02bea9ba5102f44294381b8c1835a10,
         type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 0
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnBackButtonPressed
       objectReference: {fileID: 0}
-    - target: {fileID: 7063602863815955010, guid: a02bea9ba5102f44294381b8c1835a10,
+    - target: {fileID: 379988934411332881, guid: a02bea9ba5102f44294381b8c1835a10,
         type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4855368730134991883, guid: a02bea9ba5102f44294381b8c1835a10,
-        type: 3}
-      propertyPath: m_Mesh
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2119694036519358696, guid: a02bea9ba5102f44294381b8c1835a10,
+      objectReference: {fileID: 6805981639628589030}
+    - target: {fileID: 379988934411332881, guid: a02bea9ba5102f44294381b8c1835a10,
         type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2119694036519358696, guid: a02bea9ba5102f44294381b8c1835a10,
-        type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3842899489989530627, guid: a02bea9ba5102f44294381b8c1835a10,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3842899489989530749, guid: a02bea9ba5102f44294381b8c1835a10,
-        type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3842899489989530749, guid: a02bea9ba5102f44294381b8c1835a10,
-        type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1455773160904970804, guid: a02bea9ba5102f44294381b8c1835a10,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5348279259049072343, guid: a02bea9ba5102f44294381b8c1835a10,
-        type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5348279259049072343, guid: a02bea9ba5102f44294381b8c1835a10,
-        type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 0
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnAboutButtonPressed
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a02bea9ba5102f44294381b8c1835a10, type: 3}

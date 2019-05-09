@@ -87,6 +87,11 @@ public class HandMenu : MonoBehaviour
         }
     }
 
+    public void OnBackButtonPressed()
+    {
+        _transitionManager.LoadPrevScene();
+    }
+
     private void OnTrackingLost()
     {
         if (IsVisible)
