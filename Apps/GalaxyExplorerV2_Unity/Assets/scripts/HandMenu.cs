@@ -18,6 +18,7 @@ public class HandMenu : MonoBehaviour
     private AttachToControllerSolver _attachToControllerSolver;
     private HandMenuManager _handMenuManager;
     private ToolManager _toolManager;
+    private TransitionManager _transitionManager;
 
     private float _currentAngle = 0f;
     private Transform _cameraTransform;
@@ -30,7 +31,7 @@ public class HandMenu : MonoBehaviour
         SetMenuVisibility(false);
 
         _handMenuManager = FindObjectOfType<HandMenuManager>();
-
+        _transitionManager = FindObjectOfType<TransitionManager>();
         _toolManager = FindObjectOfType<ToolManager>();
         _aboutSlate = FindObjectOfType<AboutSlate>();
 
@@ -51,6 +52,8 @@ public class HandMenu : MonoBehaviour
 
     private void Update()
     {
+        if (_transitionManager.IsInIntroFlow) { return; }
+
         if (_attachToControllerSolver.IsTracking)
         {
             _currentAngle = CalculateAngle();
