@@ -21,11 +21,11 @@
 Param(
     [Parameter(Mandatory=$true, Position=0)]
     [ValidateScript({ Test-Path $_ -PathType 'Leaf' })]
-    [ValidateScript({ (Get-Item $_ | select -Expand Extension) -eq ".vcxproj" })]
+    [ValidateScript({ (Get-Item $_ | Select-Object -Expand Extension) -eq ".vcxproj" })]
     [string] $Project,
     [Parameter(Mandatory=$true, Position=1)]
     [ValidateScript({ Test-Path $_ -PathType 'Leaf' })]
-    [ValidateScript({ (Get-Item $_ | select -Expand Extension) -eq ".glb" })]
+    [ValidateScript({ (Get-Item $_ | Select-Object -Expand Extension) -eq ".glb" })]
     [string] $Model,
     [Parameter(Mandatory=$false)]
     [switch] $Force
@@ -37,7 +37,7 @@ function Get-AppxManifestFromProject
     (
         [Parameter(Mandatory=$true, Position=0)]
         [ValidateScript({ Test-Path $_ -PathType 'Leaf' })]
-        [ValidateScript({ (Get-Item $_ | select -Expand Extension) -eq ".vcxproj" })]
+        [ValidateScript({ (Get-Item $_ | Select-Object -Expand Extension) -eq ".vcxproj" })]
         [string] $Project
     )
 
@@ -46,23 +46,24 @@ function Get-AppxManifestFromProject
     [xml]$xml = Get-Content $Project
     $Namespace = @{msbuildns = "http://schemas.microsoft.com/developer/msbuild/2003"}
     $manifest = $Null
-    $manifest = Select-Xml -Namespace $Namespace -XPath '/msbuildns:Project/msbuildns:ItemGroup/msbuildns:AppxManifest' -Xml $xml | % {
+    $manifest = Select-Xml -Namespace $Namespace -XPath '/msbuildns:Project/msbuildns:ItemGroup/msbuildns:AppxManifest' -Xml $xml | ForEach-Object {
         $relative = $_.Node.GetAttribute( "Include" )
         $base = [io.path]::GetDirectoryName($Project)
         $absolute = $base + "\" + $relative
 
         return $absolute
-    } | Select -First 1
+    } | Select-Object -First 1
     return $manifest
 }
 
-function Ensure-NoneItemDeploymentInProject
+# :TODO: Decide on naming, could maybe be "Set-", but then we get into the whole ShouldProcess discussion
+function Add-NoneItemDeploymentInProject
 {
     Param
     (
         [Parameter(Mandatory=$true, Position=0)]
         [ValidateScript({ Test-Path $_ -PathType 'Leaf' })]
-        [ValidateScript({ (Get-Item $_ | select -Expand Extension) -eq ".vcxproj" })]
+        [ValidateScript({ (Get-Item $_ | Select-Object -Expand Extension) -eq ".vcxproj" })]
         [string] $Project,
         [Parameter(Mandatory=$true, Position=1)]
         [string] $Item
@@ -73,19 +74,19 @@ function Ensure-NoneItemDeploymentInProject
     $itemNode = $Null
     [xml]$xml = Get-Content $Project
     $Namespace = @{msbuildns = "http://schemas.microsoft.com/developer/msbuild/2003"}
-    $itemNode = Select-Xml -Namespace $Namespace -XPath "/msbuildns:Project/msbuildns:ItemGroup/msbuildns:None[@Include='$Item']" -Xml $xml | % {
+    $itemNode = Select-Xml -Namespace $Namespace -XPath "/msbuildns:Project/msbuildns:ItemGroup/msbuildns:None[@Include='$Item']" -Xml $xml | ForEach-Object {
         Write-Debug "Found $Item"
         Write-Debug $_.Node.OuterXml
         return $_.Node
-    } | Select -First 1
+    } | Select-Object -First 1
 
     if( -Not $itemNode ) {
         # just create it
         Write-Debug "Creating item: $Item"
-        $otherNode = Select-Xml -Namespace $Namespace -XPath "/msbuildns:Project/msbuildns:ItemGroup/msbuildns:None" -Xml $xml | % {
+        $otherNode = Select-Xml -Namespace $Namespace -XPath "/msbuildns:Project/msbuildns:ItemGroup/msbuildns:None" -Xml $xml | ForEach-Object {
             Write-Debug $_.Node.OuterXml
             return $_.Node
-        } | Select -First 1
+        } | Select-Object -First 1
 
         $parent = $otherNode.ParentNode
         $itemNode = $parent.OwnerDocument.CreateElement("None", "http://schemas.microsoft.com/developer/msbuild/2003")
@@ -109,6 +110,8 @@ function Ensure-NoneItemDeploymentInProject
 
     $deploymentContent.InnerText = "true"
     $xml.Save( ( Resolve-Path $Project ) )
+
+    return $itemNode
 }
 
 
@@ -118,7 +121,7 @@ function Get-AssetsDirectoryFromProject
     (
         [Parameter(Mandatory=$true, Position=0)]
         [ValidateScript({ Test-Path $_ -PathType 'Leaf' })]
-        [ValidateScript({ (Get-Item $_ | select -Expand Extension) -eq ".vcxproj" })]
+        [ValidateScript({ (Get-Item $_ | Select-Object -Expand Extension) -eq ".vcxproj" })]
         [string] $Project
     )
 
@@ -137,11 +140,11 @@ function Add-ModelToProject
     (
          [Parameter(Mandatory=$true, Position=0)]
          [ValidateScript({ Test-Path $_ -PathType 'Leaf' })]
-         [ValidateScript({ (Get-Item $_ | select -Expand Extension) -eq ".vcxproj" })]
+         [ValidateScript({ (Get-Item $_ | Select-Object -Expand Extension) -eq ".vcxproj" })]
          [string] $Project,
          [Parameter(Mandatory=$true, Position=1)]
          [ValidateScript({ Test-Path $_ -PathType 'Leaf' })]
-         [ValidateScript({ (Get-Item $_ | select -Expand Extension) -eq ".glb" })]
+         [ValidateScript({ (Get-Item $_ | Select-Object -Expand Extension) -eq ".glb" })]
          [string] $Model,
          [Parameter(Mandatory=$false)]
          [boolean] $Force
@@ -163,8 +166,12 @@ function Add-ModelToProject
     Write-Debug "Copying $Model to $target"
     Copy-Item $Model -Destination $target
     Write-Debug "Returning '$item'"
-    $rc = Ensure-NoneItemDeploymentInProject -Project $Project -Item $item
+    $rc = Add-NoneItemDeploymentInProject -Project $Project -Item $item
 
+    if( -Not $rc ) {
+        Write-Warning "Could not create item in project"
+        return;
+    }
     Write-Debug "Returning '$item'"
     return $item
 }
@@ -175,7 +182,7 @@ function Add-MixedRealityModelToManifest
     (
         [Parameter(Mandatory=$true, Position=0)]
         [ValidateScript({ Test-Path $_ -PathType 'Leaf' })]
-        [ValidateScript({ (Get-Item $_ | select -Expand Extension) -eq ".appxmanifest" })]
+        [ValidateScript({ (Get-Item $_ | Select-Object -Expand Extension) -eq ".appxmanifest" })]
         [string] $Manifest,
         [Parameter(Mandatory=$true, Position=1)]
         [string] $Item
@@ -198,7 +205,7 @@ function Add-MixedRealityModelToManifest
             Write-Host "Adding 3DTile" -ForegroundColor Green
             # Note: Explicitly setting the correct XML namespace here, actually omits it from the XML which Visual Studio wants
             $mixedRealityModel = $defaultTile.OwnerDocument.CreateElement("uap5:MixedRealityModel", "http://schemas.microsoft.com/appx/manifest/uap/windows10/5")
-            
+
             $mixedRealityModel.SetAttribute("Path",$Item)
             Write-Host $mixedRealityModel.OuterXml
             $defaultTile.AppendChild($mixedRealityModel)
@@ -215,11 +222,11 @@ function Add-Project3dLauncher
     (
          [Parameter(Mandatory=$true, Position=0)]
          [ValidateScript({ Test-Path $_ -PathType 'Leaf' })]
-         [ValidateScript({ (Get-Item $_ | select -Expand Extension) -eq ".vcxproj" })]
+         [ValidateScript({ (Get-Item $_ | Select-Object -Expand Extension) -eq ".vcxproj" })]
          [string] $Project,
          [Parameter(Mandatory=$true, Position=1)]
          [ValidateScript({ Test-Path $_ -PathType 'Leaf' })]
-         [ValidateScript({ (Get-Item $_ | select -Expand Extension) -eq ".glb" })]
+         [ValidateScript({ (Get-Item $_ | Select-Object -Expand Extension) -eq ".glb" })]
          [string] $Model,
          [Parameter(Mandatory=$false)]
          [boolean] $Force
