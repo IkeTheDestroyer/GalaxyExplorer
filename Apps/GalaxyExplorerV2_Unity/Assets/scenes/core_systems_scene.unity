@@ -2302,6 +2302,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: hand_menu_right_prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 6805981639628589030, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: _backButton
+      value: 
+      objectReference: {fileID: 1452192459}
+    - target: {fileID: 6805981639628589030, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: _aboutSlate
+      value: 
+      objectReference: {fileID: 2026836266}
     - target: {fileID: 6805981638865192032, guid: 5bf3e80ceb200cd418107348c786b308,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2396,7 +2406,57 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2026836266}
+      objectReference: {fileID: 807026021}
+    - target: {fileID: 4203437423728104648, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnAboutButtonPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 6772288112591503875, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.025
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233111681218554433, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1701178538}
+    - target: {fileID: 4233111681218554433, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadPrevScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 8978851009602278235, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2490595286263273400, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2490595286263273400, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6772288111584122220, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6772288111584122130, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6772288111584122130, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5bf3e80ceb200cd418107348c786b308, type: 3}
 --- !u!1 &830273680
@@ -3559,6 +3619,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1359961545}
   m_Mesh: {fileID: 4300000, guid: 04b57c39dbe4c8c4397ed760b042b9d4, type: 3}
+--- !u!1 &1452192459 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6772288112037332194, guid: 5bf3e80ceb200cd418107348c786b308,
+    type: 3}
+  m_PrefabInstance: {fileID: 824967459}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1579602483
 GameObject:
   m_ObjectHideFlags: 0
@@ -6523,6 +6589,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: hand_menu_left_prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 4034836828939666573, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: _aboutSlate
+      value: 
+      objectReference: {fileID: 2026836266}
     - target: {fileID: 4034836827639400203, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6617,7 +6688,52 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2026836266}
+      objectReference: {fileID: 274355709}
+    - target: {fileID: 6041779676393625507, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnAboutButtonPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 327350185215152540, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1701178538}
+    - target: {fileID: 327350185215152540, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadPrevScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804982966700648582, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2064246016315681893, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2064246016315681893, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7190546351278288561, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7190546351278288591, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7190546351278288591, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538, type: 3}
 --- !u!1 &2010926472
@@ -6944,7 +7060,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2026836265
 MonoBehaviour:
   m_ObjectHideFlags: 0

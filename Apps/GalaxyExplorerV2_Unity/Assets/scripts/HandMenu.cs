@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using GalaxyExplorer;
 
 public class HandMenu : MonoBehaviour
 {
@@ -6,12 +7,21 @@ public class HandMenu : MonoBehaviour
     private GameObject _menuParent;
 
     [SerializeField]
+    private GameObject _backButton;
+
+    [SerializeField]
+    private AboutSlate _aboutSlate;
+
+    [SerializeField]
     private float _minShowingAngle = 135f;
 
     private AttachToControllerSolver _attachToControllerSolver;
     private HandMenuManager _handMenuManager;
+    private ToolManager _toolManager;
+
     private float _currentAngle = 0f;
     private Transform _cameraTransform;
+    private bool _aboutSlateIsEnabled = false;
 
     public bool IsVisible { get; private set; } = false;
 
@@ -21,10 +31,22 @@ public class HandMenu : MonoBehaviour
 
         _handMenuManager = FindObjectOfType<HandMenuManager>();
 
+        _toolManager = FindObjectOfType<ToolManager>();
+        _aboutSlate = FindObjectOfType<AboutSlate>();
+
+        _toolManager.BackButtonNeedsShowing += OnBackButtonNeedsToShow;
+
+        EnableBackButton(false);
+
         _attachToControllerSolver = GetComponent<AttachToControllerSolver>();
         _attachToControllerSolver.TrackingLost += OnTrackingLost;
 
         _cameraTransform = Camera.main.transform;
+    }
+
+    private void OnBackButtonNeedsToShow(bool show)
+    {
+        EnableBackButton(show);
     }
 
     private void Update()
@@ -50,6 +72,20 @@ public class HandMenu : MonoBehaviour
         }
     }
 
+    public void OnAboutButtonPressed()
+    {
+        if (!_aboutSlateIsEnabled)
+        {
+            _aboutSlate.Show();
+            _aboutSlateIsEnabled = true;
+        }
+        else
+        {
+            _aboutSlate.Hide();
+            _aboutSlateIsEnabled = false;
+        }
+    }
+
     private void OnTrackingLost()
     {
         if (IsVisible)
@@ -65,14 +101,17 @@ public class HandMenu : MonoBehaviour
         IsVisible = isVisible;
     }
 
+    private void EnableBackButton(bool enable)
+    {
+        _backButton.SetActive(enable);
+    }
+
     private float CalculateAngle()
     {
         float angleCos = Vector3.Dot(transform.forward, _cameraTransform.forward);
 
         float angle = Mathf.Acos(angleCos);
         angle = angle * Mathf.Rad2Deg;
-
-        Debug.Log("angle = " + angle);
 
         return angle;
     }

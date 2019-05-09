@@ -28,6 +28,10 @@ namespace GalaxyExplorer
         [HideInInspector]
         public bool ToolsVisible = false;
 
+        public delegate void BackButtonNeedsShowingEventHandler(bool show);
+
+        public event BackButtonNeedsShowingEventHandler BackButtonNeedsShowing;
+
         private bool locked = false;
         private ToolPanel panel;
 
@@ -75,6 +79,7 @@ namespace GalaxyExplorer
 
             ShowButton.SetActive(false);
             BackButton.SetActive(false);
+            OnBackButtonNeedsShowing(false);
 
             boundingBox = FindObjectOfType<BoundingBox>();
 
@@ -136,9 +141,18 @@ namespace GalaxyExplorer
 
                 // If there is previous scene then user is able to go back so activate the back button
                 BackButton?.SetActive(GalaxyExplorerManager.Instance.ViewLoaderScript.IsTherePreviousScene());
+                OnBackButtonNeedsShowing(GalaxyExplorerManager.Instance.ViewLoaderScript.IsTherePreviousScene());
             }
 
             yield return null;
+        }
+
+        private void OnBackButtonNeedsShowing(bool show)
+        {
+            if (BackButtonNeedsShowing != null)
+            {
+                BackButtonNeedsShowing(show);
+            }
         }
 
         // prevents tools from being accessed
