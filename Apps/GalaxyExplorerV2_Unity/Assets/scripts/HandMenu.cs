@@ -50,7 +50,7 @@ public class HandMenu : MonoBehaviour
 
     private void Update()
     {
-        if (_transitionManager.IsInIntroFlow) { return; }
+        if (_transitionManager.IsInIntroFlow || _transitionManager.InTransition) { return; }
 
         if (_attachToControllerSolver.IsTracking)
         {
