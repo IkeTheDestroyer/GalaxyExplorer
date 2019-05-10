@@ -20,7 +20,6 @@ public class HandMenu : MonoBehaviour
 
     private float _currentAngle = 0f;
     private Transform _cameraTransform;
-    private bool _aboutSlateIsEnabled = false;
 
     public bool IsVisible { get; private set; } = false;
 
@@ -75,16 +74,7 @@ public class HandMenu : MonoBehaviour
 
     public void OnAboutButtonPressed()
     {
-        if (!_aboutSlateIsEnabled)
-        {
-            _aboutSlate.Show();
-            _aboutSlateIsEnabled = true;
-        }
-        else
-        {
-            _aboutSlate.Hide();
-            _aboutSlateIsEnabled = false;
-        }
+        _aboutSlate.ButtonClicked();
     }
 
     public void OnBackButtonPressed()
