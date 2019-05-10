@@ -18,6 +18,8 @@ public class POIPlanetFocusManager : MonoBehaviour
         {
             forceSolver.SetToAttract.AddListener(OnSolverAttraction);
             forceSolver.SetToRoot.AddListener(OnSolverRoot);
+            forceSolver.SetToManipulate.AddListener(OnSolverManipulate);
+            forceSolver.SetToFree.AddListener(OnSolverFree);
         }
     }
 
@@ -36,6 +38,7 @@ public class POIPlanetFocusManager : MonoBehaviour
                 continue;
             }
             planetForceSolver.ResetToRoot();
+            planetForceSolver.EnableForce = false;
         }
     }
 
@@ -46,5 +49,36 @@ public class POIPlanetFocusManager : MonoBehaviour
         {
             _currentlyFocusedPlanet = null;
         }
+    }
+
+    public void OnSolverManipulate(ForceSolver solver)
+    {
+        if (solver == _currentlyFocusedPlanet)
+        {
+            return;
+        }
+        OnSolverAttraction(solver);
+    }
+
+    public void OnSolverFree(ForceSolver solver)
+    {
+        foreach (var planetForceSolver in _planetForceSolvers)
+        {
+            if (solver == planetForceSolver)
+            {
+                continue;
+            }
+            planetForceSolver.EnableForce = true;
+        }
+    }
+
+    public void ResetAllForseSolvers()
+    {
+        foreach (var planetForceSolver in _planetForceSolvers)
+        {
+            planetForceSolver.ResetToRoot();
+            planetForceSolver.EnableForce = true;
+        }
+        
     }
 }

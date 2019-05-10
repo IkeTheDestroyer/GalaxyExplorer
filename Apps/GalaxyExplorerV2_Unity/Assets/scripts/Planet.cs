@@ -18,7 +18,7 @@ namespace GalaxyExplorer
 
         public void OnPointerUp(MixedRealityPointerEventData eventData)
         {
-            if (POI != null)
+            if (POI != null && POI.isActiveAndEnabled)
             {
                 POI.OnPointerUp(eventData);
             }
@@ -26,7 +26,7 @@ namespace GalaxyExplorer
 
         public void OnPointerDown(MixedRealityPointerEventData eventData)
         {
-            if (POI != null)
+            if (POI != null && POI.isActiveAndEnabled)
             {
                 POI.OnPointerDown(eventData);
             }
@@ -34,7 +34,7 @@ namespace GalaxyExplorer
 
         public void OnPointerClicked(MixedRealityPointerEventData eventData)
         {
-            if (POI != null)
+            if (POI != null && POI.isActiveAndEnabled)
             {
                 POI.OnPointerClicked(eventData);
             }
@@ -42,7 +42,7 @@ namespace GalaxyExplorer
 
         public void OnBeforeFocusChange(FocusEventData eventData)
         {
-            if (POI != null)
+            if (POI != null && POI.isActiveAndEnabled)
             {
                 POI.OnBeforeFocusChange(eventData);
             }
@@ -50,7 +50,7 @@ namespace GalaxyExplorer
 
         public void OnFocusChanged(FocusEventData eventData)
         {
-            if (POI != null)
+            if (POI != null && POI.isActiveAndEnabled)
             {
                 POI.OnFocusChanged(eventData);
             }
@@ -58,7 +58,7 @@ namespace GalaxyExplorer
 
         public void OnFocusEnter(FocusEventData eventData)
         {
-            if (POI != null)
+            if (POI != null && POI.isActiveAndEnabled)
             {
                 POI.OnFocusEnter(eventData);
             }
@@ -66,7 +66,7 @@ namespace GalaxyExplorer
 
         public void OnFocusExit(FocusEventData eventData)
         {
-            if (POI != null)
+            if (POI != null && POI.isActiveAndEnabled)
             {
                 POI.OnFocusExit(eventData);
             }

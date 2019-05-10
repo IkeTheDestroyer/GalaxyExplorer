@@ -82,7 +82,7 @@ public class PlanetForceSolver : ForceSolver
                 break;
             case State.Free:
             case State.Manipulation:
-            case State.Rejection:
+            case State.None:
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

@@ -3,9 +3,11 @@
 [ExecuteInEditMode]
 public class PlanetOffsetScaleController : MonoBehaviour
 {
+    public static readonly int sunDiamterInKm = 1392000;
     public static readonly float TargetEditScaleCm = 30f;
-    public static readonly float TargetOrbitScaleToCm = 0.0215517241f;//this assures a sun diameter of 30cm
-    public static readonly float GlobalPlanetScaleFactor = 15f;
+    public static readonly float inAppSunDiameterInCm = 40f;
+    public static readonly float TargetOrbitScaleToCm = inAppSunDiameterInCm/sunDiamterInKm*1000;
+    public static readonly float GlobalPlanetScaleFactor = 10f;
     
     public float PlanetDiameterInKilometer = 1000f;
     public bool UseGlobalPlanetScaleFactor = true;

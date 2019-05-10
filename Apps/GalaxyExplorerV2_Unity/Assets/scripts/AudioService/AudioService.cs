@@ -59,6 +59,16 @@ public class AudioService : BaseExtensionService, IAudioService
         }
     }
 
+    public void PlayClip(AudioId audioId, out AudioSource playedSource, Transform target, float volume)
+    {
+        playedSource = null;
+        if (audioClipCache != null && audioClipCache.ContainsKey(audioId))
+        {
+            var audioInfo = audioClipCache[audioId];
+            PlayClip(audioInfo.clip, out playedSource, target, volume == -1 ? audioInfo.volume : volume);
+        }
+    }
+
     public void PlayClip(AudioClip clip, Transform target, float volume)
     {
         AudioSource source;

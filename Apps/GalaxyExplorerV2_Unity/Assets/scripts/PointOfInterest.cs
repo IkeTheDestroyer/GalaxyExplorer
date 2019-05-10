@@ -113,12 +113,12 @@ namespace GalaxyExplorer
                 IndicatorLine.points[1] = gameObject.transform;
                 IndicatorLine.material.color = IndicatorDefaultColor;
             }
-
-            audioService = MixedRealityToolkit.Instance.GetService<IAudioService>();
         }
 
         protected virtual void Start()
         {
+            audioService = MixedRealityToolkit.Instance.GetService<IAudioService>();
+            
             cardDescriptionAnimator = CardDescription.GetComponent<Animator>();
             CardDescriptionMaterial = CardDescription.GetComponent<MeshRenderer>().material;
 

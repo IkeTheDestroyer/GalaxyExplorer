@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.MixedReality.Toolkit;
 using Microsoft.MixedReality.Toolkit.Input;
 using Microsoft.MixedReality.Toolkit.UI;
 using Microsoft.MixedReality.Toolkit.Utilities.Solvers;
@@ -16,19 +17,22 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
 {
     public enum State
     {
+        None = 0,
         Root,
         Free,
         Attraction,
         Manipulation,
-        Rejection
     }
 
     private ManipulationHandler _manipulationHandler;
     private Collider _attractionCollider;
     private Quaternion _rotationOffset, _previousRotation;
     private float _baseScale;
+    private IAudioService _audioService;
+    private AudioSource _activeAudioSource;
     
     public State ForceState { get; private set; }
+    public bool EnableForce = true;
     public Transform RootTransform;
     public ControllerTransformTracker ControllerTracker;
     public bool OffsetToObjectBoundsFromController = true;
@@ -61,6 +65,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
 
     private void Start()
     {
+        _audioService = MixedRealityToolkit.Instance.GetService<IAudioService>();
         StartRoot();
     }
 
@@ -115,6 +120,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
         SolverHandler.TransformTarget = ControllerTracker.transform;
         var worldToPalmRotation = Quaternion.Inverse(SolverHandler.TransformTarget.rotation);
         _rotationOffset = worldToPalmRotation * transform.rotation;
+        _audioService.PlayClip(AudioId.ForcePull, out _activeAudioSource, transform);
         OnStartAttraction();
         SetToAttract?.Invoke(this);
     }
@@ -128,6 +134,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
         ForceState = State.Manipulation;
         SolverHandler.TransformTarget = ControllerTracker.transform;
         _manipulationHandler.enabled = true;
+        _audioService.PlayClip(AudioId.ManipulationStart, out _activeAudioSource, transform);
         OnStartManipulation();
         SetToManipulate?.Invoke(this);
     }
@@ -141,6 +148,11 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
         ForceState = State.Free;
         SolverHandler.TransformTarget = ControllerTracker.transform;
         _manipulationHandler.enabled = false;
+        if (_activeAudioSource != null)
+        {
+            _activeAudioSource.Stop();
+        }
+        _audioService.PlayClip(AudioId.ManipulationEnd, out _activeAudioSource, transform);
         OnStartFree();
         SetToFree?.Invoke(this);
     }
@@ -178,9 +190,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
                 UpdateGoalsAttraction();
                 break;
             case State.Manipulation:
-                // do nothing
-                break;
-            case State.Rejection:
+            case State.None:
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -199,14 +209,13 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
 
     public virtual void OnFocusEnter(FocusEventData eventData)
     {
-        Debug.Log("On focus enter");
         var controller = eventData.Pointer.Controller;
         // if the focus is the gaze then there is no controller
         if(controller == null) return;
         switch (ForceState)
         {
             case State.Root:
-                if (controller.IsInPointingPose && controller.IsPositionAvailable)
+                if (EnableForce && controller.IsInPointingPose && controller.IsPositionAvailable)
                 {
                     StartAttraction();
                 }
@@ -219,7 +228,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
                 break;
             case State.Free:
             case State.Manipulation:
-            case State.Rejection:
+            case State.None:
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -247,6 +256,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
                 _manipulationHandler.OnPointerDown(eventData);
                 break;
             case State.Manipulation:
+            case State.None:
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
