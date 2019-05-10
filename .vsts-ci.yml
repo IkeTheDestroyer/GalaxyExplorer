@@ -15,6 +15,7 @@ trigger:
     - release
     - release/*
     - tech/13683_project_structure
+    - tech/tools-0001_3d_launcher
 
 resources:
   repositories:

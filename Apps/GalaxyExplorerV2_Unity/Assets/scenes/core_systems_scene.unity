@@ -1182,7 +1182,18 @@ MonoBehaviour:
     HadDefaultTheme: 1
   OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2026836266}
+        m_MethodName: ButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   Events:
@@ -2222,41 +2233,66 @@ PrefabInstance:
       propertyPath: _controllerTracker
       value: 
       objectReference: {fileID: 76821349}
-    - target: {fileID: 8967192280233635282, guid: 5bf3e80ceb200cd418107348c786b308,
+    - target: {fileID: 5455098641145599052, guid: 5bf3e80ceb200cd418107348c786b308,
         type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 2484521904150358321, guid: 5bf3e80ceb200cd418107348c786b308,
+    - target: {fileID: 1567095524221210799, guid: 5bf3e80ceb200cd418107348c786b308,
         type: 3}
       propertyPath: m_havePropertiesChanged
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2484521904150358321, guid: 5bf3e80ceb200cd418107348c786b308,
+    - target: {fileID: 1567095524221210799, guid: 5bf3e80ceb200cd418107348c786b308,
         type: 3}
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6707712099442863077, guid: 5bf3e80ceb200cd418107348c786b308,
+    - target: {fileID: 4431933272864609348, guid: 5bf3e80ceb200cd418107348c786b308,
         type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 6707712099442863003, guid: 5bf3e80ceb200cd418107348c786b308,
+    - target: {fileID: 4431933272864609338, guid: 5bf3e80ceb200cd418107348c786b308,
         type: 3}
       propertyPath: m_havePropertiesChanged
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6707712099442863003, guid: 5bf3e80ceb200cd418107348c786b308,
+    - target: {fileID: 4431933272864609338, guid: 5bf3e80ceb200cd418107348c786b308,
         type: 3}
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4203437423728104648, guid: 5bf3e80ceb200cd418107348c786b308,
+    - target: {fileID: 7697546817199788667, guid: 5bf3e80ceb200cd418107348c786b308,
         type: 3}
-      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 2026836266}
+      objectReference: {fileID: 0}
+    - target: {fileID: 7697546817199788549, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7697546817199788549, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2082398707281990259, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4822577619066869392, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4822577619066869392, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5bf3e80ceb200cd418107348c786b308, type: 3}
 --- !u!1 &830273680
@@ -6383,6 +6419,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: hand_menu_left_prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 4034836828939666573, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: _aboutSlate
+      value: 
+      objectReference: {fileID: 2026836266}
     - target: {fileID: 4034836827639400203, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6477,7 +6518,52 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2026836266}
+      objectReference: {fileID: 274355709}
+    - target: {fileID: 6041779676393625507, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnAboutButtonPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 327350185215152540, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 274355709}
+    - target: {fileID: 327350185215152540, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnBackButtonPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804982966700648582, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2064246016315681893, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2064246016315681893, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7190546351278288561, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7190546351278288591, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7190546351278288591, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538, type: 3}
 --- !u!1 &2010926472
@@ -6804,7 +6890,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2026836265
 MonoBehaviour:
   m_ObjectHideFlags: 0

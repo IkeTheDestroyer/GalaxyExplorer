@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using GalaxyExplorer;
 
 public class HandMenu : MonoBehaviour
 {
@@ -6,10 +7,17 @@ public class HandMenu : MonoBehaviour
     private GameObject _menuParent;
 
     [SerializeField]
+    private GameObject _backButton;
+
+    [SerializeField]
     private float _minShowingAngle = 135f;
 
     private AttachToControllerSolver _attachToControllerSolver;
     private HandMenuManager _handMenuManager;
+    private ToolManager _toolManager;
+    private TransitionManager _transitionManager;
+    private AboutSlate _aboutSlate;
+
     private float _currentAngle = 0f;
     private Transform _cameraTransform;
 
@@ -20,6 +28,13 @@ public class HandMenu : MonoBehaviour
         SetMenuVisibility(false);
 
         _handMenuManager = FindObjectOfType<HandMenuManager>();
+        _transitionManager = FindObjectOfType<TransitionManager>();
+        _toolManager = FindObjectOfType<ToolManager>();
+        _aboutSlate = FindObjectOfType<AboutSlate>();
+
+        _toolManager.BackButtonNeedsShowing += OnBackButtonNeedsToShow;
+
+        EnableBackButton(false);
 
         _attachToControllerSolver = GetComponent<AttachToControllerSolver>();
         _attachToControllerSolver.TrackingLost += OnTrackingLost;
@@ -27,8 +42,15 @@ public class HandMenu : MonoBehaviour
         _cameraTransform = Camera.main.transform;
     }
 
+    private void OnBackButtonNeedsToShow(bool show)
+    {
+        EnableBackButton(show);
+    }
+
     private void Update()
     {
+        if (_transitionManager.IsInIntroFlow || _transitionManager.InTransition) { return; }
+
         if (_attachToControllerSolver.IsTracking)
         {
             _currentAngle = CalculateAngle();
@@ -50,6 +72,16 @@ public class HandMenu : MonoBehaviour
         }
     }
 
+    public void OnAboutButtonPressed()
+    {
+        _aboutSlate.ButtonClicked();
+    }
+
+    public void OnBackButtonPressed()
+    {
+        _transitionManager.LoadPrevScene();
+    }
+
     private void OnTrackingLost()
     {
         if (IsVisible)
@@ -65,14 +97,17 @@ public class HandMenu : MonoBehaviour
         IsVisible = isVisible;
     }
 
+    private void EnableBackButton(bool enable)
+    {
+        _backButton.SetActive(enable);
+    }
+
     private float CalculateAngle()
     {
         float angleCos = Vector3.Dot(transform.forward, _cameraTransform.forward);
 
         float angle = Mathf.Acos(angleCos);
         angle = angle * Mathf.Rad2Deg;
-
-        Debug.Log("angle = " + angle);
 
         return angle;
     }
