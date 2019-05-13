@@ -7,13 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: deimos_mars_moon_material
+  m_Name: mars_moons_material
   m_Shader: {fileID: 4800000, guid: 360dd7d855cc6d64fbfefade646c47b5, type: 3}
   m_ShaderKeywords: ALBEDO_ON ALPHA_USAGE_SPECULAR AMBIENTLIGHT_OFF EMISSIVE_OFF FRESNEL_COLOR
     LIGHTMAP_OFF LIGHTPROBES_OFF LIGHT_DIFFUSE_SPEC NORMAL_TEXTURE SHOW_OFF TINT_OFF
     VERTCOLOR_OFF _FOG_OFF
   m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
