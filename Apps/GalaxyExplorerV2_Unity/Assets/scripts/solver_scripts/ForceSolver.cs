@@ -1,8 +1,10 @@
 ﻿using System;
 using Microsoft.MixedReality.Toolkit;
 using Microsoft.MixedReality.Toolkit.Input;
+using Microsoft.MixedReality.Toolkit.Input.UnityInput;
 using Microsoft.MixedReality.Toolkit.UI;
 using Microsoft.MixedReality.Toolkit.Utilities.Solvers;
+using Microsoft.MixedReality.Toolkit.WindowsMixedReality.Input;
 using UnityEngine;
 using UnityEngine.Events;
 using Debug = UnityEngine.Debug;
@@ -30,6 +32,9 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
     private float _baseScale;
     private IAudioService _audioService;
     private AudioSource _activeAudioSource;
+    private bool _forcePullToFrontOfCamera;
+    private bool _forcePullToHandController => !_forcePullToFrontOfCamera;
+    private Camera _mainCamera;
     
     public State ForceState { get; private set; }
     public bool EnableForce = true;
@@ -39,12 +44,14 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
     public Vector3 OffsetFromCameraOnNoControllerPosition;
     public ManipulationHandler ManipulationHandler;
     public Collider AttractionCollider;
+    public float OffsetOnPullToCamera = 1f;
 
     public UnityForceSolverEvent SetToRoot, SetToAttract, SetToManipulate, SetToFree;
 
     protected override void Awake()
     {
         base.Awake();
+        _mainCamera = Camera.main;
         
         _manipulationHandler = ManipulationHandler ? ManipulationHandler : GetComponentInChildren<ManipulationHandler>();
         Debug.Assert(_manipulationHandler != null, "Force Solver failed to find a manipulation handler");
@@ -78,13 +85,43 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
     {
         GoalScale = SolverHandler.TransformTarget.localScale;
         GoalPosition = SolverHandler.TransformTarget.position;
-        if (OffsetToObjectBoundsFromController && !ControllerTracker.BothSides)
+        if (_forcePullToHandController && OffsetToObjectBoundsFromController && !ControllerTracker.BothSides)
         {
             GoalPosition += GetOffsetPositionFromController();
         }
-        GoalRotation = SolverHandler.TransformTarget.rotation * _rotationOffset;
+        if (_forcePullToHandController)
+        {
+            GoalRotation = SolverHandler.TransformTarget.rotation * _rotationOffset;
+            UpdateWorkingRotationToGoal();
+        }
         UpdateWorkingPositionToGoal();
-        UpdateWorkingRotationToGoal();
+
+        if (IsAttractionComplete())
+        {
+            StartFree();
+        }
+    }
+
+    private bool IsAttractionComplete()
+    {
+        if (_forcePullToHandController)
+        {
+            if (!ControllerTracker.BothSides)
+            {
+                return Vector3.Distance(transform.position, SolverHandler.TransformTarget.position) <=
+                       GetOffsetPositionFromController().magnitude;
+            }
+            else
+            {
+                //TODO implement check for when using both hands
+            }
+        }
+        else if (_forcePullToFrontOfCamera)
+        {
+            return Vector3.Distance(WorkingPosition, GoalPosition) <= 0.001f;
+        }
+
+        return false;
     }
 
     private Vector3 GetOffsetPositionFromController()
@@ -114,12 +151,23 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
     {
     }
 
-    private void StartAttraction()
+    private void StartAttraction(bool forcePullToFrontOfCamera=false)
     {
         ForceState = State.Attraction;
-        SolverHandler.TransformTarget = ControllerTracker.transform;
-        var worldToPalmRotation = Quaternion.Inverse(SolverHandler.TransformTarget.rotation);
-        _rotationOffset = worldToPalmRotation * transform.rotation;
+        if (forcePullToFrontOfCamera)
+        {
+            _forcePullToFrontOfCamera = true;
+            SolverHandler.TransformTarget = _mainCamera.transform;
+            SolverHandler.AdditionalOffset = Vector3.forward * OffsetOnPullToCamera;
+        }
+        else
+        {
+            _forcePullToFrontOfCamera = false;
+            SolverHandler.TransformTarget = ControllerTracker.transform;
+            SolverHandler.AdditionalOffset = Vector3.zero;
+            var worldToPalmRotation = Quaternion.Inverse(SolverHandler.TransformTarget.rotation);
+            _rotationOffset = worldToPalmRotation * transform.rotation;
+        }
         _audioService.PlayClip(AudioId.ForcePull, out _activeAudioSource, transform);
         OnStartAttraction();
         SetToAttract?.Invoke(this);
@@ -248,7 +296,13 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
         switch (ForceState)
         {
             case State.Root:
-                StartAttraction();
+                var controller = eventData.Pointer.Controller;
+                var isGgvOrDesktop = 
+                        controller is WindowsMixedRealityGGVHand ||
+                        controller is MouseController ||
+                        controller is SimulatedArticulatedHand
+                    ;
+                StartAttraction(isGgvOrDesktop);
                 break;
             case State.Attraction:
             case State.Free:
