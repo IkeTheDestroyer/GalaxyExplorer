@@ -33,7 +33,7 @@ namespace GalaxyExplorer
         {
             base.Start();
 
-            Collider[] allPlanetCollders = (Planet) ? Planet.GetComponentsInChildren<Collider>() : null;
+            Collider[] allPlanetCollders = (Planet) ? Planet.GetComponentsInChildren<Collider>() : new Collider[]{};
             foreach (var item in allPlanetCollders)
             {
                 allPoiColliders.Add(item);

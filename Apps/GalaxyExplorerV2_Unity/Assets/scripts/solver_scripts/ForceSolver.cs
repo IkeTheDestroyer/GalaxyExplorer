@@ -1,29 +1,38 @@
 ﻿using System;
-using System.Diagnostics;
+using Microsoft.MixedReality.Toolkit;
 using Microsoft.MixedReality.Toolkit.Input;
 using Microsoft.MixedReality.Toolkit.UI;
 using Microsoft.MixedReality.Toolkit.Utilities.Solvers;
-using Microsoft.MixedReality.Toolkit.WindowsMixedReality.Input;
 using UnityEngine;
 using UnityEngine.Events;
 using Debug = UnityEngine.Debug;
+
+
+[Serializable]
+public class UnityForceSolverEvent : UnityEvent<ForceSolver>
+{
+}
 
 public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPointerHandler
 {
     public enum State
     {
+        None = 0,
         Root,
         Free,
         Attraction,
         Manipulation,
-        Rejection
     }
 
     private ManipulationHandler _manipulationHandler;
     private Collider _attractionCollider;
     private Quaternion _rotationOffset, _previousRotation;
+    private float _baseScale;
+    private IAudioService _audioService;
+    private AudioSource _activeAudioSource;
     
     public State ForceState { get; private set; }
+    public bool EnableForce = true;
     public Transform RootTransform;
     public ControllerTransformTracker ControllerTracker;
     public bool OffsetToObjectBoundsFromController = true;
@@ -31,15 +40,15 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
     public ManipulationHandler ManipulationHandler;
     public Collider AttractionCollider;
 
-    public UnityEvent SetToRoot, SetToAttract, SetToManipulate, SetToFree;
+    public UnityForceSolverEvent SetToRoot, SetToAttract, SetToManipulate, SetToFree;
 
     protected override void Awake()
     {
         base.Awake();
         
-        _manipulationHandler = ManipulationHandler ?? GetComponentInChildren<ManipulationHandler>();
+        _manipulationHandler = ManipulationHandler ? ManipulationHandler : GetComponentInChildren<ManipulationHandler>();
         Debug.Assert(_manipulationHandler != null, "Force Solver failed to find a manipulation handler");
-        _attractionCollider = AttractionCollider ?? GetComponentInChildren<Collider>();
+        _attractionCollider = AttractionCollider ? AttractionCollider : GetComponentInChildren<Collider>();
         Debug.Assert(_attractionCollider != null, "Force Solver failed to find a attraction collider");
         
         _manipulationHandler.OnManipulationEnded.AddListener(OnManipulationEnd);
@@ -56,6 +65,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
 
     private void Start()
     {
+        _audioService = MixedRealityToolkit.Instance.GetService<IAudioService>();
         StartRoot();
     }
 
@@ -73,23 +83,35 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
             GoalPosition += GetOffsetPositionFromController();
         }
         GoalRotation = SolverHandler.TransformTarget.rotation * _rotationOffset;
-        UpdateWorkingToGoal();
+        UpdateWorkingPositionToGoal();
+        UpdateWorkingRotationToGoal();
     }
 
     private Vector3 GetOffsetPositionFromController()
     {
         var controllerFwd = ControllerTracker.transform.forward;
-        var ray = new Ray(transform.position-controllerFwd*100, controllerFwd);
+        var position = transform.position;
+        var ray = new Ray(position-controllerFwd*100, controllerFwd);
         var hit = _attractionCollider.Raycast(ray, out var hitInfo, 150);
         Debug.Assert(hit);
-        return transform.position - hitInfo.point;
+        return position - hitInfo.point;
     }
 
     private void StartRoot()
     {
+        if (ForceState == State.Root)
+        {
+            return;
+        }
         ForceState = State.Root;
         _manipulationHandler.enabled = false;
-        SetToRoot?.Invoke();
+        SolverHandler.TransformTarget = RootTransform;
+        OnStartRoot();
+        SetToRoot?.Invoke(this);
+    }
+
+    protected virtual void OnStartRoot()
+    {
     }
 
     private void StartAttraction()
@@ -98,21 +120,45 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
         SolverHandler.TransformTarget = ControllerTracker.transform;
         var worldToPalmRotation = Quaternion.Inverse(SolverHandler.TransformTarget.rotation);
         _rotationOffset = worldToPalmRotation * transform.rotation;
-        SetToAttract?.Invoke();
+        _audioService.PlayClip(AudioId.ForcePull, out _activeAudioSource, transform);
+        OnStartAttraction();
+        SetToAttract?.Invoke(this);
+    }
+    
+    protected virtual void OnStartAttraction()
+    {
     }
 
     private void StartManipulation()
     {
         ForceState = State.Manipulation;
+        SolverHandler.TransformTarget = ControllerTracker.transform;
         _manipulationHandler.enabled = true;
-        SetToManipulate?.Invoke();
+        _audioService.PlayClip(AudioId.ManipulationStart, out _activeAudioSource, transform);
+        OnStartManipulation();
+        SetToManipulate?.Invoke(this);
+    }
+    
+    protected virtual void OnStartManipulation()
+    {
     }
 
     private void StartFree()
     {
         ForceState = State.Free;
+        SolverHandler.TransformTarget = ControllerTracker.transform;
         _manipulationHandler.enabled = false;
-        SetToFree?.Invoke();
+        if (_activeAudioSource != null)
+        {
+            _activeAudioSource.Stop();
+        }
+        _audioService.PlayClip(AudioId.ManipulationEnd, out _activeAudioSource, transform);
+        OnStartFree();
+        SetToFree?.Invoke(this);
+    }
+    
+    protected virtual void OnStartFree()
+    {
     }
     
     private void OnManipulationEnd(ManipulationEventData _)
@@ -144,9 +190,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
                 UpdateGoalsAttraction();
                 break;
             case State.Manipulation:
-                // do nothing
-                break;
-            case State.Rejection:
+            case State.None:
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -163,7 +207,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
         throw new System.NotImplementedException();
     }
 
-    public void OnFocusEnter(FocusEventData eventData)
+    public virtual void OnFocusEnter(FocusEventData eventData)
     {
         var controller = eventData.Pointer.Controller;
         // if the focus is the gaze then there is no controller
@@ -171,8 +215,10 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
         switch (ForceState)
         {
             case State.Root:
-                if (controller == null || !controller.IsInPointingPose || !controller.IsPositionAvailable) return;
-                StartAttraction();
+                if (EnableForce && controller.IsInPointingPose && controller.IsPositionAvailable)
+                {
+                    StartAttraction();
+                }
                 break;
             case State.Attraction:
                 if (!controller.IsInPointingPose)
@@ -182,14 +228,14 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
                 break;
             case State.Free:
             case State.Manipulation:
-            case State.Rejection:
+            case State.None:
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
     }
 
-    public void OnFocusExit(FocusEventData eventData)
+    public virtual void OnFocusExit(FocusEventData eventData)
     {
     }
 
@@ -208,6 +254,9 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
             case State.Free:
                 StartManipulation();
                 _manipulationHandler.OnPointerDown(eventData);
+                break;
+            case State.Manipulation:
+            case State.None:
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
