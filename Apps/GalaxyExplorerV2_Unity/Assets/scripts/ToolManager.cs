@@ -28,12 +28,26 @@ namespace GalaxyExplorer
         [HideInInspector]
         public bool ToolsVisible = false;
 
+        private POIPlanetFocusManager POIPlanetFocusManager
+        {
+            get
+            {
+                if (_pOIPlanetFocusManager == null)
+                {
+                    _pOIPlanetFocusManager = FindObjectOfType<POIPlanetFocusManager>();
+                }
+
+                return _pOIPlanetFocusManager;
+            }
+        }
+
         public delegate void BackButtonNeedsShowingEventHandler(bool show);
 
         public event BackButtonNeedsShowingEventHandler BackButtonNeedsShowing;
 
         private bool locked = false;
         private ToolPanel panel;
+        private POIPlanetFocusManager _pOIPlanetFocusManager;
 
         //        private List<GEInteractiveToggle> allButtons = new List<GEInteractiveToggle>();
         private List<Collider> allButtonColliders = new List<Collider>();
@@ -79,6 +93,7 @@ namespace GalaxyExplorer
 
             ShowButton.SetActive(false);
             BackButton.SetActive(false);
+            ResetButton.SetActive(false);
             OnBackButtonNeedsShowing(false);
 
             boundingBox = FindObjectOfType<BoundingBox>();
@@ -99,6 +114,20 @@ namespace GalaxyExplorer
 #endif
         }
 
+        private void Update()
+        {
+            if (POIPlanetFocusManager != null && !ResetButton.activeInHierarchy)
+            {
+                // When the POIPlanetFocusManager is present in the currently loaded scenes, this means we are in the solar system and the reset button should be visible
+                ResetButton.SetActive(true);
+            }
+            else if (POIPlanetFocusManager == null && ResetButton.activeInHierarchy)
+            {
+                // When the POIPlanetFocusManager isn't present in the currently loaded scenes, this means we're not in the solar system and the reset button shouldn't show up
+                ResetButton.SetActive(false);
+            }
+        }
+
         public void OnSceneIsLoaded()
         {
             StartCoroutine(OnSceneIsLoadedCoroutine());
@@ -106,7 +135,14 @@ namespace GalaxyExplorer
 
         private void OnSceneReset()
         {
-            //            ResetButton.OnDeselection?.Invoke();
+            if (POIPlanetFocusManager)
+            {
+                _pOIPlanetFocusManager.ResetAllForseSolvers();
+            }
+            else
+            {
+                Debug.Log("No POIPlanetFocusManager found in currently loaded scenes");
+            }
         }
 
         // Callback when a new scene is requested to be loaded

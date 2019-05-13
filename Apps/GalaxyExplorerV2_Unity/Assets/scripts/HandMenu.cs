@@ -46,7 +46,6 @@ public class HandMenu : MonoBehaviour
 
         _handMenuManager = FindObjectOfType<HandMenuManager>();
         _transitionManager = FindObjectOfType<TransitionManager>();
-        _pOIPlanetFocusManager = FindObjectOfType<POIPlanetFocusManager>();
         _toolManager = FindObjectOfType<ToolManager>();
         _aboutSlate = FindObjectOfType<AboutSlate>();
 

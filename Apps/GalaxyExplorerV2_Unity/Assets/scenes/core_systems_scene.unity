@@ -4291,7 +4291,7 @@ MonoBehaviour:
   BackButton: {fileID: 1642965381}
   ShowButton: {fileID: 1177703200}
   HideButton: {fileID: 307842271}
-  ResetButton: {fileID: 0}
+  ResetButton: {fileID: 2098339872}
   MinZoom: 0.15
   LargestZoom: 3
   toolsOpacityChange:
@@ -4398,7 +4398,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1642965382}
   - component: {fileID: 1642965384}
-  - component: {fileID: 1642965386}
   - component: {fileID: 1642965383}
   - component: {fileID: 1642965385}
   m_Layer: 5
@@ -4685,20 +4684,6 @@ BoxCollider:
   m_Size: {x: 0.2, y: 0.16, z: 0.01}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1642965385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1642965381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2acad24591a3903429b129830e512a07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onFocus: 1
-  onClick: 2
---- !u!114 &1642965386
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7059,7 +7044,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2098339873}
   - component: {fileID: 2098339876}
-  - component: {fileID: 2098339875}
+  - component: {fileID: 2098339874}
   - component: {fileID: 2098339877}
   m_Layer: 5
   m_Name: Reset
@@ -7085,7 +7070,7 @@ Transform:
   m_Father: {fileID: 392308216}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2098339875
+--- !u!114 &2098339874
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7121,12 +7106,12 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   Events:
-  - Name: OnPress
+  - Name: OnClick
     Event:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1701178538}
-          m_MethodName: ResetMRSceneToOrigin
+        - m_Target: {fileID: 2026836266}
+          m_MethodName: ButtonClicked
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7136,7 +7121,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 387264275}
+        - m_Target: {fileID: 1654972568}
           m_MethodName: SetActive
           m_Mode: 6
           m_Arguments:
@@ -7147,7 +7132,52 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 512287431}
+        - m_Target: {fileID: 1885843401}
+          m_MethodName: set_material
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 2100000, guid: a5ab49ecb1917c34f926d3985442e885,
+              type: 2}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    ClassName: InteractableOnClickReceiver
+    AssemblyQualifiedName: Microsoft.MixedReality.Toolkit.UI.InteractableOnClickReceiver,
+      Microsoft.MixedReality.Toolkit.SDK
+    Settings: []
+    HideUnityEvents: 0
+  - Name: OnPress
+    Event:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2026836266}
+          m_MethodName: ButtonClicked
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1654972568}
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1885843401}
           m_MethodName: set_material
           m_Mode: 2
           m_Arguments:
@@ -7162,7 +7192,8 @@ MonoBehaviour:
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     ClassName: InteractableOnPressReceiver
-    AssemblyQualifiedName: 
+    AssemblyQualifiedName: Microsoft.MixedReality.Toolkit.UI.InteractableOnPressReceiver,
+      Microsoft.MixedReality.Toolkit.SDK
     Settings:
     - Type: 18
       Label: On Release
@@ -7200,7 +7231,7 @@ MonoBehaviour:
     Event:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 387264275}
+        - m_Target: {fileID: 1654972568}
           m_MethodName: SetActive
           m_Mode: 6
           m_Arguments:
@@ -7211,7 +7242,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
-        - m_Target: {fileID: 512287431}
+        - m_Target: {fileID: 1885843401}
           m_MethodName: set_material
           m_Mode: 2
           m_Arguments:
@@ -7221,12 +7252,13 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
-            m_BoolArgument: 1
+            m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     ClassName: InteractableOnFocusReceiver
-    AssemblyQualifiedName: 
+    AssemblyQualifiedName: Microsoft.MixedReality.Toolkit.UI.InteractableOnFocusReceiver,
+      Microsoft.MixedReality.Toolkit.SDK
     Settings:
     - Type: 18
       Label: On Focus Off
@@ -7256,7 +7288,7 @@ MonoBehaviour:
       EventValue:
         m_PersistentCalls:
           m_Calls:
-          - m_Target: {fileID: 387264275}
+          - m_Target: {fileID: 1654972568}
             m_MethodName: SetActive
             m_Mode: 6
             m_Arguments:
@@ -7267,7 +7299,7 @@ MonoBehaviour:
               m_StringArgument: 
               m_BoolArgument: 0
             m_CallState: 2
-          - m_Target: {fileID: 512287431}
+          - m_Target: {fileID: 1885843401}
             m_MethodName: set_material
             m_Mode: 2
             m_Arguments:
