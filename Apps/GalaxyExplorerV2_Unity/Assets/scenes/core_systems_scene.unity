@@ -800,7 +800,7 @@ GameObject:
   - component: {fileID: 322439613}
   - component: {fileID: 322439612}
   m_Layer: 5
-  m_Name: UI
+  m_Name: ui_about
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1006,7 +1006,7 @@ GameObject:
   - component: {fileID: 387264278}
   - component: {fileID: 387264277}
   m_Layer: 5
-  m_Name: Tooltip
+  m_Name: tooltip_reset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1201,8 +1201,8 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 1654972568}
-          m_MethodName: SetActive
+        - m_Target: {fileID: 2010926472}
+          m_MethodName: 
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1246,8 +1246,8 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 1654972568}
-          m_MethodName: SetActive
+        - m_Target: {fileID: 322439610}
+          m_MethodName: 
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1311,8 +1311,8 @@ MonoBehaviour:
     Event:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1654972568}
-          m_MethodName: SetActive
+        - m_Target: {fileID: 2010926472}
+          m_MethodName: 
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1368,8 +1368,8 @@ MonoBehaviour:
       EventValue:
         m_PersistentCalls:
           m_Calls:
-          - m_Target: {fileID: 1654972568}
-            m_MethodName: SetActive
+          - m_Target: {fileID: 2010926472}
+            m_MethodName: 
             m_Mode: 6
             m_Arguments:
               m_ObjectArgument: {fileID: 0}
@@ -1577,7 +1577,7 @@ GameObject:
   - component: {fileID: 512287432}
   - component: {fileID: 512287431}
   m_Layer: 5
-  m_Name: UI
+  m_Name: ui_reset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4476,7 +4476,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 1654972568}
-          m_MethodName: SetActive
+          m_MethodName: 
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4521,7 +4521,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 1654972568}
-          m_MethodName: SetActive
+          m_MethodName: 
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4586,7 +4586,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1654972568}
-          m_MethodName: SetActive
+          m_MethodName: 
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4643,7 +4643,7 @@ MonoBehaviour:
         m_PersistentCalls:
           m_Calls:
           - m_Target: {fileID: 1654972568}
-            m_MethodName: SetActive
+            m_MethodName: 
             m_Mode: 6
             m_Arguments:
               m_ObjectArgument: {fileID: 0}
@@ -4710,7 +4710,7 @@ GameObject:
   - component: {fileID: 1654972571}
   - component: {fileID: 1654972570}
   m_Layer: 5
-  m_Name: Tooltip
+  m_Name: tooltip_back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6089,7 +6089,7 @@ GameObject:
   - component: {fileID: 1885843402}
   - component: {fileID: 1885843401}
   m_Layer: 5
-  m_Name: UI
+  m_Name: ui_back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6650,7 +6650,7 @@ GameObject:
   - component: {fileID: 2010926475}
   - component: {fileID: 2010926474}
   m_Layer: 5
-  m_Name: Tooltip
+  m_Name: tooltip_about
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7121,8 +7121,8 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 1654972568}
-          m_MethodName: SetActive
+        - m_Target: {fileID: 387264275}
+          m_MethodName: 
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7166,8 +7166,8 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 1654972568}
-          m_MethodName: SetActive
+        - m_Target: {fileID: 387264275}
+          m_MethodName: 
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7231,8 +7231,8 @@ MonoBehaviour:
     Event:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1654972568}
-          m_MethodName: SetActive
+        - m_Target: {fileID: 387264275}
+          m_MethodName: 
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7288,8 +7288,8 @@ MonoBehaviour:
       EventValue:
         m_PersistentCalls:
           m_Calls:
-          - m_Target: {fileID: 1654972568}
-            m_MethodName: SetActive
+          - m_Target: {fileID: 387264275}
+            m_MethodName: 
             m_Mode: 6
             m_Arguments:
               m_ObjectArgument: {fileID: 0}
