@@ -1969,7 +1969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc7fd33c57d694994b0ab9f33fcdcbea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Fullscreen @ Camera
+  Name: Fullscreen @ main_camera_prefab
   type: 0
   _camera: {fileID: 318198838}
 --- !u!114 &736967547
@@ -2325,6 +2325,31 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4822577619066869392, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6282906020206743122, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 807026021}
+    - target: {fileID: 6282906020206743122, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnResetButtonPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 410148481042204809, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1168360044959780677, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1168360044959780677, guid: 5bf3e80ceb200cd418107348c786b308,
         type: 3}
       propertyPath: m_isInputParsingRequired
       value: 1
@@ -6596,6 +6621,31 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7190546351278288591, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 682802935904482471, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 274355709}
+    - target: {fileID: 682802935904482471, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnResetButtonPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 6627525987088724604, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656038854196360624, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656038854196360624, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
         type: 3}
       propertyPath: m_isInputParsingRequired
       value: 1
