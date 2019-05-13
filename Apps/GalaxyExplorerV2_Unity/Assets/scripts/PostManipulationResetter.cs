@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using Leap.Unity.Attributes;
 using Microsoft.MixedReality.Toolkit.UI;
 using UnityEngine;
 
