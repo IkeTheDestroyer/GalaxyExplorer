@@ -10,12 +10,29 @@ public class HandMenu : MonoBehaviour
     private GameObject _backButton;
 
     [SerializeField]
+    private GameObject _resetButton;
+
+    [SerializeField]
     private float _minShowingAngle = 135f;
+
+    private POIPlanetFocusManager POIPlanetFocusManager
+    {
+        get
+        {
+            if (_pOIPlanetFocusManager == null)
+            {
+                _pOIPlanetFocusManager = FindObjectOfType<POIPlanetFocusManager>();
+            }
+
+            return _pOIPlanetFocusManager;
+        }
+    }
 
     private AttachToControllerSolver _attachToControllerSolver;
     private HandMenuManager _handMenuManager;
     private ToolManager _toolManager;
     private TransitionManager _transitionManager;
+    private POIPlanetFocusManager _pOIPlanetFocusManager;
     private AboutSlate _aboutSlate;
 
     private float _currentAngle = 0f;
@@ -34,7 +51,7 @@ public class HandMenu : MonoBehaviour
 
         _toolManager.BackButtonNeedsShowing += OnBackButtonNeedsToShow;
 
-        EnableBackButton(false);
+        _backButton.SetActive(false);
 
         _attachToControllerSolver = GetComponent<AttachToControllerSolver>();
         _attachToControllerSolver.TrackingLost += OnTrackingLost;
@@ -44,7 +61,7 @@ public class HandMenu : MonoBehaviour
 
     private void OnBackButtonNeedsToShow(bool show)
     {
-        EnableBackButton(show);
+        _backButton.SetActive(show);
     }
 
     private void Update()
@@ -70,6 +87,17 @@ public class HandMenu : MonoBehaviour
                 _handMenuManager.PlayMenuAudio(_menuParent.transform.position, MenuStates.Disappearing);
             }
         }
+
+        if (POIPlanetFocusManager != null && !_resetButton.activeInHierarchy)
+        {
+            // When the POIPlanetFocusManager is present in the currently loaded scenes, this means we are in the solar system and the reset button should be visible
+            _resetButton.SetActive(true);
+        }
+        else if (POIPlanetFocusManager == null && _resetButton.activeInHierarchy)
+        {
+            // When the POIPlanetFocusManager isn't present in the currently loaded scenes, this means we're not in the solar system and the reset button shouldn't show up
+            _resetButton.SetActive(false);
+        }
     }
 
     public void OnAboutButtonPressed()
@@ -80,6 +108,18 @@ public class HandMenu : MonoBehaviour
     public void OnBackButtonPressed()
     {
         _transitionManager.LoadPrevScene();
+    }
+
+    public void OnResetButtonPressed()
+    {
+        if (POIPlanetFocusManager)
+        {
+            _pOIPlanetFocusManager.ResetAllForseSolvers();
+        }
+        else
+        {
+            Debug.Log("No POIPlanetFocusManager found in currently loaded scenes");
+        }
     }
 
     private void OnTrackingLost()
@@ -95,11 +135,6 @@ public class HandMenu : MonoBehaviour
     {
         _menuParent.SetActive(isVisible);
         IsVisible = isVisible;
-    }
-
-    private void EnableBackButton(bool enable)
-    {
-        _backButton.SetActive(enable);
     }
 
     private float CalculateAngle()

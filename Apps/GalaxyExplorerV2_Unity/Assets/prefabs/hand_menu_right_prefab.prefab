@@ -89,6 +89,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _menuParent: {fileID: 6793838486947976180}
   _backButton: {fileID: 4431933273317361098}
+  _resetButton: {fileID: 4240988890876204980}
   _minShowingAngle: 130
 --- !u!1001 &636656184833556551
 PrefabInstance:
@@ -177,6 +178,21 @@ PrefabInstance:
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnAboutButtonPressed
       objectReference: {fileID: 0}
+    - target: {fileID: 965169670407620814, guid: a02bea9ba5102f44294381b8c1835a10,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3842899489989530627, guid: a02bea9ba5102f44294381b8c1835a10,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7063602863815955004, guid: a02bea9ba5102f44294381b8c1835a10,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a02bea9ba5102f44294381b8c1835a10, type: 3}
 --- !u!1 &6793838486947976180 stripped
@@ -194,6 +210,12 @@ Transform:
 --- !u!1 &4431933273317361098 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3842899490610578829, guid: a02bea9ba5102f44294381b8c1835a10,
+    type: 3}
+  m_PrefabInstance: {fileID: 636656184833556551}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4240988890876204980 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3607066094499698675, guid: a02bea9ba5102f44294381b8c1835a10,
     type: 3}
   m_PrefabInstance: {fileID: 636656184833556551}
   m_PrefabAsset: {fileID: 0}

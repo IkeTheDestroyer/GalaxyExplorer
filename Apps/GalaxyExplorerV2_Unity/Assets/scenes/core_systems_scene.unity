@@ -800,7 +800,7 @@ GameObject:
   - component: {fileID: 322439613}
   - component: {fileID: 322439612}
   m_Layer: 5
-  m_Name: UI
+  m_Name: ui_about
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1006,7 +1006,7 @@ GameObject:
   - component: {fileID: 387264278}
   - component: {fileID: 387264277}
   m_Layer: 5
-  m_Name: Tooltip
+  m_Name: tooltip_reset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1201,8 +1201,8 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 1654972568}
-          m_MethodName: SetActive
+        - m_Target: {fileID: 2010926472}
+          m_MethodName: 
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1212,7 +1212,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 1885843401}
+        - m_Target: {fileID: 322439612}
           m_MethodName: set_material
           m_Mode: 2
           m_Arguments:
@@ -1246,8 +1246,8 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 1654972568}
-          m_MethodName: SetActive
+        - m_Target: {fileID: 322439610}
+          m_MethodName: 
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1257,7 +1257,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 1885843401}
+        - m_Target: {fileID: 322439612}
           m_MethodName: set_material
           m_Mode: 2
           m_Arguments:
@@ -1311,8 +1311,8 @@ MonoBehaviour:
     Event:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1654972568}
-          m_MethodName: SetActive
+        - m_Target: {fileID: 2010926472}
+          m_MethodName: 
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1322,7 +1322,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
-        - m_Target: {fileID: 1885843401}
+        - m_Target: {fileID: 322439612}
           m_MethodName: set_material
           m_Mode: 2
           m_Arguments:
@@ -1368,8 +1368,8 @@ MonoBehaviour:
       EventValue:
         m_PersistentCalls:
           m_Calls:
-          - m_Target: {fileID: 1654972568}
-            m_MethodName: SetActive
+          - m_Target: {fileID: 2010926472}
+            m_MethodName: 
             m_Mode: 6
             m_Arguments:
               m_ObjectArgument: {fileID: 0}
@@ -1379,7 +1379,7 @@ MonoBehaviour:
               m_StringArgument: 
               m_BoolArgument: 0
             m_CallState: 2
-          - m_Target: {fileID: 1885843401}
+          - m_Target: {fileID: 322439612}
             m_MethodName: set_material
             m_Mode: 2
             m_Arguments:
@@ -1577,7 +1577,7 @@ GameObject:
   - component: {fileID: 512287432}
   - component: {fileID: 512287431}
   m_Layer: 5
-  m_Name: UI
+  m_Name: ui_reset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1969,7 +1969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc7fd33c57d694994b0ab9f33fcdcbea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Fullscreen @ Camera
+  Name: Fullscreen @ main_camera_prefab
   type: 0
   _camera: {fileID: 318198838}
 --- !u!114 &736967547
@@ -2325,6 +2325,31 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4822577619066869392, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6282906020206743122, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 807026021}
+    - target: {fileID: 6282906020206743122, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnResetButtonPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 410148481042204809, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1168360044959780677, guid: 5bf3e80ceb200cd418107348c786b308,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1168360044959780677, guid: 5bf3e80ceb200cd418107348c786b308,
         type: 3}
       propertyPath: m_isInputParsingRequired
       value: 1
@@ -4266,7 +4291,7 @@ MonoBehaviour:
   BackButton: {fileID: 1642965381}
   ShowButton: {fileID: 1177703200}
   HideButton: {fileID: 307842271}
-  ResetButton: {fileID: 0}
+  ResetButton: {fileID: 2098339872}
   MinZoom: 0.15
   LargestZoom: 3
   toolsOpacityChange:
@@ -4373,7 +4398,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1642965382}
   - component: {fileID: 1642965384}
-  - component: {fileID: 1642965386}
   - component: {fileID: 1642965383}
   - component: {fileID: 1642965385}
   m_Layer: 5
@@ -4452,7 +4476,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 1654972568}
-          m_MethodName: SetActive
+          m_MethodName: 
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4497,7 +4521,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 1654972568}
-          m_MethodName: SetActive
+          m_MethodName: 
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4562,7 +4586,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1654972568}
-          m_MethodName: SetActive
+          m_MethodName: 
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4619,7 +4643,7 @@ MonoBehaviour:
         m_PersistentCalls:
           m_Calls:
           - m_Target: {fileID: 1654972568}
-            m_MethodName: SetActive
+            m_MethodName: 
             m_Mode: 6
             m_Arguments:
               m_ObjectArgument: {fileID: 0}
@@ -4673,20 +4697,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onFocus: 1
   onClick: 2
---- !u!114 &1642965386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1642965381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2acad24591a3903429b129830e512a07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onFocus: 1
-  onClick: 2
 --- !u!1 &1654972568
 GameObject:
   m_ObjectHideFlags: 0
@@ -4700,7 +4710,7 @@ GameObject:
   - component: {fileID: 1654972571}
   - component: {fileID: 1654972570}
   m_Layer: 5
-  m_Name: Tooltip
+  m_Name: tooltip_back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6079,7 +6089,7 @@ GameObject:
   - component: {fileID: 1885843402}
   - component: {fileID: 1885843401}
   m_Layer: 5
-  m_Name: UI
+  m_Name: ui_back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6600,6 +6610,31 @@ PrefabInstance:
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 682802935904482471, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 274355709}
+    - target: {fileID: 682802935904482471, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnResetButtonPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 6627525987088724604, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656038854196360624, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656038854196360624, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538, type: 3}
 --- !u!1 &2010926472
@@ -6615,7 +6650,7 @@ GameObject:
   - component: {fileID: 2010926475}
   - component: {fileID: 2010926474}
   m_Layer: 5
-  m_Name: Tooltip
+  m_Name: tooltip_about
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7009,7 +7044,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2098339873}
   - component: {fileID: 2098339876}
-  - component: {fileID: 2098339875}
+  - component: {fileID: 2098339874}
   - component: {fileID: 2098339877}
   m_Layer: 5
   m_Name: Reset
@@ -7035,7 +7070,7 @@ Transform:
   m_Father: {fileID: 392308216}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2098339875
+--- !u!114 &2098339874
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7071,6 +7106,51 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   Events:
+  - Name: OnClick
+    Event:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1701178538}
+          m_MethodName: ResetMRSceneToOrigin
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 387264275}
+          m_MethodName: 
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 512287431}
+          m_MethodName: set_material
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 2100000, guid: a5ab49ecb1917c34f926d3985442e885,
+              type: 2}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    ClassName: InteractableOnClickReceiver
+    AssemblyQualifiedName: Microsoft.MixedReality.Toolkit.UI.InteractableOnClickReceiver,
+      Microsoft.MixedReality.Toolkit.SDK
+    Settings: []
+    HideUnityEvents: 0
   - Name: OnPress
     Event:
       m_PersistentCalls:
@@ -7087,7 +7167,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 387264275}
-          m_MethodName: SetActive
+          m_MethodName: 
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7112,7 +7192,8 @@ MonoBehaviour:
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     ClassName: InteractableOnPressReceiver
-    AssemblyQualifiedName: 
+    AssemblyQualifiedName: Microsoft.MixedReality.Toolkit.UI.InteractableOnPressReceiver,
+      Microsoft.MixedReality.Toolkit.SDK
     Settings:
     - Type: 18
       Label: On Release
@@ -7151,7 +7232,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 387264275}
-          m_MethodName: SetActive
+          m_MethodName: 
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7171,12 +7252,13 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
-            m_BoolArgument: 1
+            m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     ClassName: InteractableOnFocusReceiver
-    AssemblyQualifiedName: 
+    AssemblyQualifiedName: Microsoft.MixedReality.Toolkit.UI.InteractableOnFocusReceiver,
+      Microsoft.MixedReality.Toolkit.SDK
     Settings:
     - Type: 18
       Label: On Focus Off
@@ -7207,7 +7289,7 @@ MonoBehaviour:
         m_PersistentCalls:
           m_Calls:
           - m_Target: {fileID: 387264275}
-            m_MethodName: SetActive
+            m_MethodName: 
             m_Mode: 6
             m_Arguments:
               m_ObjectArgument: {fileID: 0}
