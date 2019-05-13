@@ -7110,8 +7110,8 @@ MonoBehaviour:
     Event:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2026836266}
-          m_MethodName: ButtonClicked
+        - m_Target: {fileID: 1701178538}
+          m_MethodName: ResetMRSceneToOrigin
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7155,8 +7155,8 @@ MonoBehaviour:
     Event:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2026836266}
-          m_MethodName: ButtonClicked
+        - m_Target: {fileID: 1701178538}
+          m_MethodName: ResetMRSceneToOrigin
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
