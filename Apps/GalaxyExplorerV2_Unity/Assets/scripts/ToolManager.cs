@@ -50,7 +50,7 @@ namespace GalaxyExplorer
         private POIPlanetFocusManager _pOIPlanetFocusManager;
         private TransitionManager _transitionManager;
         private Vector3 _originalBackButtonLocalPosition;
-        private float _backButtonMoveLocalPositionX = -0.0167f;
+        private float _moveBackButtonLocalPosX = -0.0167f;
 
         //        private List<GEInteractiveToggle> allButtons = new List<GEInteractiveToggle>();
         private List<Collider> allButtonColliders = new List<Collider>();
@@ -184,7 +184,7 @@ namespace GalaxyExplorer
                 {
                     // When the POIPlanetFocusManager is present in the currently loaded scenes, this means we are in the solar system and the reset button should be visible
                     ResetButton.SetActive(true);
-                    BackButton.transform.localPosition = new Vector3(_backButtonMoveLocalPositionX, 0f, 0f);
+                    BackButton.transform.localPosition = new Vector3(_moveBackButtonLocalPosX, 0f, 0f);
                 }
                 else if (POIPlanetFocusManager == null && ResetButton.activeInHierarchy)
                 {
