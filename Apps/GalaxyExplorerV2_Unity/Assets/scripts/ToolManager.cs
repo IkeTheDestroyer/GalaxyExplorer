@@ -177,8 +177,10 @@ namespace GalaxyExplorer
                     yield return null;
                 }
 
-                ShowTools();
-
+                if (!GalaxyExplorerManager.IsHoloLens2)
+                {
+                    ShowTools();
+                }
                 // If there is previous scene then user is able to go back so activate the back button
                 BackButton?.SetActive(GalaxyExplorerManager.Instance.ViewLoaderScript.IsTherePreviousScene());
                 CheckIfResetButtonNeedsShowing();
@@ -329,28 +331,15 @@ namespace GalaxyExplorer
         // Show tools by activating button colliders and fade in button materials
         private IEnumerator ShowToolsAsync()
         {
-            bool isHoloLens2 = false;
-
-            foreach (IMixedRealityInputSource inputSource in MixedRealityToolkit.InputSystem.DetectedInputSources)
+            if (GalaxyExplorerManager.IsHoloLensGen1 || GalaxyExplorerManager.IsImmersiveHMD || GalaxyExplorerManager.IsDesktop)
             {
-                if (inputSource.SourceType == InputSourceType.Hand)
-                {
-                    isHoloLens2 = true;
-                }
-            }
+                panel.gameObject.SetActive(true);
+                ToolsVisible = true;
+                SetCollidersEnabled(true);
 
-            if (!isHoloLens2)
-            {
-                if (GalaxyExplorerManager.IsHoloLensGen1 || GalaxyExplorerManager.IsImmersiveHMD || GalaxyExplorerManager.IsDesktop)
-                {
-                    panel.gameObject.SetActive(true);
-                    ToolsVisible = true;
-                    SetCollidersEnabled(true);
-
-                    Fader[] allToolFaders = GetComponentsInChildren<Fader>();
-                    GalaxyExplorerManager.Instance.GeFadeManager.Fade(allToolFaders, GEFadeManager.FadeType.FadeIn, FadeToolsDuration, toolsOpacityChange);
-                    yield return null;
-                }
+                Fader[] allToolFaders = GetComponentsInChildren<Fader>();
+                GalaxyExplorerManager.Instance.GeFadeManager.Fade(allToolFaders, GEFadeManager.FadeType.FadeIn, FadeToolsDuration, toolsOpacityChange);
+                yield return null;
             }
         }
 

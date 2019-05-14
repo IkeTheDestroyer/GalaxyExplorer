@@ -4,6 +4,7 @@
 using Microsoft.MixedReality.Toolkit;
 using Microsoft.MixedReality.Toolkit.Input;
 using MRS.FlowManager;
+using System.Collections;
 using TouchScript.Examples.CameraControl;
 using UnityEngine;
 using UnityEngine.XR;
@@ -122,6 +123,9 @@ namespace GalaxyExplorer
                     case PlatformId.HoloLensGen1:
                         return 1.0f;
 
+                    case PlatformId.HoloLens2:
+                        return 1.0f;
+
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                         return 1.0f; // 0.75f;
@@ -139,6 +143,9 @@ namespace GalaxyExplorer
                 {
                     case PlatformId.ImmersiveHMD:
                     case PlatformId.HoloLensGen1:
+                        return 1.0f;
+
+                    case PlatformId.HoloLens2:
                         return 1.0f;
 
                     case PlatformId.Desktop:
@@ -160,6 +167,7 @@ namespace GalaxyExplorer
                         return 0.0035f;
 
                     case PlatformId.HoloLensGen1:
+                    case PlatformId.HoloLens2:
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                     default:
@@ -178,6 +186,7 @@ namespace GalaxyExplorer
                         return 3.0f;
 
                     case PlatformId.HoloLensGen1:
+                    case PlatformId.HoloLens2:
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                         return 1.0f;
@@ -198,6 +207,7 @@ namespace GalaxyExplorer
                         return 3.0f;
 
                     case PlatformId.HoloLensGen1:
+                    case PlatformId.HoloLens2:
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                         return 1.0f;
@@ -262,6 +272,9 @@ namespace GalaxyExplorer
                     case PlatformId.HoloLensGen1:
                         return 1.0f;
 
+                    case PlatformId.HoloLens2:
+                        return 1.0f;
+
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                         return 0.75f;
@@ -282,6 +295,7 @@ namespace GalaxyExplorer
                         return 0.22f;
 
                     case PlatformId.HoloLensGen1:
+                    case PlatformId.HoloLens2:
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                         return 0.3f;
@@ -305,12 +319,31 @@ namespace GalaxyExplorer
                     case PlatformId.HoloLensGen1:
                         return 1.0f;
 
+                    case PlatformId.HoloLens2:
+                        return 1.0f;
+
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                         return 1.0f;
 
                     default:
                         throw new System.Exception();
+                }
+            }
+        }
+
+        private IEnumerator CheckForHL2Input()
+        {
+            while (MixedRealityToolkit.InputSystem.DetectedInputSources == null || MixedRealityToolkit.InputSystem.DetectedInputSources.Count == 0)
+            {
+                yield return null;
+            }
+
+            foreach (IMixedRealityInputSource inputSource in MixedRealityToolkit.InputSystem.DetectedInputSources)
+            {
+                if (inputSource.SourceType == InputSourceType.Hand)
+                {
+                    Platform = PlatformId.HoloLens2;
                 }
             }
         }
@@ -335,6 +368,8 @@ namespace GalaxyExplorer
             {
                 Platform = PlatformId.Desktop;
             }
+
+            StartCoroutine(CheckForHL2Input());
 
             if (MyAppPlatformManagerInitialized != null)
             {
