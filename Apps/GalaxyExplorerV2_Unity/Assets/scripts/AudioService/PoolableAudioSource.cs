@@ -10,11 +10,6 @@ public class PoolableAudioSource : APoolable
     {
         get
         {
-            if (audioSource == null)
-            {
-                return false;
-            }
-
             return audioSource.isPlaying;
         }
     }
