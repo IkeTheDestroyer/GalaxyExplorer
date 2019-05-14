@@ -30,8 +30,6 @@ public class HandMenu : MonoBehaviour
 
     private AttachToControllerSolver _attachToControllerSolver;
     private HandMenuManager _handMenuManager;
-    private ToolManager _toolManager;
-    private TransitionManager _transitionManager;
     private POIPlanetFocusManager _pOIPlanetFocusManager;
     private AboutSlate _aboutSlate;
 
@@ -47,14 +45,11 @@ public class HandMenu : MonoBehaviour
         SetMenuVisibility(false);
 
         _handMenuManager = FindObjectOfType<HandMenuManager>();
-        _transitionManager = FindObjectOfType<TransitionManager>();
-        _toolManager = FindObjectOfType<ToolManager>();
         _aboutSlate = FindObjectOfType<AboutSlate>();
 
         _originalBackButtonLocalPosition = _backButton.transform.localPosition;
-        Debug.Log("_originalBackButtonLocalPosition = " + _originalBackButtonLocalPosition.ToString());
 
-        _toolManager.BackButtonNeedsShowing += OnBackButtonNeedsToShow;
+        GalaxyExplorerManager.Instance.ToolsManager.BackButtonNeedsShowing += OnBackButtonNeedsToShow;
         _backButton.SetActive(false);
 
         _attachToControllerSolver = GetComponent<AttachToControllerSolver>();
@@ -70,7 +65,7 @@ public class HandMenu : MonoBehaviour
 
     private void Update()
     {
-        if (_transitionManager.IsInIntroFlow || _transitionManager.InTransition) { return; }
+        if (GalaxyExplorerManager.Instance.TransitionManager.IsInIntroFlow || GalaxyExplorerManager.Instance.TransitionManager.InTransition) { return; }
 
         if (_attachToControllerSolver.IsTracking)
         {
@@ -113,7 +108,7 @@ public class HandMenu : MonoBehaviour
 
     public void OnBackButtonPressed()
     {
-        _transitionManager.LoadPrevScene();
+        GalaxyExplorerManager.Instance.TransitionManager.LoadPrevScene();
     }
 
     public void OnResetButtonPressed()

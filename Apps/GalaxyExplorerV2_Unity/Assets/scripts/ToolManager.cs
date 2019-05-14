@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 //using HoloToolkit.Unity.UX;
+using Microsoft.MixedReality.Toolkit;
+using Microsoft.MixedReality.Toolkit.Input;
 using Microsoft.MixedReality.Toolkit.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -48,9 +50,8 @@ namespace GalaxyExplorer
         private bool locked = false;
         private ToolPanel panel;
         private POIPlanetFocusManager _pOIPlanetFocusManager;
-        private TransitionManager _transitionManager;
-        private Vector3 _originalBackButtonLocalPosition;
-        private float _moveBackButtonLocalPosX = -0.0167f;
+        private Vector3 _defaultBackButtonLocalPosition;
+        private float _fullMenuVisibleBackButtonX;
 
         //        private List<GEInteractiveToggle> allButtons = new List<GEInteractiveToggle>();
         private List<Collider> allButtonColliders = new List<Collider>();
@@ -80,8 +81,6 @@ namespace GalaxyExplorer
                 Debug.LogError("ToolManager couldn't find ToolPanel. Hiding and showing of Tools unavailable.");
             }
 
-            _transitionManager = FindObjectOfType<TransitionManager>();
-
             // FInd all button scripts
             //            GEInteractiveToggle[] buttonsArray = GetComponentsInChildren<GEInteractiveToggle>(true);
             //            foreach (var button in buttonsArray)
@@ -99,8 +98,21 @@ namespace GalaxyExplorer
             ShowButton.SetActive(false);
             BackButton.SetActive(false);
             ResetButton.SetActive(false);
+
             OnBackButtonNeedsShowing(false);
-            _originalBackButtonLocalPosition = BackButton.transform.localPosition;
+
+            panel.gameObject.SetActive(false);
+            ToolsVisible = false;
+            SetCollidersEnabled(false);
+
+            // Store the x value of the local position for the back button when all menu buttons are visible
+            _fullMenuVisibleBackButtonX = BackButton.transform.localPosition.x;
+
+            // Since reset is not visible during most of the app states, regard its local position as the default back button local position
+            _defaultBackButtonLocalPosition = ResetButton.transform.localPosition;
+
+            // Since the app starts with reset button not visible, move the back button to its spot instead
+            BackButton.transform.localPosition = _defaultBackButtonLocalPosition;
 
             boundingBox = FindObjectOfType<BoundingBox>();
 
@@ -165,8 +177,10 @@ namespace GalaxyExplorer
                     yield return null;
                 }
 
-                ShowTools();
-
+                if (!GalaxyExplorerManager.IsHoloLens2)
+                {
+                    ShowTools();
+                }
                 // If there is previous scene then user is able to go back so activate the back button
                 BackButton?.SetActive(GalaxyExplorerManager.Instance.ViewLoaderScript.IsTherePreviousScene());
                 CheckIfResetButtonNeedsShowing();
@@ -184,13 +198,13 @@ namespace GalaxyExplorer
                 {
                     // When the POIPlanetFocusManager is present in the currently loaded scenes, this means we are in the solar system and the reset button should be visible
                     ResetButton.SetActive(true);
-                    BackButton.transform.localPosition = new Vector3(_moveBackButtonLocalPosX, 0f, 0f);
+                    BackButton.transform.localPosition = new Vector3(_fullMenuVisibleBackButtonX, 0f, 0f);
                 }
                 else if (POIPlanetFocusManager == null && ResetButton.activeInHierarchy)
                 {
                     // When the POIPlanetFocusManager isn't present in the currently loaded scenes, this means we're not in the solar system and the reset button shouldn't show up
                     ResetButton.SetActive(false);
-                    BackButton.transform.localPosition = _originalBackButtonLocalPosition;
+                    BackButton.transform.localPosition = _defaultBackButtonLocalPosition;
                 }
             }
         }
@@ -317,7 +331,7 @@ namespace GalaxyExplorer
         // Show tools by activating button colliders and fade in button materials
         private IEnumerator ShowToolsAsync()
         {
-            if (GalaxyExplorerManager.IsHoloLens || GalaxyExplorerManager.IsImmersiveHMD || GalaxyExplorerManager.IsDesktop)
+            if (GalaxyExplorerManager.IsHoloLensGen1 || GalaxyExplorerManager.IsImmersiveHMD || GalaxyExplorerManager.IsDesktop)
             {
                 panel.gameObject.SetActive(true);
                 ToolsVisible = true;

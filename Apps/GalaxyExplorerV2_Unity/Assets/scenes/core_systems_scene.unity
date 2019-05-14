@@ -4292,6 +4292,7 @@ MonoBehaviour:
   ShowButton: {fileID: 1177703200}
   HideButton: {fileID: 307842271}
   ResetButton: {fileID: 2098339872}
+  AboutButton: {fileID: 499409397}
   MinZoom: 0.15
   LargestZoom: 3
   toolsOpacityChange:
@@ -4416,7 +4417,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1642965381}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.111, y: 0, z: 0}
+  m_LocalPosition: {x: -0.0167, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 1885843400}
