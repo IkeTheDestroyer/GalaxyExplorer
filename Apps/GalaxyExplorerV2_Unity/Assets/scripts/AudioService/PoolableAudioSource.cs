@@ -8,22 +8,30 @@ public class PoolableAudioSource : APoolable
 
     public bool IsPlaying
     {
-        get { return audioSource.isPlaying; }
+        get
+        {
+            if (audioSource == null)
+            {
+                return false;
+            }
+
+            return audioSource.isPlaying;
+        }
     }
 
     public override bool IsActive
     {
-        get {  return audioSource.isPlaying; }
+        get { return audioSource.isPlaying; }
     }
 
     private void Awake()
     {
         audioSource = gameObject.AddComponent<AudioSource>();
     }
-    
+
     public void PlayClip(
-        AudioClip clip, 
-        float volume = 1) 
+        AudioClip clip,
+        float volume = 1)
     {
         audioSource.clip = clip;
         audioSource.volume = volume;
