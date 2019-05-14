@@ -78,11 +78,19 @@ namespace GalaxyExplorer
             get; set;
         }
 
-        public static bool IsHoloLens
+        public static bool IsHoloLensGen1
         {
             get
             {
                 return Platform == PlatformId.HoloLensGen1;
+            }
+        }
+
+        public static bool IsHoloLens2
+        {
+            get
+            {
+                return Platform == PlatformId.HoloLens2;
             }
         }
 

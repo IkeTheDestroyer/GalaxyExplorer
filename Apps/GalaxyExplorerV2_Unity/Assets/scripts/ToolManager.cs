@@ -335,13 +335,13 @@ namespace GalaxyExplorer
             {
                 if (inputSource.SourceType == InputSourceType.Hand)
                 {
-                    isHoloLens2 = true; ;
+                    isHoloLens2 = true;
                 }
             }
 
             if (!isHoloLens2)
             {
-                if (GalaxyExplorerManager.IsHoloLens || GalaxyExplorerManager.IsImmersiveHMD || GalaxyExplorerManager.IsDesktop)
+                if (GalaxyExplorerManager.IsHoloLensGen1 || GalaxyExplorerManager.IsImmersiveHMD || GalaxyExplorerManager.IsDesktop)
                 {
                     panel.gameObject.SetActive(true);
                     ToolsVisible = true;
