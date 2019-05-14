@@ -122,6 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 227201150}
   - component: {fileID: 227201151}
+  - component: {fileID: 227201152}
   m_Layer: 0
   m_Name: onboarding_touchRight_sprite
   m_TagString: Untagged
@@ -137,7 +138,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 227201149}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.643, y: 0.054, z: 0}
+  m_LocalPosition: {x: 4.170456, y: 0.054, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1102337232}
@@ -191,6 +192,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &227201152
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227201149}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7503fc93cb59bce4a965ea9cd7497a47, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &326162382
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,6 +399,7 @@ GameObject:
   m_Component:
   - component: {fileID: 879313856}
   - component: {fileID: 879313857}
+  - component: {fileID: 879313858}
   m_Layer: 0
   m_Name: onboarding_button_back_sprite
   m_TagString: Untagged
@@ -448,6 +469,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &879313858
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 879313855}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 62090a2a979381749bec6b9cd7af2869, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1028402174
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,7 +584,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1102337232
 Transform:
   m_ObjectHideFlags: 0
@@ -608,6 +648,14 @@ PlayableDirector:
     value: {fileID: 1028402176}
   - key: {fileID: 114492195605227366, guid: b89ed4ba5e29ef14b8c78f4fa8d25252, type: 2}
     value: {fileID: 2120695559}
+  - key: {fileID: 114101491720233488, guid: b89ed4ba5e29ef14b8c78f4fa8d25252, type: 2}
+    value: {fileID: 2120695558}
+  - key: {fileID: 114719343848290788, guid: b89ed4ba5e29ef14b8c78f4fa8d25252, type: 2}
+    value: {fileID: 227201152}
+  - key: {fileID: 114632384998750356, guid: b89ed4ba5e29ef14b8c78f4fa8d25252, type: 2}
+    value: {fileID: 879313858}
+  - key: {fileID: 114184651294295876, guid: b89ed4ba5e29ef14b8c78f4fa8d25252, type: 2}
+    value: {fileID: 227201151}
   m_ExposedReferences:
     m_References:
     - 810dd2244a09fb446a83a3f856df7573: {fileID: 0}
@@ -1280,7 +1328,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1568656967
 Transform:
   m_ObjectHideFlags: 0
@@ -1720,7 +1768,7 @@ Animator:
   m_GameObject: {fileID: 2120695556}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 637f3e057c7b3854396075cf9719815f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
