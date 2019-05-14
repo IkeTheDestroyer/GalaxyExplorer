@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 //using HoloToolkit.Unity.UX;
+using Microsoft.MixedReality.Toolkit;
+using Microsoft.MixedReality.Toolkit.Input;
 using Microsoft.MixedReality.Toolkit.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -327,15 +329,28 @@ namespace GalaxyExplorer
         // Show tools by activating button colliders and fade in button materials
         private IEnumerator ShowToolsAsync()
         {
-            if (GalaxyExplorerManager.IsHoloLens || GalaxyExplorerManager.IsImmersiveHMD || GalaxyExplorerManager.IsDesktop)
-            {
-                panel.gameObject.SetActive(true);
-                ToolsVisible = true;
-                SetCollidersEnabled(true);
+            bool isHoloLens2 = false;
 
-                Fader[] allToolFaders = GetComponentsInChildren<Fader>();
-                GalaxyExplorerManager.Instance.GeFadeManager.Fade(allToolFaders, GEFadeManager.FadeType.FadeIn, FadeToolsDuration, toolsOpacityChange);
-                yield return null;
+            foreach (IMixedRealityInputSource inputSource in MixedRealityToolkit.InputSystem.DetectedInputSources)
+            {
+                if (inputSource.SourceType == InputSourceType.Hand)
+                {
+                    isHoloLens2 = true; ;
+                }
+            }
+
+            if (!isHoloLens2)
+            {
+                if (GalaxyExplorerManager.IsHoloLens || GalaxyExplorerManager.IsImmersiveHMD || GalaxyExplorerManager.IsDesktop)
+                {
+                    panel.gameObject.SetActive(true);
+                    ToolsVisible = true;
+                    SetCollidersEnabled(true);
+
+                    Fader[] allToolFaders = GetComponentsInChildren<Fader>();
+                    GalaxyExplorerManager.Instance.GeFadeManager.Fade(allToolFaders, GEFadeManager.FadeType.FadeIn, FadeToolsDuration, toolsOpacityChange);
+                    yield return null;
+                }
             }
         }
 

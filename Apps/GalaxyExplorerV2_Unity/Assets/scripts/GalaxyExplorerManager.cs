@@ -321,14 +321,6 @@ namespace GalaxyExplorer
                 else
                 {
                     Platform = PlatformId.HoloLensGen1;
-
-                    foreach (IMixedRealityInputSource inputSource in MixedRealityToolkit.InputSystem.DetectedInputSources)
-                    {
-                        if (inputSource.SourceType == InputSourceType.Hand)
-                        {
-                            Platform = PlatformId.HoloLens2;
-                        }
-                    }
                 }
             }
             else
