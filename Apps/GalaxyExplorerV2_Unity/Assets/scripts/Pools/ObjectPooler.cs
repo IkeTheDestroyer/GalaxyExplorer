@@ -81,11 +81,17 @@ namespace Pools
          queue.Enqueue(poolable);
       }
 
+      private void HandlePoolableDestroyed<T>(APoolable poolable, Transform parent) where T : APoolable
+      {
+         queue.Enqueue(InstantiateNewObject<T>());
+      }
+
       private T InstantiateNewObject<T>() where T : APoolable
       {
          var go = new GameObject(typeof(T).ToString());
          var result = go.AddComponent<T>();
-         result.OnDestroy += HandleReturnToPool;
+         result.OnPoolableUsed += HandleReturnToPool;
+         result.OnPoolableDestroyed += HandlePoolableDestroyed<T>;
          return result;
       }
    }

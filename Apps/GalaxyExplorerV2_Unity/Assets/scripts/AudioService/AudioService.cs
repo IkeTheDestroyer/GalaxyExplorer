@@ -88,7 +88,7 @@ public class AudioService : BaseExtensionService, IAudioService
             
         }
         var source = GetTargetSource(GetTarget(target));
-        playedSource = source.audioSource;
+        playedSource = source.AudioSource;
         source.PlayClip(clip);
         lastPlayedTimes[clip.name] = DateTime.UtcNow;
     }
@@ -152,8 +152,22 @@ public class AudioService : BaseExtensionService, IAudioService
         {
             source = objectPooler.GetNextObject<PoolableAudioSource>(parent:target);
             sources.Add(source);
+            source.OnPoolableDestroyed += OnPoolableAudioSourceDestroyed;
         }
         playingCache[target] = sources;
         return source;
+    }
+
+    private void OnPoolableAudioSourceDestroyed(APoolable source, Transform parent)
+    {
+        var poolableAudioSource = source as PoolableAudioSource;
+        if (poolableAudioSource == null)
+        {
+            return;
+        }
+        if(playingCache.TryGetValue(parent, out var sources))
+        {
+            sources.Remove(poolableAudioSource);
+        }
     }
 }
