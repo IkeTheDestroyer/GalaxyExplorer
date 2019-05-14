@@ -1,6 +1,8 @@
-﻿﻿// Copyright Microsoft Corporation. All rights reserved.
+﻿// Copyright Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using Microsoft.MixedReality.Toolkit;
+using Microsoft.MixedReality.Toolkit.Input;
 using MRS.FlowManager;
 using TouchScript.Examples.CameraControl;
 using UnityEngine;
@@ -22,6 +24,7 @@ namespace GalaxyExplorer
         public static PlatformId Platform { get; set; }
 
         public delegate void GalaxyExplorerManagerInitializedCallback();
+
         public static GalaxyExplorerManagerInitializedCallback MyAppPlatformManagerInitialized;
 
         public GEFadeManager GeFadeManager
@@ -44,15 +47,15 @@ namespace GalaxyExplorer
             get; set;
         }
 
-//        public GEMouseInputSource MouseInput
-//        {
-//            get; set;
-//        }
+        //        public GEMouseInputSource MouseInput
+        //        {
+        //            get; set;
+        //        }
 
-//        public InputRouter InputRouter
-//        {
-//            get; set;
-//        }
+        //        public InputRouter InputRouter
+        //        {
+        //            get; set;
+        //        }
 
         public ViewLoader ViewLoaderScript
         {
@@ -81,7 +84,7 @@ namespace GalaxyExplorer
                 return Platform == PlatformId.HoloLens;
             }
         }
-        
+
         public static bool IsImmersiveHMD
         {
             get
@@ -89,7 +92,7 @@ namespace GalaxyExplorer
                 return Platform == PlatformId.ImmersiveHMD;
             }
         }
-        
+
         public static bool IsDesktop
         {
             get
@@ -106,8 +109,10 @@ namespace GalaxyExplorer
                 {
                     case PlatformId.ImmersiveHMD:
                         return 2.0f;
+
                     case PlatformId.HoloLens:
                         return 1.0f;
+
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                         return 1.0f; // 0.75f;
@@ -126,6 +131,7 @@ namespace GalaxyExplorer
                     case PlatformId.ImmersiveHMD:
                     case PlatformId.HoloLens:
                         return 1.0f;
+
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                         return 1.0f; // 0.35f;
@@ -143,6 +149,7 @@ namespace GalaxyExplorer
                 {
                     case PlatformId.ImmersiveHMD:
                         return 0.0035f;
+
                     case PlatformId.HoloLens:
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
@@ -160,10 +167,12 @@ namespace GalaxyExplorer
                 {
                     case PlatformId.ImmersiveHMD:
                         return 3.0f;
+
                     case PlatformId.HoloLens:
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                         return 1.0f;
+
                     default:
                         throw new System.Exception();
                 }
@@ -178,10 +187,12 @@ namespace GalaxyExplorer
                 {
                     case PlatformId.ImmersiveHMD:
                         return 3.0f;
+
                     case PlatformId.HoloLens:
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                         return 1.0f;
+
                     default:
                         throw new System.Exception();
                 }
@@ -225,7 +236,7 @@ namespace GalaxyExplorer
                 {
                     moveFactor *= SolarSystemScaleFactor * MRFactor;
                 }
-  
+
                 return moveFactor;
             }
         }
@@ -238,11 +249,14 @@ namespace GalaxyExplorer
                 {
                     case PlatformId.ImmersiveHMD:
                         return 1.5f;
+
                     case PlatformId.HoloLens:
                         return 1.0f;
+
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                         return 0.75f;
+
                     default:
                         throw new System.Exception();
                 }
@@ -257,10 +271,12 @@ namespace GalaxyExplorer
                 {
                     case PlatformId.ImmersiveHMD:
                         return 0.22f;
+
                     case PlatformId.HoloLens:
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                         return 0.3f;
+
                     default:
                         throw new System.Exception();
                 }
@@ -276,11 +292,14 @@ namespace GalaxyExplorer
                 {
                     case PlatformId.ImmersiveHMD:
                         return 2.0f;
+
                     case PlatformId.HoloLens:
                         return 1.0f;
+
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
-                        return 1.0f; 
+                        return 1.0f;
+
                     default:
                         throw new System.Exception();
                 }
@@ -303,7 +322,7 @@ namespace GalaxyExplorer
                     Platform = PlatformId.HoloLens;
                 }
             }
-            else 
+            else
             {
                 Platform = PlatformId.Desktop;
             }
@@ -322,6 +341,5 @@ namespace GalaxyExplorer
             CameraControllerHandler = FindObjectOfType<CameraController>();
             FlowManagerHandler = FindObjectOfType<FlowManager>();
         }
-
     }
 }
