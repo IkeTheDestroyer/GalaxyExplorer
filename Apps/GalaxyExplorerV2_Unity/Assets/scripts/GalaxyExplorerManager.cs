@@ -334,20 +334,39 @@ namespace GalaxyExplorer
 
         private IEnumerator CheckForHL2Input()
         {
-            while (MixedRealityToolkit.InputSystem.DetectedInputSources == null || MixedRealityToolkit.InputSystem.DetectedInputSources.Count == 0)
+            while (MixedRealityToolkit.InputSystem.DetectedControllers == null || MixedRealityToolkit.InputSystem.DetectedControllers.Count == 0)
             {
                 yield return null;
             }
 
-            foreach (IMixedRealityInputSource inputSource in MixedRealityToolkit.InputSystem.DetectedInputSources)
+            foreach (var detectedController in MixedRealityToolkit.InputSystem.DetectedControllers)
             {
-                Debug.Log("inputSource.SourceType = " + inputSource.SourceType.ToString());
-
-                if (inputSource.SourceType == InputSourceType.Eyes)
+                var hand = detectedController as IMixedRealityHand;
+                if (hand != null)
                 {
                     Platform = PlatformId.HoloLens2;
                 }
             }
+
+            //for (int i = 0; i < MixedRealityToolkit.InputSystem.MixedRealityControllerMappingProfiles.Length; i++)
+            //{
+            //    MixedRealityControllerMapping controllerMapping = thisProfile.MixedRealityControllerMappingProfiles[i];
+            //}
+
+            //while (MixedRealityToolkit.InputSystem.DetectedInputSources == null || MixedRealityToolkit.InputSystem.DetectedInputSources.Count == 0)
+            //{
+            //    yield return null;
+            //}
+
+            //foreach (IMixedRealityInputSource inputSource in MixedRealityToolkit.InputSystem.DetectedInputSources)
+            //{
+            //    Debug.Log("inputSource.SourceType = " + inputSource.SourceType.ToString());
+
+            //    if (inputSource.SourceType == InputSourceType.Eyes)
+            //    {
+            //        Platform = PlatformId.HoloLens2;
+            //    }
+            //}
         }
 
         protected override void Awake()
