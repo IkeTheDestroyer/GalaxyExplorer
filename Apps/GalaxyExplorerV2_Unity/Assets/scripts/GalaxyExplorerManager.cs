@@ -15,7 +15,8 @@ namespace GalaxyExplorer
     {
         public enum PlatformId
         {
-            HoloLens,
+            HoloLensGen1,
+            HoloLens2,
             ImmersiveHMD,
             Desktop,
             Phone
@@ -81,7 +82,7 @@ namespace GalaxyExplorer
         {
             get
             {
-                return Platform == PlatformId.HoloLens;
+                return Platform == PlatformId.HoloLensGen1;
             }
         }
 
@@ -110,7 +111,7 @@ namespace GalaxyExplorer
                     case PlatformId.ImmersiveHMD:
                         return 2.0f;
 
-                    case PlatformId.HoloLens:
+                    case PlatformId.HoloLensGen1:
                         return 1.0f;
 
                     case PlatformId.Desktop:
@@ -129,7 +130,7 @@ namespace GalaxyExplorer
                 switch (Platform)
                 {
                     case PlatformId.ImmersiveHMD:
-                    case PlatformId.HoloLens:
+                    case PlatformId.HoloLensGen1:
                         return 1.0f;
 
                     case PlatformId.Desktop:
@@ -150,7 +151,7 @@ namespace GalaxyExplorer
                     case PlatformId.ImmersiveHMD:
                         return 0.0035f;
 
-                    case PlatformId.HoloLens:
+                    case PlatformId.HoloLensGen1:
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                     default:
@@ -168,7 +169,7 @@ namespace GalaxyExplorer
                     case PlatformId.ImmersiveHMD:
                         return 3.0f;
 
-                    case PlatformId.HoloLens:
+                    case PlatformId.HoloLensGen1:
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                         return 1.0f;
@@ -188,7 +189,7 @@ namespace GalaxyExplorer
                     case PlatformId.ImmersiveHMD:
                         return 3.0f;
 
-                    case PlatformId.HoloLens:
+                    case PlatformId.HoloLensGen1:
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                         return 1.0f;
@@ -250,7 +251,7 @@ namespace GalaxyExplorer
                     case PlatformId.ImmersiveHMD:
                         return 1.5f;
 
-                    case PlatformId.HoloLens:
+                    case PlatformId.HoloLensGen1:
                         return 1.0f;
 
                     case PlatformId.Desktop:
@@ -272,7 +273,7 @@ namespace GalaxyExplorer
                     case PlatformId.ImmersiveHMD:
                         return 0.22f;
 
-                    case PlatformId.HoloLens:
+                    case PlatformId.HoloLensGen1:
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                         return 0.3f;
@@ -293,7 +294,7 @@ namespace GalaxyExplorer
                     case PlatformId.ImmersiveHMD:
                         return 2.0f;
 
-                    case PlatformId.HoloLens:
+                    case PlatformId.HoloLensGen1:
                         return 1.0f;
 
                     case PlatformId.Desktop:
@@ -319,7 +320,15 @@ namespace GalaxyExplorer
                 }
                 else
                 {
-                    Platform = PlatformId.HoloLens;
+                    Platform = PlatformId.HoloLensGen1;
+
+                    foreach (IMixedRealityInputSource inputSource in MixedRealityToolkit.InputSystem.DetectedInputSources)
+                    {
+                        if (inputSource.SourceType == InputSourceType.Hand)
+                        {
+                            Platform = PlatformId.HoloLens2;
+                        }
+                    }
                 }
             }
             else

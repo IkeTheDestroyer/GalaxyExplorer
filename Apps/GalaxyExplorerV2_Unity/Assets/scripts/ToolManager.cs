@@ -96,7 +96,12 @@ namespace GalaxyExplorer
             ShowButton.SetActive(false);
             BackButton.SetActive(false);
             ResetButton.SetActive(false);
+
             OnBackButtonNeedsShowing(false);
+
+            panel.gameObject.SetActive(false);
+            ToolsVisible = false;
+            SetCollidersEnabled(false);
 
             // Store the x value of the local position for the back button when all menu buttons are visible
             _fullMenuVisibleBackButtonX = BackButton.transform.localPosition.x;
