@@ -48,6 +48,9 @@ namespace GalaxyExplorer
         private bool locked = false;
         private ToolPanel panel;
         private POIPlanetFocusManager _pOIPlanetFocusManager;
+        private TransitionManager _transitionManager;
+        private Vector3 _originalBackButtonLocalPosition;
+        private float _backButtonMoveLocalPositionX = -0.0167f;
 
         //        private List<GEInteractiveToggle> allButtons = new List<GEInteractiveToggle>();
         private List<Collider> allButtonColliders = new List<Collider>();
@@ -77,6 +80,8 @@ namespace GalaxyExplorer
                 Debug.LogError("ToolManager couldn't find ToolPanel. Hiding and showing of Tools unavailable.");
             }
 
+            _transitionManager = FindObjectOfType<TransitionManager>();
+
             // FInd all button scripts
             //            GEInteractiveToggle[] buttonsArray = GetComponentsInChildren<GEInteractiveToggle>(true);
             //            foreach (var button in buttonsArray)
@@ -95,6 +100,7 @@ namespace GalaxyExplorer
             BackButton.SetActive(false);
             ResetButton.SetActive(false);
             OnBackButtonNeedsShowing(false);
+            _originalBackButtonLocalPosition = BackButton.transform.localPosition;
 
             boundingBox = FindObjectOfType<BoundingBox>();
 
@@ -112,20 +118,6 @@ namespace GalaxyExplorer
 #if UNITY_EDITOR
             OnSceneIsLoaded();
 #endif
-        }
-
-        private void Update()
-        {
-            if (POIPlanetFocusManager != null && !ResetButton.activeInHierarchy)
-            {
-                // When the POIPlanetFocusManager is present in the currently loaded scenes, this means we are in the solar system and the reset button should be visible
-                ResetButton.SetActive(true);
-            }
-            else if (POIPlanetFocusManager == null && ResetButton.activeInHierarchy)
-            {
-                // When the POIPlanetFocusManager isn't present in the currently loaded scenes, this means we're not in the solar system and the reset button shouldn't show up
-                ResetButton.SetActive(false);
-            }
         }
 
         public void OnSceneIsLoaded()
@@ -177,10 +169,30 @@ namespace GalaxyExplorer
 
                 // If there is previous scene then user is able to go back so activate the back button
                 BackButton?.SetActive(GalaxyExplorerManager.Instance.ViewLoaderScript.IsTherePreviousScene());
+                CheckIfResetButtonNeedsShowing();
                 OnBackButtonNeedsShowing(GalaxyExplorerManager.Instance.ViewLoaderScript.IsTherePreviousScene());
             }
 
             yield return null;
+        }
+
+        private void CheckIfResetButtonNeedsShowing()
+        {
+            if (!GalaxyExplorerManager.Instance.TransitionManager.IsInIntroFlow)
+            {
+                if (POIPlanetFocusManager != null && !ResetButton.activeInHierarchy)
+                {
+                    // When the POIPlanetFocusManager is present in the currently loaded scenes, this means we are in the solar system and the reset button should be visible
+                    ResetButton.SetActive(true);
+                    BackButton.transform.localPosition = new Vector3(_backButtonMoveLocalPositionX, 0f, 0f);
+                }
+                else if (POIPlanetFocusManager == null && ResetButton.activeInHierarchy)
+                {
+                    // When the POIPlanetFocusManager isn't present in the currently loaded scenes, this means we're not in the solar system and the reset button shouldn't show up
+                    ResetButton.SetActive(false);
+                    BackButton.transform.localPosition = _originalBackButtonLocalPosition;
+                }
+            }
         }
 
         private void OnBackButtonNeedsShowing(bool show)
