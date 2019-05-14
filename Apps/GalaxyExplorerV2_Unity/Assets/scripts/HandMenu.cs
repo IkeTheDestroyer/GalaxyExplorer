@@ -36,6 +36,8 @@ public class HandMenu : MonoBehaviour
     private AboutSlate _aboutSlate;
 
     private float _currentAngle = 0f;
+    private float _interButtonDistance = 0.04f;
+    private Vector3 _originalBackButtonLocalPosition;
     private Transform _cameraTransform;
 
     public bool IsVisible { get; private set; } = false;
@@ -49,8 +51,10 @@ public class HandMenu : MonoBehaviour
         _toolManager = FindObjectOfType<ToolManager>();
         _aboutSlate = FindObjectOfType<AboutSlate>();
 
-        _toolManager.BackButtonNeedsShowing += OnBackButtonNeedsToShow;
+        _originalBackButtonLocalPosition = _backButton.transform.localPosition;
+        Debug.Log("_originalBackButtonLocalPosition = " + _originalBackButtonLocalPosition.ToString());
 
+        _toolManager.BackButtonNeedsShowing += OnBackButtonNeedsToShow;
         _backButton.SetActive(false);
 
         _attachToControllerSolver = GetComponent<AttachToControllerSolver>();
@@ -92,11 +96,13 @@ public class HandMenu : MonoBehaviour
         {
             // When the POIPlanetFocusManager is present in the currently loaded scenes, this means we are in the solar system and the reset button should be visible
             _resetButton.SetActive(true);
+            _backButton.transform.localPosition = new Vector3(0f, _originalBackButtonLocalPosition.y + _interButtonDistance, 0f);
         }
         else if (POIPlanetFocusManager == null && _resetButton.activeInHierarchy)
         {
             // When the POIPlanetFocusManager isn't present in the currently loaded scenes, this means we're not in the solar system and the reset button shouldn't show up
             _resetButton.SetActive(false);
+            _backButton.transform.localPosition = _originalBackButtonLocalPosition;
         }
     }
 
