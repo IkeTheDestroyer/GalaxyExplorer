@@ -341,7 +341,9 @@ namespace GalaxyExplorer
 
             foreach (IMixedRealityInputSource inputSource in MixedRealityToolkit.InputSystem.DetectedInputSources)
             {
-                if (inputSource.SourceType == InputSourceType.Hand)
+                Debug.Log("inputSource.SourceType = " + inputSource.SourceType.ToString());
+
+                if (inputSource.SourceType == InputSourceType.Eyes)
                 {
                     Platform = PlatformId.HoloLens2;
                 }
