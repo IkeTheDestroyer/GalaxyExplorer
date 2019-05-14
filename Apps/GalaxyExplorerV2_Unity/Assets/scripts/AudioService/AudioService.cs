@@ -147,6 +147,7 @@ public class AudioService : BaseExtensionService, IAudioService
         {
             sources = new List<PoolableAudioSource>();
         }
+        // NULL operator is overriden! will return true if audio source pool is not active!
         if (source == null)
         {
             source = objectPooler.GetNextObject<PoolableAudioSource>(parent:target);

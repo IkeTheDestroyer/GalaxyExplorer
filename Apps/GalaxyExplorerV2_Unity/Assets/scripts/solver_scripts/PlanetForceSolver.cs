@@ -38,13 +38,11 @@ public class PlanetForceSolver : ForceSolver
         if (_voAudioSource != null)
         {
             _voAudioSource.Stop();
-            _voAudioSource = null;
         }
 
         if (_ambientAudioSource != null)
         {
             _ambientAudioSource.Stop();
-            _ambientAudioSource = null;
         }
     }
 

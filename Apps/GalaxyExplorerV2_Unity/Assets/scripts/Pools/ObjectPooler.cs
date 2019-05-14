@@ -22,6 +22,7 @@ namespace Pools
             go.transform.SetParent(parent);
             go.transform.localPosition = Vector3.zero;
          }
+         DontDestroyOnLoad(go);
          return result;
       }
 
