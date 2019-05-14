@@ -118,7 +118,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
         }
         else if (_forcePullToFrontOfCamera)
         {
-            return Vector3.Distance(WorkingPosition, GoalPosition) <= 0.001f;
+            return Vector3.Distance(WorkingPosition, GoalPosition) <= 0.1f;
         }
 
         return false;
@@ -219,7 +219,10 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
         switch (ForceState)
         {
             case State.Attraction:
-                StartRoot();
+                if (_forcePullToHandController)
+                {
+                    StartRoot();
+                }
                 break;
         }
     }
@@ -259,7 +262,11 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
     {
         var controller = eventData.Pointer.Controller;
         // if the focus is the gaze then there is no controller
-        if(controller == null) return;
+        if(controller == null
+#if UNITY_EDITOR
+           || controller is SimulatedArticulatedHand
+#endif
+           ){ return;}
         switch (ForceState)
         {
             case State.Root:
@@ -299,8 +306,10 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
                 var controller = eventData.Pointer.Controller;
                 var isGgvOrDesktop = 
                         controller is WindowsMixedRealityGGVHand ||
-                        controller is MouseController ||
-                        controller is SimulatedArticulatedHand
+                        controller is MouseController
+# if UNITY_EDITOR
+                        || controller is SimulatedArticulatedHand
+#endif
                     ;
                 StartAttraction(isGgvOrDesktop);
                 break;
