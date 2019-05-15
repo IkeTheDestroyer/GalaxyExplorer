@@ -331,7 +331,7 @@ namespace GalaxyExplorer
         // Show tools by activating button colliders and fade in button materials
         private IEnumerator ShowToolsAsync()
         {
-            if (GalaxyExplorerManager.IsHoloLensGen1 || GalaxyExplorerManager.IsImmersiveHMD || GalaxyExplorerManager.IsDesktop)
+            if (GalaxyExplorerManager.IsHoloLensGen1 || GalaxyExplorerManager.IsImmersiveHMD)
             {
                 panel.gameObject.SetActive(true);
                 ToolsVisible = true;
