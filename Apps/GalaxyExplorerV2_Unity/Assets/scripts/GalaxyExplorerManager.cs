@@ -347,26 +347,6 @@ namespace GalaxyExplorer
                     Platform = PlatformId.HoloLens2;
                 }
             }
-
-            //for (int i = 0; i < MixedRealityToolkit.InputSystem.MixedRealityControllerMappingProfiles.Length; i++)
-            //{
-            //    MixedRealityControllerMapping controllerMapping = thisProfile.MixedRealityControllerMappingProfiles[i];
-            //}
-
-            //while (MixedRealityToolkit.InputSystem.DetectedInputSources == null || MixedRealityToolkit.InputSystem.DetectedInputSources.Count == 0)
-            //{
-            //    yield return null;
-            //}
-
-            //foreach (IMixedRealityInputSource inputSource in MixedRealityToolkit.InputSystem.DetectedInputSources)
-            //{
-            //    Debug.Log("inputSource.SourceType = " + inputSource.SourceType.ToString());
-
-            //    if (inputSource.SourceType == InputSourceType.Eyes)
-            //    {
-            //        Platform = PlatformId.HoloLens2;
-            //    }
-            //}
         }
 
         protected override void Awake()
@@ -383,14 +363,14 @@ namespace GalaxyExplorer
                 else
                 {
                     Platform = PlatformId.HoloLensGen1;
+
+                    StartCoroutine(CheckForHL2Input());
                 }
             }
             else
             {
                 Platform = PlatformId.Desktop;
             }
-
-            StartCoroutine(CheckForHL2Input());
 
             if (MyAppPlatformManagerInitialized != null)
             {
