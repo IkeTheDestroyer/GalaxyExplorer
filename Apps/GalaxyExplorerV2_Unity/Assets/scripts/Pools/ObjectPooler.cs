@@ -10,7 +10,6 @@ namespace Pools
 
       private Queue<APoolable> queue;
       private int lastInitializedSize;
-      private bool _poolableDestroyed;
 
       public static ObjectPooler CreateObjectPool<T>(int poolSize, Transform parent = null) where T : APoolable
       {
@@ -51,7 +50,6 @@ namespace Pools
          }
 
          lastInitializedSize = poolSize;
-         _poolableDestroyed = false;
       }
 
       public T GetNextObject<T>(
@@ -59,7 +57,7 @@ namespace Pools
          Quaternion rotation = default(Quaternion), 
          Transform parent = default(Transform)) where T : APoolable
       {
-         if (queue == null || lastInitializedSize != poolSize || _poolableDestroyed)
+         if (queue == null || lastInitializedSize != poolSize)
          {
             Init<T>();
          }
@@ -86,8 +84,6 @@ namespace Pools
       private void HandlePoolableDestroyed<T>(APoolable poolable, Transform parent) where T : APoolable
       {
          //TODO: what happens when a poolable has been destroyed?infinite loop for when pooler is destroyed
-         // have to use a flag for now so as not to create 
-         _poolableDestroyed = true;
       }
 
       private T InstantiateNewObject<T>() where T : APoolable
