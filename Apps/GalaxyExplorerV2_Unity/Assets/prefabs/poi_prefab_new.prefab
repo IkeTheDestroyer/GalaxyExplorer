@@ -2179,7 +2179,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3003117568667487665}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.259, y: 0.303, z: 0}
+  m_LocalPosition: {x: 0.2623, y: 0.303, z: 0}
   m_LocalScale: {x: 0.14422946, y: 0.14422946, z: 0.14422946}
   m_Children: []
   m_Father: {fileID: 1082892455199572740}
@@ -2845,8 +2845,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 0.7
-  m_fontSizeBase: 0.7
+  m_fontSize: 0.5
+  m_fontSizeBase: 0.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0.25
