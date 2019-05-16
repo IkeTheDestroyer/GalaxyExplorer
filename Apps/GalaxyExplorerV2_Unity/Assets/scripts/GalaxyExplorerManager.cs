@@ -17,7 +17,7 @@ namespace GalaxyExplorer
         public enum PlatformId
         {
             HoloLensGen1,
-            HoloLens2,
+            ArticulatedHandsPlatform,
             ImmersiveHMD,
             Desktop,
             Phone
@@ -91,7 +91,7 @@ namespace GalaxyExplorer
         {
             get
             {
-                return Platform == PlatformId.HoloLens2;
+                return Platform == PlatformId.ArticulatedHandsPlatform;
             }
         }
 
@@ -123,7 +123,7 @@ namespace GalaxyExplorer
                     case PlatformId.HoloLensGen1:
                         return 1.0f;
 
-                    case PlatformId.HoloLens2:
+                    case PlatformId.ArticulatedHandsPlatform:
                         return 1.0f;
 
                     case PlatformId.Desktop:
@@ -145,7 +145,7 @@ namespace GalaxyExplorer
                     case PlatformId.HoloLensGen1:
                         return 1.0f;
 
-                    case PlatformId.HoloLens2:
+                    case PlatformId.ArticulatedHandsPlatform:
                         return 1.0f;
 
                     case PlatformId.Desktop:
@@ -167,7 +167,7 @@ namespace GalaxyExplorer
                         return 0.0035f;
 
                     case PlatformId.HoloLensGen1:
-                    case PlatformId.HoloLens2:
+                    case PlatformId.ArticulatedHandsPlatform:
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                     default:
@@ -186,7 +186,7 @@ namespace GalaxyExplorer
                         return 3.0f;
 
                     case PlatformId.HoloLensGen1:
-                    case PlatformId.HoloLens2:
+                    case PlatformId.ArticulatedHandsPlatform:
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                         return 1.0f;
@@ -207,7 +207,7 @@ namespace GalaxyExplorer
                         return 3.0f;
 
                     case PlatformId.HoloLensGen1:
-                    case PlatformId.HoloLens2:
+                    case PlatformId.ArticulatedHandsPlatform:
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                         return 1.0f;
@@ -272,7 +272,7 @@ namespace GalaxyExplorer
                     case PlatformId.HoloLensGen1:
                         return 1.0f;
 
-                    case PlatformId.HoloLens2:
+                    case PlatformId.ArticulatedHandsPlatform:
                         return 1.0f;
 
                     case PlatformId.Desktop:
@@ -295,7 +295,7 @@ namespace GalaxyExplorer
                         return 0.22f;
 
                     case PlatformId.HoloLensGen1:
-                    case PlatformId.HoloLens2:
+                    case PlatformId.ArticulatedHandsPlatform:
                     case PlatformId.Desktop:
                     case PlatformId.Phone:
                         return 0.3f;
@@ -319,7 +319,7 @@ namespace GalaxyExplorer
                     case PlatformId.HoloLensGen1:
                         return 1.0f;
 
-                    case PlatformId.HoloLens2:
+                    case PlatformId.ArticulatedHandsPlatform:
                         return 1.0f;
 
                     case PlatformId.Desktop:
@@ -344,7 +344,7 @@ namespace GalaxyExplorer
                     case PlatformId.HoloLensGen1:
                         return 2.0f;
 
-                    case PlatformId.HoloLens2:
+                    case PlatformId.ArticulatedHandsPlatform:
                         return 1.0f;
 
                     case PlatformId.Desktop:
@@ -357,7 +357,7 @@ namespace GalaxyExplorer
             }
         }
 
-        private IEnumerator CheckForHL2Input()
+        private IEnumerator CheckForArticulatedHands()
         {
             while (MixedRealityToolkit.InputSystem.DetectedControllers == null || MixedRealityToolkit.InputSystem.DetectedControllers.Count == 0)
             {
@@ -369,7 +369,7 @@ namespace GalaxyExplorer
                 var hand = detectedController as IMixedRealityHand;
                 if (hand != null)
                 {
-                    Platform = PlatformId.HoloLens2;
+                    Platform = PlatformId.ArticulatedHandsPlatform;
                 }
             }
         }
@@ -389,7 +389,7 @@ namespace GalaxyExplorer
                 {
                     Platform = PlatformId.HoloLensGen1;
 
-                    StartCoroutine(CheckForHL2Input());
+                    StartCoroutine(CheckForArticulatedHands());
                 }
             }
             else
