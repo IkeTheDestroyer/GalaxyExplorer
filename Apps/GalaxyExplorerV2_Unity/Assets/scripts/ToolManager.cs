@@ -13,7 +13,7 @@ namespace GalaxyExplorer
 {
     public class ToolManager : MonoBehaviour
     {
-        public GameObject SelectedTool = null;
+        public DesktopButton SelectedTool = null;
         public GameObject BackButton;
         public GameObject ShowButton;
         public GameObject HideButton;
@@ -53,7 +53,7 @@ namespace GalaxyExplorer
         private Vector3 _defaultBackButtonLocalPosition;
         private float _fullMenuVisibleBackButtonX;
 
-        //        private List<GEInteractiveToggle> allButtons = new List<GEInteractiveToggle>();
+        private List<DesktopButton> allButtons = new List<DesktopButton>();
         private List<Collider> allButtonColliders = new List<Collider>();
 
         private BoundingBox boundingBox = null;
@@ -81,12 +81,12 @@ namespace GalaxyExplorer
                 Debug.LogError("ToolManager couldn't find ToolPanel. Hiding and showing of Tools unavailable.");
             }
 
-            // FInd all button scripts
-            //            GEInteractiveToggle[] buttonsArray = GetComponentsInChildren<GEInteractiveToggle>(true);
-            //            foreach (var button in buttonsArray)
-            //            {
-            //                allButtons.Add(button);
-            //            }
+            // Find all button scripts
+            DesktopButton[] buttonsArray = GetComponentsInChildren<DesktopButton>(true);
+            foreach (var button in buttonsArray)
+            {
+                allButtons.Add(button);
+            }
 
             // Find all button colliders
             Collider[] allColliders = GetComponentsInChildren<Collider>(true);
@@ -236,51 +236,51 @@ namespace GalaxyExplorer
         public void UnselectAllTools()
         {
             // Deselect any other button that might be selected
-            //            foreach (var button in allButtons)
-            //            {
-            //                button.DeselectButton();
-            //            }
+            foreach (var button in allButtons)
+            {
+                button.DeselectButton();
+            }
         }
 
-        //        public bool SelectTool(GEInteractiveToggle tool)
-        //        {
-        //            if (locked)
-        //            {
-        //                return false;
-        //            }
-        //
-        //            // Dont take into account any primary buttons that need to remain selected
-        //            bool isAnyToolSelected = (SelectedTool != null && !SelectedTool.IsPrimaryButton);
-        //            SelectedTool = tool;
-        //
-        //            // if Any tool was selected before this one was, then need to deselect the previous one
-        //            if (isAnyToolSelected)
-        //            {
-        //                UnselectAllTools();
-        //            }
-        //
-        //            // TODO set cursor to select tool state
-        //
-        //            return true;
-        //        }
-        //
-        //        public bool DeselectTool(GEInteractiveToggle tool)
-        //        {
-        //            if (locked)
-        //            {
-        //                return false;
-        //            }
-        //
-        //            // TODO set cursor normal state
-        //
-        //            if (SelectedTool == tool)
-        //            {
-        //                SelectedTool = null;
-        //                return true;
-        //            }
-        //
-        //            return false;
-        //        }
+        //public bool SelectTool(DesktopButton tool)
+        //{
+        //    if (locked)
+        //    {
+        //        return false;
+        //    }
+
+        //    // Dont take into account any primary buttons that need to remain selected
+        //    bool isAnyToolSelected = (SelectedTool != null && !SelectedTool.IsPrimaryButton);
+        //    SelectedTool = tool;
+
+        //    // if Any tool was selected before this one was, then need to deselect the previous one
+        //    if (isAnyToolSelected)
+        //    {
+        //        UnselectAllTools();
+        //    }
+
+        //    // TODO set cursor to select tool state
+
+        //    return true;
+        //}
+
+        public bool DeselectTool(DesktopButton tool)
+        {
+            if (locked)
+            {
+                return false;
+            }
+
+            // TODO set cursor normal state
+
+            if (SelectedTool == tool)
+            {
+                SelectedTool = null;
+                return true;
+            }
+
+            return false;
+        }
 
         public void LowerTools()
         {

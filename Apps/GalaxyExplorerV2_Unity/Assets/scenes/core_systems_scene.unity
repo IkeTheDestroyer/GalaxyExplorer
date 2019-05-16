@@ -1436,6 +1436,7 @@ GameObject:
   - component: {fileID: 501530029}
   - component: {fileID: 501530028}
   - component: {fileID: 501530026}
+  - component: {fileID: 501530027}
   m_Layer: 5
   m_Name: ResetButton
   m_TagString: Untagged
@@ -1475,6 +1476,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 32.27, y: 32.33, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &501530027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501530024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad456afff47040644849f5b32a517de7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &501530028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1720,6 +1733,7 @@ GameObject:
   - component: {fileID: 625332346}
   - component: {fileID: 625332345}
   - component: {fileID: 625332344}
+  - component: {fileID: 625332347}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1809,6 +1823,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &625332347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 625332342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4e3b9019304b5aaec5664de0778d21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &652699410
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3183,6 +3209,7 @@ GameObject:
   - component: {fileID: 1248014707}
   - component: {fileID: 1248014706}
   - component: {fileID: 1248014710}
+  - component: {fileID: 1248014709}
   m_Layer: 5
   m_Name: AboutButton
   m_TagString: Untagged
@@ -3299,6 +3326,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1248014704}
   m_CullTransparentMesh: 0
+--- !u!114 &1248014709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248014704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad456afff47040644849f5b32a517de7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &1248014710
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3529,6 +3568,7 @@ GameObject:
   - component: {fileID: 1579602488}
   - component: {fileID: 1579602487}
   - component: {fileID: 1579602485}
+  - component: {fileID: 1579602486}
   m_Layer: 5
   m_Name: DotsButton
   m_TagString: Untagged
@@ -3568,6 +3608,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 32.27, y: 32.33, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1579602486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579602483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad456afff47040644849f5b32a517de7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1579602487
 MonoBehaviour:
   m_ObjectHideFlags: 0
