@@ -65,7 +65,7 @@ public class HandMenu : MonoBehaviour
 
     private void Update()
     {
-        if (GalaxyExplorerManager.Platform != GalaxyExplorerManager.PlatformId.ArticulatedHandsPlatform) { return; }
+        // if (GalaxyExplorerManager.Platform != GalaxyExplorerManager.PlatformId.ArticulatedHandsPlatform) { return; }
 
         if (GalaxyExplorerManager.Instance.TransitionManager.IsInIntroFlow || GalaxyExplorerManager.Instance.TransitionManager.InTransition) { return; }
 
