@@ -332,6 +332,31 @@ namespace GalaxyExplorer
             }
         }
 
+        public static float ForcePullToCamFixedDistance
+        {
+            get
+            {
+                switch (Platform)
+                {
+                    case PlatformId.ImmersiveHMD:
+                        return 1.0f;
+
+                    case PlatformId.HoloLensGen1:
+                        return 2.0f;
+
+                    case PlatformId.HoloLens2:
+                        return 1.0f;
+
+                    case PlatformId.Desktop:
+                    case PlatformId.Phone:
+                        return 1.0f;
+
+                    default:
+                        throw new System.Exception();
+                }
+            }
+        }
+
         private IEnumerator CheckForHL2Input()
         {
             while (MixedRealityToolkit.InputSystem.DetectedControllers == null || MixedRealityToolkit.InputSystem.DetectedControllers.Count == 0)

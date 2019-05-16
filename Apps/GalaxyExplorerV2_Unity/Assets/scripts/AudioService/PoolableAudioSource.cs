@@ -23,13 +23,13 @@ public class PoolableAudioSource : APoolable
     {
         get
         {
-            return _audioSource.isPlaying;
+            return AudioSource.isPlaying;
         }
     }
 
     public override bool IsActive
     {
-        get { return _audioSource.isPlaying; }
+        get { return AudioSource.isPlaying; }
     }
 
     private void Awake()
