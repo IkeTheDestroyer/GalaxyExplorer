@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.MixedReality.Toolkit;
 using Microsoft.MixedReality.Toolkit.Input;
 using UnityEngine;
@@ -11,6 +13,7 @@ public class PlanetForceSolver : ForceSolver
     private PlanetHighlighter _planetHighlighter;
     private IAudioService _audioService;
     private AudioSource _voAudioSource, _ambientAudioSource;
+    private List<Moon> _moons = new List<Moon>();
 
     [SerializeField]
     private AudioClip planetAudioClip;
@@ -20,6 +23,7 @@ public class PlanetForceSolver : ForceSolver
     protected override void Awake()
     {
         base.Awake();
+        
         _scaleController = GetComponentInChildren<PlanetOffsetScaleController>();
         if (_scaleController != null)
         {
@@ -31,6 +35,8 @@ public class PlanetForceSolver : ForceSolver
 
         _planetHighlighter = GetComponentInChildren<PlanetHighlighter>();
         _audioService = MixedRealityToolkit.Instance.GetService<IAudioService>();
+
+        _moons = GetComponentsInChildren<Moon>().ToList();
     }
 
     private void StopAudio()
@@ -52,11 +58,28 @@ public class PlanetForceSolver : ForceSolver
         _audioService.PlayClip(planetAmbiantClip, out _ambientAudioSource, transform);
     }
 
+    private void HideMoons()
+    {
+        foreach (var moon in _moons)
+        {
+            moon.Hide();
+        }
+    }
+
+    private void ShowMoons()
+    {
+        foreach (var moon in _moons)
+        {
+            moon.Show();
+        }
+    }
+
     protected override void OnStartRoot()
     {
         base.OnStartRoot();
         _planetHighlighter.gameObject.SetActive(true);
         StopAudio();
+        HideMoons();
     }
 
     protected override void OnStartAttraction()
@@ -64,6 +87,20 @@ public class PlanetForceSolver : ForceSolver
         base.OnStartAttraction();
         _planetHighlighter.gameObject.SetActive(false);
         StartAudio();
+        HideMoons();
+    }
+
+
+    protected override void OnStartManipulation()
+    {
+        base.OnStartManipulation();
+        ShowMoons();
+    }
+
+    protected override void OnStartFree()
+    {
+        base.OnStartFree();
+        ShowMoons();
     }
 
     public override void SolverUpdate()
