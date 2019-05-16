@@ -40,7 +40,7 @@ public class Moon : MonoBehaviour
             var canBeOpaque = Mathf.Abs(Mathf.Abs(Blend-.5f) -.5f) < float.Epsilon;
             foreach (var renderer in _renderers)
             {
-                var material = renderer.sharedMaterial;
+                var material = renderer.material; //create material instance
                 if (_isOpaque && !canBeOpaque)
                 {
                     material.SetInt(Srcblend, (int)UnityEngine.Rendering.BlendMode.SrcAlpha);  
