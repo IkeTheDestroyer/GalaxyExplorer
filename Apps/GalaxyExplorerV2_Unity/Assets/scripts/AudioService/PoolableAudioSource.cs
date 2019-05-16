@@ -54,6 +54,11 @@ public class PoolableAudioSource : APoolable
         Use();
     }
 
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+
     protected override void Reset()
     {
         AudioSource.clip = null;
