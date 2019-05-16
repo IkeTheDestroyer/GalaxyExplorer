@@ -332,6 +332,31 @@ namespace GalaxyExplorer
             }
         }
 
+        public static float ForcePullToCamFixedDistance
+        {
+            get
+            {
+                switch (Platform)
+                {
+                    case PlatformId.ImmersiveHMD:
+                        return 1.0f;
+
+                    case PlatformId.HoloLensGen1:
+                        return 2.0f;
+
+                    case PlatformId.HoloLens2:
+                        return 1.0f;
+
+                    case PlatformId.Desktop:
+                    case PlatformId.Phone:
+                        return 1.0f;
+
+                    default:
+                        throw new System.Exception();
+                }
+            }
+        }
+
         private IEnumerator CheckForHL2Input()
         {
             while (MixedRealityToolkit.InputSystem.DetectedControllers == null || MixedRealityToolkit.InputSystem.DetectedControllers.Count == 0)
@@ -347,26 +372,6 @@ namespace GalaxyExplorer
                     Platform = PlatformId.HoloLens2;
                 }
             }
-
-            //for (int i = 0; i < MixedRealityToolkit.InputSystem.MixedRealityControllerMappingProfiles.Length; i++)
-            //{
-            //    MixedRealityControllerMapping controllerMapping = thisProfile.MixedRealityControllerMappingProfiles[i];
-            //}
-
-            //while (MixedRealityToolkit.InputSystem.DetectedInputSources == null || MixedRealityToolkit.InputSystem.DetectedInputSources.Count == 0)
-            //{
-            //    yield return null;
-            //}
-
-            //foreach (IMixedRealityInputSource inputSource in MixedRealityToolkit.InputSystem.DetectedInputSources)
-            //{
-            //    Debug.Log("inputSource.SourceType = " + inputSource.SourceType.ToString());
-
-            //    if (inputSource.SourceType == InputSourceType.Eyes)
-            //    {
-            //        Platform = PlatformId.HoloLens2;
-            //    }
-            //}
         }
 
         protected override void Awake()
@@ -383,14 +388,14 @@ namespace GalaxyExplorer
                 else
                 {
                     Platform = PlatformId.HoloLensGen1;
+
+                    StartCoroutine(CheckForHL2Input());
                 }
             }
             else
             {
                 Platform = PlatformId.Desktop;
             }
-
-            StartCoroutine(CheckForHL2Input());
 
             if (MyAppPlatformManagerInitialized != null)
             {
