@@ -127,11 +127,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1256011433067577129, guid: 72b2b14c122d5f9449ca23154f43e1a9,
-        type: 3}
-      propertyPath: ControllerTracker
-      value: 
-      objectReference: {fileID: 998223104}
     - target: {fileID: 4361431670615010, guid: 72b2b14c122d5f9449ca23154f43e1a9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -176,6 +171,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1256011433067577129, guid: 72b2b14c122d5f9449ca23154f43e1a9,
+        type: 3}
+      propertyPath: ControllerTracker
+      value: 
+      objectReference: {fileID: 998223104}
     - target: {fileID: 1645678805448656, guid: 72b2b14c122d5f9449ca23154f43e1a9, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -208,11 +208,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3853272619218396461, guid: ad83fcd88d1c833449e130e6e8fb0197,
-        type: 3}
-      propertyPath: ControllerTracker
-      value: 
-      objectReference: {fileID: 998223104}
     - target: {fileID: 4169871806514038, guid: ad83fcd88d1c833449e130e6e8fb0197, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -257,6 +252,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3853272619218396461, guid: ad83fcd88d1c833449e130e6e8fb0197,
+        type: 3}
+      propertyPath: ControllerTracker
+      value: 
+      objectReference: {fileID: 998223104}
     - target: {fileID: 1199625012963018, guid: ad83fcd88d1c833449e130e6e8fb0197, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -496,6 +496,10 @@ PrefabInstance:
       propertyPath: ControllerTracker
       value: 
       objectReference: {fileID: 998223104}
+    - target: {fileID: 1175656608006298, guid: f2b8bee34b0faf8448abea9c5832018b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 629288216, guid: f2b8bee34b0faf8448abea9c5832018b, type: 3}
       propertyPath: m_LocalScale.x
       value: 3.1303449
@@ -507,10 +511,6 @@ PrefabInstance:
     - target: {fileID: 629288216, guid: f2b8bee34b0faf8448abea9c5832018b, type: 3}
       propertyPath: m_LocalScale.z
       value: 3.1303449
-      objectReference: {fileID: 0}
-    - target: {fileID: 1175656608006298, guid: f2b8bee34b0faf8448abea9c5832018b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114303216986898450, guid: f2b8bee34b0faf8448abea9c5832018b,
         type: 3}
@@ -640,6 +640,10 @@ PrefabInstance:
       propertyPath: ControllerTracker
       value: 
       objectReference: {fileID: 998223104}
+    - target: {fileID: 1134759138545050, guid: 5f83d016fa60cbb4eb99ba7794345276, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7784581012922555099, guid: 5f83d016fa60cbb4eb99ba7794345276,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -654,10 +658,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1.7531898
-      objectReference: {fileID: 0}
-    - target: {fileID: 1134759138545050, guid: 5f83d016fa60cbb4eb99ba7794345276, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114600080722916916, guid: 5f83d016fa60cbb4eb99ba7794345276,
         type: 3}
@@ -801,11 +801,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 782867970933567562, guid: 255a48b2a3892c240a53d3ba2fc97828,
-        type: 3}
-      propertyPath: ControllerTracker
-      value: 
-      objectReference: {fileID: 998223104}
     - target: {fileID: 4682731101149312, guid: 255a48b2a3892c240a53d3ba2fc97828, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -850,6 +845,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 782867970933567562, guid: 255a48b2a3892c240a53d3ba2fc97828,
+        type: 3}
+      propertyPath: ControllerTracker
+      value: 
+      objectReference: {fileID: 998223104}
     - target: {fileID: 1346103849855562, guid: 255a48b2a3892c240a53d3ba2fc97828, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1163,16 +1163,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: poi_pluto_prefab
       objectReference: {fileID: 0}
-    - target: {fileID: 8632601556396421014, guid: e34c77ad5a997fc47b26bbafcd17f274,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 120
-      objectReference: {fileID: 0}
-    - target: {fileID: 4712424985490400389, guid: e34c77ad5a997fc47b26bbafcd17f274,
-        type: 3}
-      propertyPath: ControllerTracker
-      value: 
-      objectReference: {fileID: 998223104}
     - target: {fileID: 4804863230426058, guid: e34c77ad5a997fc47b26bbafcd17f274, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1217,9 +1207,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4712424985490400389, guid: e34c77ad5a997fc47b26bbafcd17f274,
+        type: 3}
+      propertyPath: ControllerTracker
+      value: 
+      objectReference: {fileID: 998223104}
     - target: {fileID: 1318998593998450, guid: e34c77ad5a997fc47b26bbafcd17f274, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632601556396421014, guid: e34c77ad5a997fc47b26bbafcd17f274,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 114481198792264894, guid: e34c77ad5a997fc47b26bbafcd17f274,
         type: 3}
@@ -1429,6 +1429,10 @@ PrefabInstance:
       propertyPath: ControllerTracker
       value: 
       objectReference: {fileID: 998223104}
+    - target: {fileID: 1683773399555190, guid: 225b2bfd78fd7e041af8cd1fc3016f3d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6158091191928922941, guid: 225b2bfd78fd7e041af8cd1fc3016f3d,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -1443,10 +1447,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1.2618104
-      objectReference: {fileID: 0}
-    - target: {fileID: 1683773399555190, guid: 225b2bfd78fd7e041af8cd1fc3016f3d, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114172367342523618, guid: 225b2bfd78fd7e041af8cd1fc3016f3d,
         type: 3}
@@ -1525,11 +1525,11 @@ PrefabInstance:
       propertyPath: ControllerTracker
       value: 
       objectReference: {fileID: 998223104}
-    - target: {fileID: 1312280091084390, guid: ac1470558d9973740a20c0a37abdad3a, type: 3}
+    - target: {fileID: 1175552059526412, guid: ac1470558d9973740a20c0a37abdad3a, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1175552059526412, guid: ac1470558d9973740a20c0a37abdad3a, type: 3}
+    - target: {fileID: 1312280091084390, guid: ac1470558d9973740a20c0a37abdad3a, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -2059,6 +2059,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4032327956959144552, guid: bc5f2d93842f5584999ba3a17d859f1c,
+        type: 3}
+      propertyPath: ControllerTracker
+      value: 
+      objectReference: {fileID: 998223104}
+    - target: {fileID: 1851215294736316, guid: bc5f2d93842f5584999ba3a17d859f1c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7051557325359712129, guid: bc5f2d93842f5584999ba3a17d859f1c,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -2073,15 +2082,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 3.298966
-      objectReference: {fileID: 0}
-    - target: {fileID: 4032327956959144552, guid: bc5f2d93842f5584999ba3a17d859f1c,
-        type: 3}
-      propertyPath: ControllerTracker
-      value: 
-      objectReference: {fileID: 998223104}
-    - target: {fileID: 1851215294736316, guid: bc5f2d93842f5584999ba3a17d859f1c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114957628121542140, guid: bc5f2d93842f5584999ba3a17d859f1c,
         type: 3}

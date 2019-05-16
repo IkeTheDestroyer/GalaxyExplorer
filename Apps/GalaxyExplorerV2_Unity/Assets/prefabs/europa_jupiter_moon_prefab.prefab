@@ -14,6 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Sun: {fileID: 0}
   SetMaterials: 1
+--- !u!114 &6377503580303733871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6003305027365737502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3cdcb570c416354db07d07e68fd28ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8897901438137091041
 GameObject:
   m_ObjectHideFlags: 0
@@ -24,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1224226717575684176}
   m_Layer: 0
-  m_Name: europa_jupiter_moon_prefab 1
+  m_Name: europa_jupiter_moon_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

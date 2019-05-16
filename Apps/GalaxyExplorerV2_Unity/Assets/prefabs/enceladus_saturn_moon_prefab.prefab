@@ -45,6 +45,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Sun: {fileID: 0}
   SetMaterials: 1
+--- !u!114 &3619201587611205644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8221033935720254989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3cdcb570c416354db07d07e68fd28ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8221033935720155311
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53,6 +65,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3386305689024641813}
     m_Modifications:
     - target: {fileID: 100000, guid: f99f6fdb040c1ba44ae2d98e00348da7, type: 3}
+      propertyPath: m_Name
+      value: enceladus_saturn_moon_model
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: f99f6fdb040c1ba44ae2d98e00348da7, type: 3}
       propertyPath: m_Name
       value: enceladus_saturn_moon_model
       objectReference: {fileID: 0}
@@ -100,18 +116,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2300000, guid: f99f6fdb040c1ba44ae2d98e00348da7, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: fdda338521a386e4d86a14851ba0e3fd, type: 2}
     - target: {fileID: 400002, guid: f99f6fdb040c1ba44ae2d98e00348da7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: f99f6fdb040c1ba44ae2d98e00348da7, type: 3}
-      propertyPath: m_Name
-      value: enceladus_saturn_moon_model
-      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: f99f6fdb040c1ba44ae2d98e00348da7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: fdda338521a386e4d86a14851ba0e3fd, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f99f6fdb040c1ba44ae2d98e00348da7, type: 3}
 --- !u!4 &8221033935720550959 stripped

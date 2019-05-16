@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1371796493376502097}
   m_Layer: 0
-  m_Name: iapetus_saturn_moon_prefab 1
+  m_Name: iapetus_saturn_moon_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,6 +31,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4611322616683865978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6142539304597496449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3cdcb570c416354db07d07e68fd28ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1804426681501443065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6142539304597496449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9015f6d9c70c0e04bac886bc919a5032, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sun: {fileID: 0}
+  SetMaterials: 1
 --- !u!1001 &6142539304597529635
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39,6 +65,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1371796493376502097}
     m_Modifications:
     - target: {fileID: 100000, guid: db72ae814ef58ba4a8291dece78a6487, type: 3}
+      propertyPath: m_Name
+      value: iapetus_saturn_moon_model
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: db72ae814ef58ba4a8291dece78a6487, type: 3}
       propertyPath: m_Name
       value: iapetus_saturn_moon_model
       objectReference: {fileID: 0}
@@ -86,10 +116,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: db72ae814ef58ba4a8291dece78a6487, type: 3}
-      propertyPath: m_Name
-      value: iapetus_saturn_moon_model
-      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: db72ae814ef58ba4a8291dece78a6487, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -103,6 +129,12 @@ PrefabInstance:
 --- !u!4 &6142539304597929635 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: db72ae814ef58ba4a8291dece78a6487,
+    type: 3}
+  m_PrefabInstance: {fileID: 6142539304597529635}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6142539304597496449 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100002, guid: db72ae814ef58ba4a8291dece78a6487,
     type: 3}
   m_PrefabInstance: {fileID: 6142539304597529635}
   m_PrefabAsset: {fileID: 0}
