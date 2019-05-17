@@ -54,7 +54,7 @@ namespace GalaxyExplorer
         private float _fullMenuVisibleBackButtonX;
 
         private List<DesktopButton> allButtons = new List<DesktopButton>();
-        private List<Collider> allButtonColliders = new List<Collider>();
+        //private List<Collider> allButtonColliders = new List<Collider>();
 
         private BoundingBox boundingBox = null;
 
@@ -89,11 +89,11 @@ namespace GalaxyExplorer
             }
 
             // Find all button colliders
-            Collider[] allColliders = GetComponentsInChildren<Collider>(true);
-            foreach (var collider in allColliders)
-            {
-                allButtonColliders.Add(collider);
-            }
+            //Collider[] allColliders = GetComponentsInChildren<Collider>(true);
+            //foreach (var collider in allColliders)
+            //{
+            //    allButtonColliders.Add(collider);
+            //}
 
             ShowButton.SetActive(false);
             BackButton.SetActive(false);
@@ -345,10 +345,10 @@ namespace GalaxyExplorer
 
         private void SetCollidersEnabled(bool isEnabled)
         {
-            foreach (var collider in allButtonColliders)
-            {
-                collider.enabled = isEnabled;
-            }
+            //foreach (var collider in allButtonColliders)
+            //{
+            //    collider.enabled = isEnabled;
+            //}
         }
 
         /// <summary>
