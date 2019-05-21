@@ -11,7 +11,7 @@ namespace GalaxyExplorer
 {
     // Galaxy Explorer button based on MRTK button
 
-    public class DesktopButton : InteractiveToggle
+    public class DesktopButton : MonoBehaviour
     {
         [Header("GEInteractiveToggle members")]
         [SerializeField]
@@ -25,89 +25,5 @@ namespace GalaxyExplorer
 
         public UnityEvent OnGazeSelect;
         public UnityEvent OnGazeDeselect;
-
-        protected override void Start()
-        {
-            base.Start();
-        }
-
-        // On button click toggle logic, set this as the selected one or if it was select it then unselect it
-        public override void ToggleLogic()
-        {
-            if (IsSelected)
-            {
-                GalaxyExplorerManager.Instance.ToolsManager.SelectedTool = null;
-            }
-            else
-            {
-                //GalaxyExplorerManager.Instance.ToolsManager.SelectTool(this);
-            }
-
-            base.ToggleLogic();
-        }
-
-        public override void OnFocusEnter(FocusEventData eventData)
-        {
-            base.OnFocusEnter(eventData);
-
-            if ((AllowDeselect && !IsSelected) && !PassiveMode)
-            {
-                OnGazeSelect?.Invoke();
-            }
-        }
-
-        public override void OnFocusExit(FocusEventData eventData)
-        {
-            base.OnFocusExit(eventData);
-
-            if ((AllowDeselect && !IsSelected) && !PassiveMode)
-            {
-                OnGazeDeselect?.Invoke();
-            }
-        }
-
-        // Deselect Button ONLY if its not the one currently selected
-        // So deselect it if another button is selected now
-        // Dont deselect that way any primary buttons
-        public void DeselectButton()
-        {
-            if (IsSelected &&
-                !PassiveMode
-                && GalaxyExplorerManager.Instance.ToolsManager.SelectedTool != this
-                && !IsPrimaryButton)
-            {
-                if (OnDeselection != null)
-                {
-                    OnDeselection.Invoke();
-                }
-
-                if (OnGazeDeselect != null)
-                {
-                    OnGazeDeselect.Invoke();
-                }
-
-                IsSelected = false;
-                HasGaze = false;
-                HasSelection = false;
-
-                Debug.Log("Button " + gameObject.name + " was deselected because it was selected while another button got selected");
-            }
-            IsSelected = false;
-        }
-
-        // Reset is needed in buttons that the moment they are selected they are deselected as well, so they dont stay active
-        // Such buttons are the controls ones, show and hide
-        // This function is hooked up in editor events
-        public void ResetButton()
-        {
-            if (IsSelected && GalaxyExplorerManager.Instance.ToolsManager.SelectedTool == this)
-            {
-                GalaxyExplorerManager.Instance.ToolsManager.SelectedTool = null;
-            }
-
-            IsSelected = false;
-            HasGaze = false;
-            HasSelection = false;
-        }
     }
 }

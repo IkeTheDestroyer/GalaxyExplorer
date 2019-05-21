@@ -2518,7 +2518,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &625332343
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5215,7 +5215,6 @@ GameObject:
   - component: {fileID: 1579602489}
   - component: {fileID: 1579602488}
   - component: {fileID: 1579602487}
-  - component: {fileID: 1579602486}
   - component: {fileID: 1579602485}
   m_Layer: 5
   m_Name: DotsButton
@@ -5256,120 +5255,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 32.27, y: 32.33, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1579602486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1579602483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad456afff47040644849f5b32a517de7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ParentObject: {fileID: 0}
-  IsEnabled: 1
-  DetectHold: 0
-  HoldTime: 0.5
-  RollOffTime: 0.02
-  Keyword: 
-  KeywordRequiresGaze: 1
-  OnSelectEvents:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnDownEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnHoldEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  AllowSelection: 1
-  AllowDeselect: 1
-  HasSelection: 0
-  PassiveMode: 0
-  OnSelection:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1248014704}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 501530024}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnDeselection:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1248014704}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 501530024}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1618593079}
-        m_MethodName: UnselectAllTools
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  isPrimaryButton: 0
-  OnGazeSelect:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnGazeDeselect:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &1579602487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5410,7 +5295,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1579602486}
+      - m_Target: {fileID: 0}
         m_MethodName: ToggleLogic
         m_Mode: 1
         m_Arguments:
@@ -6070,6 +5955,7 @@ GameObject:
   - component: {fileID: 1618593079}
   - component: {fileID: 1618593081}
   - component: {fileID: 1618593082}
+  - component: {fileID: 1618593083}
   m_Layer: 0
   m_Name: ToolsManager
   m_TagString: Untagged
@@ -6089,7 +5975,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec18556502c02f2478c0d59881203c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectedTool: {fileID: 0}
   BackButton: {fileID: 1642965381}
   ShowButton: {fileID: 1177703200}
   HideButton: {fileID: 307842271}
@@ -6189,6 +6074,21 @@ MonoBehaviour:
     type: 3}
   _menuDisappearAudioClip: {fileID: 8300000, guid: a5c2761a9f6a00e42ad60b05c8d7af32,
     type: 3}
+--- !u!114 &1618593083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618593078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d5fbf57019a23d4091727cbeda3d5a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _menuParent: {fileID: 1746276106}
+  _backButton: {fileID: 1636001460}
+  _resetButton: {fileID: 501530024}
 --- !u!1 &1636001460
 GameObject:
   m_ObjectHideFlags: 0
@@ -6282,7 +6182,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1701178538}
-        m_MethodName: ResetMRSceneToOrigin
+        m_MethodName: LoadPrevScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7753,7 +7653,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1746276107}
-  - component: {fileID: 1746276108}
   m_Layer: 5
   m_Name: DesktopButtons
   m_TagString: Untagged
@@ -7776,21 +7675,6 @@ Transform:
   m_Father: {fileID: 1618593080}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1746276108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746276106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d5fbf57019a23d4091727cbeda3d5a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _menuParent: {fileID: 625332342}
-  _backButton: {fileID: 1636001460}
-  _resetButton: {fileID: 501530024}
 --- !u!1 &1756920059
 GameObject:
   m_ObjectHideFlags: 0
