@@ -129,14 +129,14 @@ public class DesktopButtonsManager : MonoBehaviour
         _buttonParent.SetActive(!_buttonParent.activeSelf);
     }
 
-    private void OnBackButtonNeedsToShow(bool show)
-    {
-        _backButton.SetActive(show);
-    }
-
     public void OnAboutButtonPressed()
     {
         _aboutSlate.ButtonClicked();
+    }
+
+    private void OnBackButtonNeedsToShow(bool show)
+    {
+        _backButton.SetActive(show);
     }
 
     public void OnBackButtonPressed()

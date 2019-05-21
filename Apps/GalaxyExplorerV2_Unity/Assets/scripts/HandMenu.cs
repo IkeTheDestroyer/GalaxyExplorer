@@ -58,11 +58,6 @@ public class HandMenu : MonoBehaviour
         _cameraTransform = Camera.main.transform;
     }
 
-    private void OnBackButtonNeedsToShow(bool show)
-    {
-        _backButton.SetActive(show);
-    }
-
     private void Update()
     {
         // if (GalaxyExplorerManager.Platform != GalaxyExplorerManager.PlatformId.ArticulatedHandsPlatform) { return; }
@@ -106,6 +101,11 @@ public class HandMenu : MonoBehaviour
     public void OnAboutButtonPressed()
     {
         _aboutSlate.ButtonClicked();
+    }
+
+    private void OnBackButtonNeedsToShow(bool show)
+    {
+        _backButton.SetActive(show);
     }
 
     public void OnBackButtonPressed()
