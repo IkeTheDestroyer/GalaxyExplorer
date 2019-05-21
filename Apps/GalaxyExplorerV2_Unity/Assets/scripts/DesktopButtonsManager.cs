@@ -8,6 +8,9 @@ public class DesktopButtonsManager : MonoBehaviour
     private GameObject _menuParent;
 
     [SerializeField]
+    private GameObject _buttonParent;
+
+    [SerializeField]
     private GameObject _backButton;
 
     [SerializeField]
@@ -124,6 +127,11 @@ public class DesktopButtonsManager : MonoBehaviour
         {
             SetMenuVisibility(false);
         }
+    }
+
+    public void OnToggleDesktopButtonVisibility()
+    {
+        _buttonParent.SetActive(!_buttonParent.activeSelf);
     }
 
     private void OnBackButtonNeedsToShow(bool show)
