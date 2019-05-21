@@ -32,7 +32,7 @@ public class DesktopButtonsManager : MonoBehaviour
     private POIPlanetFocusManager _pOIPlanetFocusManager;
     private AboutSlate _aboutSlate;
     private Vector3 _defaultBackButtonLocalPosition;
-    private float _fullMenuVisibleBackButtonX;
+    private Vector3 _fullMenuVisibilityBackButtonPos;
     private Transform _cameraTransform;
 
     public bool IsVisible { get; private set; } = false;
@@ -44,7 +44,7 @@ public class DesktopButtonsManager : MonoBehaviour
         _aboutSlate = FindObjectOfType<AboutSlate>();
 
         // Store the x value of the local position for the back button when all menu buttons are visible
-        _fullMenuVisibleBackButtonX = _backButton.transform.localPosition.x;
+        _fullMenuVisibilityBackButtonPos = _backButton.transform.localPosition;
 
         // Since reset is not visible during most of the app states, regard its local position as the default back button local position
         _defaultBackButtonLocalPosition = _resetButton.transform.localPosition;
@@ -61,6 +61,7 @@ public class DesktopButtonsManager : MonoBehaviour
         GalaxyExplorerManager.Instance.ToolsManager.BackButtonNeedsShowing += OnBackButtonNeedsToShow;
         _backButton.SetActive(false);
         _resetButton.SetActive(false);
+        _buttonParent.SetActive(false);
 
         _cameraTransform = Camera.main.transform;
     }
@@ -85,20 +86,14 @@ public class DesktopButtonsManager : MonoBehaviour
 
     private IEnumerator OnSceneIsLoadedCoroutine()
     {
-        Debug.Log("In OnSceneIsLoadedCoroutine before waiting 1 sec. (POIPlanetFocusManager != null) = " + (POIPlanetFocusManager != null) + " / !_resetButton.activeInHierarchy = " + (!_resetButton.activeInHierarchy));
-
         // waiting necessary for events in flow manager to be called and
         // stage of intro flow to be correct when executing following code
         yield return new WaitForSeconds(1);
-
-        Debug.Log("In OnSceneIsLoadedCoroutine after waiting 1 sec. (POIPlanetFocusManager != null) = " + (POIPlanetFocusManager != null) + " / !_resetButton.activeInHierarchy = " + (!_resetButton.activeInHierarchy));
 
         while (GalaxyExplorerManager.Instance.TransitionManager.InTransition)
         {
             yield return null;
         }
-
-        Debug.Log("In OnSceneIsLoadedCoroutine after yield return null. (POIPlanetFocusManager != null) = " + (POIPlanetFocusManager != null) + " / !_resetButton.activeInHierarchy = " + (!_resetButton.activeInHierarchy));
 
         SetMenuVisibility(true);
 
@@ -108,7 +103,7 @@ public class DesktopButtonsManager : MonoBehaviour
 
             // When the POIPlanetFocusManager is present in the currently loaded scenes, this means we are in the solar system and the reset button should be visible
             _resetButton.SetActive(true);
-            _backButton.transform.localPosition = new Vector3(_fullMenuVisibleBackButtonX, 0f, 0f);
+            _backButton.transform.localPosition = _fullMenuVisibilityBackButtonPos;
         }
         // else if (POIPlanetFocusManager == null && _resetButton.activeInHierarchy)
         else if (POIPlanetFocusManager == null && _resetButton.activeInHierarchy)
