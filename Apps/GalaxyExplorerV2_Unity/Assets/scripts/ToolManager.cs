@@ -12,10 +12,11 @@ namespace GalaxyExplorer
 {
     public class ToolManager : MonoBehaviour
     {
-        public GameObject BackButton;
-        public GameObject ShowButton;
-        public GameObject HideButton;
+        public GameObject RaiseButton;
+        public GameObject LowerButton;
         public GameObject ResetButton;
+        public GameObject BackButton;
+
         public float MinZoom = 0.15f;
         public float LargestZoom = 3.0f;
 
@@ -45,16 +46,10 @@ namespace GalaxyExplorer
 
         public event BackButtonNeedsShowingEventHandler BackButtonNeedsShowing;
 
-        private bool locked = false;
         private ToolPanel panel;
         private POIPlanetFocusManager _pOIPlanetFocusManager;
         private Vector3 _defaultBackButtonLocalPosition;
         private float _fullMenuVisibleBackButtonX;
-
-        //private List<DesktopButton> allButtons = new List<DesktopButton>();
-        //private List<Collider> allButtonColliders = new List<Collider>();
-
-        private BoundingBox boundingBox = null;
 
         public delegate void AboutSlateOnDelegate(bool enable);
 
@@ -63,11 +58,6 @@ namespace GalaxyExplorer
         public delegate void BoundingBoxDelegate(bool enable);
 
         public BoundingBoxDelegate OnBoundingBoxDelegate;
-
-        public bool IsLocked
-        {
-            get { return locked; }
-        }
 
         private float smallestZoom;
 
@@ -79,7 +69,7 @@ namespace GalaxyExplorer
                 Debug.LogError("ToolManager couldn't find ToolPanel. Hiding and showing of Tools unavailable.");
             }
 
-            ShowButton.SetActive(false);
+            RaiseButton.SetActive(false);
             BackButton.SetActive(false);
             ResetButton.SetActive(false);
 
@@ -97,8 +87,6 @@ namespace GalaxyExplorer
             // Since the app starts with reset button not visible, move the back button to its spot instead
             BackButton.transform.localPosition = _defaultBackButtonLocalPosition;
 
-            boundingBox = FindObjectOfType<BoundingBox>();
-
             if (GalaxyExplorerManager.Instance.ViewLoaderScript)
             {
                 GalaxyExplorerManager.Instance.ViewLoaderScript.OnSceneIsLoaded += OnSceneIsLoaded;
@@ -113,11 +101,6 @@ namespace GalaxyExplorer
 #if UNITY_EDITOR
             OnSceneIsLoaded();
 #endif
-        }
-
-        public void OnSceneIsLoaded()
-        {
-            StartCoroutine(OnSceneIsLoadedCoroutine());
         }
 
         private void OnSceneReset()
@@ -139,6 +122,11 @@ namespace GalaxyExplorer
             {
                 HideTools();
             }
+        }
+
+        public void OnSceneIsLoaded()
+        {
+            StartCoroutine(OnSceneIsLoadedCoroutine());
         }
 
         // Callback when a new scene is loaded
@@ -200,10 +188,10 @@ namespace GalaxyExplorer
         {
             panel.IsLowered = true;
 
-            if (ShowButton && HideButton)
+            if (RaiseButton && LowerButton)
             {
-                ShowButton.SetActive(true);
-                HideButton.SetActive(false);
+                RaiseButton.SetActive(true);
+                LowerButton.SetActive(false);
             }
         }
 
@@ -211,10 +199,10 @@ namespace GalaxyExplorer
         {
             panel.IsLowered = false;
 
-            if (ShowButton && HideButton)
+            if (RaiseButton && LowerButton)
             {
-                ShowButton.SetActive(false);
-                HideButton.SetActive(true);
+                RaiseButton.SetActive(false);
+                LowerButton.SetActive(true);
             }
         }
 

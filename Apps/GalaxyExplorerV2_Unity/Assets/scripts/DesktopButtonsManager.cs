@@ -11,10 +11,10 @@ public class DesktopButtonsManager : MonoBehaviour
     private GameObject _buttonParent;
 
     [SerializeField]
-    private GameObject _backButton;
+    private GameObject _resetButton;
 
     [SerializeField]
-    private GameObject _resetButton;
+    private GameObject _backButton;
 
     private POIPlanetFocusManager POIPlanetFocusManager
     {

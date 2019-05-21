@@ -7,10 +7,10 @@ public class HandMenu : MonoBehaviour
     private GameObject _menuParent;
 
     [SerializeField]
-    private GameObject _backButton;
+    private GameObject _resetButton;
 
     [SerializeField]
-    private GameObject _resetButton;
+    private GameObject _backButton;
 
     [SerializeField]
     private float _minShowingAngle = 135f;
