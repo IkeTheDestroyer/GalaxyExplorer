@@ -4,41 +4,34 @@ using UnityEngine;
 public class POIHighlight : MonoBehaviour
 {
     [SerializeField]
-    private float _startOffset = -1f;
+    private float _startOffset = -0.7f;
 
     [SerializeField]
-    private float _endOffset = 1f;
+    private float _endOffset = 0.7f;
 
     [SerializeField]
     private float duration = 1f;
 
-    [SerializeField]
-    private float _delay = 0f;
-
     private Material _material;
 
-    private void OnEnable()
+    private void Start()
     {
-        if (_material == null)
-        {
-            _material = GetComponent<Renderer>().material;
-        }
+        _material = GetComponent<Renderer>().material;
 
         StartLerpTextureOffset();
     }
 
-    public void StartLerpTextureOffset()
+    private void StartLerpTextureOffset()
     {
+        _material.SetTextureOffset("_MainTex", new Vector2(_startOffset, 0));
+
         StartCoroutine(LerpTextureOffset(duration));
     }
 
     private IEnumerator LerpTextureOffset(float duration)
     {
-        _material.SetTextureOffset("_MainTex", new Vector2(_startOffset, 0));
-
+        float totalDuration = duration;
         Vector2 newOffset = _material.GetTextureOffset("_MainTex");
-
-        yield return new WaitForSeconds(_delay);
 
         while (duration > 0)
         {
