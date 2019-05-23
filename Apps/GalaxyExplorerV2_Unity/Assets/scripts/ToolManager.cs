@@ -30,13 +30,13 @@ namespace GalaxyExplorer
         [HideInInspector]
         public bool ToolsVisible = false;
 
-        private POIPlanetFocusManager POIPlanetFocusManager
+        private ForceSolverFocusManager ForceSolverFocusManager
         {
             get
             {
                 if (_pOIPlanetFocusManager == null)
                 {
-                    _pOIPlanetFocusManager = FindObjectOfType<POIPlanetFocusManager>();
+                    _pOIPlanetFocusManager = FindObjectOfType<ForceSolverFocusManager>();
                 }
 
                 return _pOIPlanetFocusManager;
@@ -49,7 +49,7 @@ namespace GalaxyExplorer
 
         private bool locked = false;
         private ToolPanel panel;
-        private POIPlanetFocusManager _pOIPlanetFocusManager;
+        private ForceSolverFocusManager _pOIPlanetFocusManager;
         private Vector3 _defaultBackButtonLocalPosition;
         private float _fullMenuVisibleBackButtonX;
 
@@ -139,7 +139,7 @@ namespace GalaxyExplorer
 
         private void OnSceneReset()
         {
-            if (POIPlanetFocusManager)
+            if (ForceSolverFocusManager)
             {
                 _pOIPlanetFocusManager.ResetAllForseSolvers();
             }
@@ -194,13 +194,13 @@ namespace GalaxyExplorer
         {
             if (!GalaxyExplorerManager.Instance.TransitionManager.IsInIntroFlow)
             {
-                if (POIPlanetFocusManager != null && !ResetButton.activeInHierarchy)
+                if (ForceSolverFocusManager != null && !ResetButton.activeInHierarchy)
                 {
                     // When the POIPlanetFocusManager is present in the currently loaded scenes, this means we are in the solar system and the reset button should be visible
                     ResetButton.SetActive(true);
                     BackButton.transform.localPosition = new Vector3(_fullMenuVisibleBackButtonX, 0f, 0f);
                 }
-                else if (POIPlanetFocusManager == null && ResetButton.activeInHierarchy)
+                else if (ForceSolverFocusManager == null && ResetButton.activeInHierarchy)
                 {
                     // When the POIPlanetFocusManager isn't present in the currently loaded scenes, this means we're not in the solar system and the reset button shouldn't show up
                     ResetButton.SetActive(false);

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class POIPlanetFocusManager : MonoBehaviour
+public class ForceSolverFocusManager : MonoBehaviour
 {
-    private PlanetForceSolver[] _planetForceSolvers;
-    private PlanetForceSolver _currentlyFocusedPlanet;
+    private ForceSolver[] _planetForceSolvers;
+    private ForceSolver _currentlyActiveSolver, _currentlyDwellingSolver;
 
     private void Awake()
     {
@@ -20,20 +20,33 @@ public class POIPlanetFocusManager : MonoBehaviour
             forceSolver.SetToRoot.AddListener(OnSolverRoot);
             forceSolver.SetToManipulate.AddListener(OnSolverManipulate);
             forceSolver.SetToFree.AddListener(OnSolverFree);
+            forceSolver.SetToDwell.AddListener(OnSolverDwell);
         }
+    }
+
+    public void OnSolverDwell(ForceSolver solver)
+    {
+        if (_currentlyDwellingSolver == solver)
+        {
+            return;
+        }
+
+        var currentDwellProgress =
+            _currentlyDwellingSolver == null ? 0f : _currentlyDwellingSolver.CurrentRelativeDwell;
+
+        Debug.Assert(solver.ForceSetDwellTimer(currentDwellProgress));
     }
 
     public void OnSolverAttraction(ForceSolver solver)
     {
-        var pForceSolver = solver as PlanetForceSolver;
-        if (_currentlyFocusedPlanet != null)
+        if (_currentlyActiveSolver != null)
         {
-            _currentlyFocusedPlanet.ResetToRoot();
+            _currentlyActiveSolver.ResetToRoot();
         }
-        _currentlyFocusedPlanet = pForceSolver;
+        _currentlyActiveSolver = solver;
         foreach (var planetForceSolver in _planetForceSolvers)
         {
-            if (pForceSolver == planetForceSolver)
+            if (solver == planetForceSolver)
             {
                 continue;
             }
@@ -44,16 +57,15 @@ public class POIPlanetFocusManager : MonoBehaviour
 
     public void OnSolverRoot(ForceSolver solver)
     {
-        var pForceSolver = solver as PlanetForceSolver;
-        if (_currentlyFocusedPlanet == pForceSolver)
+        if (_currentlyActiveSolver == solver)
         {
-            _currentlyFocusedPlanet = null;
+            _currentlyActiveSolver = null;
         }
     }
 
     public void OnSolverManipulate(ForceSolver solver)
     {
-        if (solver == _currentlyFocusedPlanet)
+        if (solver == _currentlyActiveSolver)
         {
             return;
         }

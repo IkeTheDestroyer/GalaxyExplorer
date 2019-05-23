@@ -15,13 +15,13 @@ public class HandMenu : MonoBehaviour
     [SerializeField]
     private float _minShowingAngle = 135f;
 
-    private POIPlanetFocusManager POIPlanetFocusManager
+    private ForceSolverFocusManager ForceSolverFocusManager
     {
         get
         {
             if (_pOIPlanetFocusManager == null)
             {
-                _pOIPlanetFocusManager = FindObjectOfType<POIPlanetFocusManager>();
+                _pOIPlanetFocusManager = FindObjectOfType<ForceSolverFocusManager>();
             }
 
             return _pOIPlanetFocusManager;
@@ -30,7 +30,7 @@ public class HandMenu : MonoBehaviour
 
     private AttachToControllerSolver _attachToControllerSolver;
     private HandMenuManager _handMenuManager;
-    private POIPlanetFocusManager _pOIPlanetFocusManager;
+    private ForceSolverFocusManager _pOIPlanetFocusManager;
     private AboutSlate _aboutSlate;
 
     private float _currentAngle = 0f;
@@ -89,13 +89,13 @@ public class HandMenu : MonoBehaviour
             }
         }
 
-        if (POIPlanetFocusManager != null && !_resetButton.activeInHierarchy)
+        if (ForceSolverFocusManager != null && !_resetButton.activeInHierarchy)
         {
             // When the POIPlanetFocusManager is present in the currently loaded scenes, this means we are in the solar system and the reset button should be visible
             _resetButton.SetActive(true);
             _backButton.transform.localPosition = new Vector3(0f, _originalBackButtonLocalPosition.y + _interButtonDistance, 0f);
         }
-        else if (POIPlanetFocusManager == null && _resetButton.activeInHierarchy)
+        else if (ForceSolverFocusManager == null && _resetButton.activeInHierarchy)
         {
             // When the POIPlanetFocusManager isn't present in the currently loaded scenes, this means we're not in the solar system and the reset button shouldn't show up
             _resetButton.SetActive(false);
@@ -115,7 +115,7 @@ public class HandMenu : MonoBehaviour
 
     public void OnResetButtonPressed()
     {
-        if (POIPlanetFocusManager)
+        if (ForceSolverFocusManager)
         {
             _pOIPlanetFocusManager.ResetAllForseSolvers();
         }
