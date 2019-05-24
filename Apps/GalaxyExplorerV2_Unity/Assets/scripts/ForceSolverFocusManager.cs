@@ -5,7 +5,7 @@ using UnityEngine;
 public class ForceSolverFocusManager : MonoBehaviour
 {
     private ForceSolver[] _planetForceSolvers;
-    private ForceSolver _currentlyActiveSolver, _currentlyDwellingSolver;
+    private ForceSolver _currentlyActiveSolver, _currentlyFocusedDwellingSolver;
 
     private void Awake()
     {
@@ -26,23 +26,34 @@ public class ForceSolverFocusManager : MonoBehaviour
 
     public void OnSolverDwell(ForceSolver solver)
     {
-        if (_currentlyDwellingSolver == solver)
+        if (_currentlyFocusedDwellingSolver == solver)
         {
             return;
         }
 
         var currentDwellProgress =
-            _currentlyDwellingSolver == null ? 0f : _currentlyDwellingSolver.CurrentRelativeDwell;
-
-        Debug.Assert(solver.ForceSetDwellTimer(currentDwellProgress));
+            _currentlyFocusedDwellingSolver == null ? 0f : _currentlyFocusedDwellingSolver.CurrentRelativeDwell;
+        
+        _currentlyFocusedDwellingSolver = solver;
+        
+        Debug.Assert(_currentlyFocusedDwellingSolver.ForceSetDwellTimer(currentDwellProgress));
     }
 
     public void OnSolverAttraction(ForceSolver solver)
     {
+        if (_currentlyActiveSolver == solver)
+        {
+            return;
+        }
+        
         if (_currentlyActiveSolver != null)
         {
             _currentlyActiveSolver.ResetToRoot();
         }
+
+        Debug.Assert(_currentlyFocusedDwellingSolver == null || _currentlyFocusedDwellingSolver == solver);
+        _currentlyFocusedDwellingSolver = null;
+        
         _currentlyActiveSolver = solver;
         foreach (var planetForceSolver in _planetForceSolvers)
         {
@@ -61,10 +72,18 @@ public class ForceSolverFocusManager : MonoBehaviour
         {
             _currentlyActiveSolver = null;
         }
+
+        if (_currentlyFocusedDwellingSolver == solver)
+        {
+            _currentlyFocusedDwellingSolver = null;
+        }
     }
 
     public void OnSolverManipulate(ForceSolver solver)
     {
+        Debug.Assert(_currentlyFocusedDwellingSolver == null || _currentlyFocusedDwellingSolver == solver);
+        _currentlyFocusedDwellingSolver = null;
+        
         if (solver == _currentlyActiveSolver)
         {
             return;

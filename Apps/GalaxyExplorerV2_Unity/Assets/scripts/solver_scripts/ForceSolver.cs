@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
 using GalaxyExplorer;
 using Microsoft.MixedReality.Toolkit;
 using Microsoft.MixedReality.Toolkit.Input;
@@ -29,6 +31,9 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
         Manipulation,
     }
 
+    private static int _dwellCounter;
+    private static AudioSource _tractionBeamAudioSource;
+
     private ManipulationHandler _manipulationHandler;
     private Collider _attractionCollider;
     private Quaternion _rotationOffset, _previousRotation;
@@ -38,18 +43,22 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
     private bool _forcePullToFrontOfCamera;
     private bool _forcePullToHandController => !_forcePullToFrontOfCamera;
     private Camera _mainCamera;
-    private int _focusPointerCounter;
     private Coroutine _attractionDwellRoutine;
-    private float _dwellTimer;
+    private float _dwellTimer, _dwellForgivenessTimer;
+    private readonly HashSet<IMixedRealityPointer> _focusers = new HashSet<IMixedRealityPointer>();
+    
     
 
     // This should now be set through the GalaxyExplorerManager.ForcePullToCamFixedDistance property
     private float _offsetOnPullToCamera = 1f;
 
     public State ForceState { get; private set; }
+    public State PreviousForceState { get; private set; }
     public bool EnableForce = true;
     [Range(0,10)]
     public float AttractionDwellDuration = 2f;
+
+    public float AttractionDwellForgiveness = .5f;
     public Transform RootTransform;
     public ControllerTransformTracker ControllerTracker;
     public bool OffsetToObjectBoundsFromController = true;
@@ -92,12 +101,6 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
     private void OnDestroy()
     {
         ControllerTracker.AllTrackingLost -= OnControllersLost;
-    }
-
-    protected virtual void OnDwellCanceled()
-    {
-        _attractionDwellRoutine = null;
-        DwellCanceled?.Invoke(this);
     }
 
     private bool IsEyeGazed()
@@ -170,6 +173,8 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
         {
             return;
         }
+
+        PreviousForceState = ForceState;
         ForceState = State.Root;
         _manipulationHandler.enabled = false;
         SolverHandler.TransformTarget = RootTransform;
@@ -187,12 +192,13 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
         {
             return;
         }
+
+        PreviousForceState = ForceState;
         ForceState = State.Dwell;
         _manipulationHandler.enabled = false;
         SolverHandler.TransformTarget = ControllerTracker.ResolvedTransform;
-        StopCoroutine(_attractionDwellRoutine);
-        _attractionDwellRoutine = StartCoroutine(DwellRoutine());
-        _audioService?.PlayClip(AudioId.ForceDwell);
+        Debug.Assert(_attractionDwellRoutine == null);
+        _attractionDwellRoutine = StartCoroutine(DwellCoroutine());
         OnStartDwell();
         SetToDwell?.Invoke(this);
     }
@@ -211,16 +217,38 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
         return true;
     }
 
-    private IEnumerator DwellRoutine()
+    private IEnumerator DwellCoroutine()
     {
+        ++_dwellCounter;
+        if (_dwellCounter == 1)
+        {
+            _audioService.PlayClip(AudioId.ForceDwell, out _tractionBeamAudioSource);
+        }
         _dwellTimer = 0f;
-        while (_dwellTimer < AttractionDwellDuration && EnableForce)
+        _dwellForgivenessTimer = 0f;
+        while (ForceState == State.Dwell &&
+               _dwellTimer < AttractionDwellDuration &&
+               EnableForce &&
+               _dwellForgivenessTimer < AttractionDwellForgiveness)
         {
             _dwellTimer += Time.deltaTime;
+            if (_focusers.Count == 0)
+            {
+                _dwellForgivenessTimer += Time.deltaTime;
+            }
+            else
+            {
+                _dwellForgivenessTimer = 0f;
+            }
             yield return null;
         }
 
-        if (_focusPointerCounter > 0 && EnableForce)
+        --_dwellCounter;
+        Debug.Assert(_dwellCounter >= 0);
+        if (ForceState == State.Dwell &&
+            _focusers.Count > 0 &&
+            EnableForce &&
+            _dwellForgivenessTimer < AttractionDwellForgiveness)
         {
             StartAttraction();
         }
@@ -230,12 +258,52 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
         }
     }
 
+    protected virtual void OnDwellCanceled()
+    {
+        if (_dwellCounter == 0)
+        {
+            _tractionBeamAudioSource.Stop();
+        }
+        _attractionDwellRoutine = null;
+        DwellCanceled?.Invoke(this);
+        if (ForceState == State.Dwell)
+        {
+            switch (PreviousForceState)
+            {
+                
+                case State.Root:
+                    StartRoot();
+                    break;
+                
+                case State.Free:
+                    StartFree();
+                    break;
+                
+                case State.None:
+                case State.Manipulation:
+                case State.Attraction:
+                case State.Dwell:
+                    break;
+                
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+    }
+
     private void StartAttraction(bool forcePullToFrontOfCamera = false)
     {
+        if (ForceState == State.Dwell)
+        {
+            _attractionDwellRoutine = null;
+        }
+        if (ForceState == State.Attraction)
+        {
+            return;
+        }
+
+        PreviousForceState = ForceState;
         ForceState = State.Attraction;
-        StopCoroutine(_attractionDwellRoutine);
-        _focusPointerCounter = 0;
-        _attractionDwellRoutine = null;
         if (forcePullToFrontOfCamera)
         {
             _forcePullToFrontOfCamera = true;
@@ -250,7 +318,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
             var worldToPalmRotation = Quaternion.Inverse(SolverHandler.TransformTarget.rotation);
             _rotationOffset = worldToPalmRotation * transform.rotation;
         }
-        _audioService.PlayClip(AudioId.ForcePull, out _activeAudioSource, transform);
+        _audioService.PlayClip(AudioId.ForcePull, out _activeAudioSource);
         OnStartAttraction();
         SetToAttract?.Invoke(this);
     }
@@ -261,10 +329,16 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
 
     private void StartManipulation()
     {
+        if (ForceState == State.Manipulation)
+        {
+            return;
+        }
+
+        PreviousForceState = ForceState;
         ForceState = State.Manipulation;
         SolverHandler.TransformTarget = ControllerTracker.transform;
         _manipulationHandler.enabled = true;
-        _audioService.PlayClip(AudioId.ManipulationStart, out _activeAudioSource, transform);
+        _audioService.PlayClip(AudioId.ManipulationStart, out _activeAudioSource);
         OnStartManipulation();
         SetToManipulate?.Invoke(this);
     }
@@ -275,6 +349,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
 
     private void StartFree()
     {
+        PreviousForceState = ForceState;
         ForceState = State.Free;
         SolverHandler.TransformTarget = ControllerTracker.transform;
         _manipulationHandler.enabled = false;
@@ -324,12 +399,29 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
             ;
     }
 
+    private bool IsGgvOrDesktopController(IMixedRealityController controller)
+    {
+                return  controller is WindowsMixedRealityGGVHand ||
+                        controller is MouseController
+# if UNITY_EDITOR
+                        || controller is SimulatedArticulatedHand
+#endif
+                    ;
+    }
+
     public override void SolverUpdate()
     {
         switch (ForceState)
         {
             case State.Root:
                 SnapTo(RootTransform.position, RootTransform.rotation);
+                break;
+            
+            case State.Dwell:
+                if (PreviousForceState == State.Root)
+                {
+                    SnapTo(RootTransform.position, RootTransform.rotation);
+                }
                 break;
 
             case State.Free:
@@ -362,39 +454,69 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
     public virtual void OnFocusEnter(FocusEventData eventData)
     {
         
+        ////This part is for eye gaze tracing
 //        // if the focus is the gaze then there is no controller
 //        if (controller == null
 //#if UNITY_EDITOR
 //           || controller is SimulatedArticulatedHand
 //#endif
 //           ) { return; }
+        /////
 
-        if (!EnableForce || ForceState != State.Root)
+//        if (!EnableForce || 
+//            ForceState != State.Root && ForceState != State.Dwell)
+//        {
+//            return;
+//        }
+//
+//        if (!VerifyPointer(eventData.Pointer))
+//        {
+//            return;
+//        }
+//
+//        ++_focusPointerCounter;
+//        StartDwell();
+        
+        if (!EnableForce || !VerifyPointer(eventData.Pointer))
         {
             return;
         }
 
-        if (!VerifyPointer(eventData.Pointer))
-        {
-            return;
-        }
+        _focusers.Add(eventData.Pointer);
 
-        ++_focusPointerCounter;
-        if (_attractionDwellRoutine == null)
+        switch (ForceState)
         {
-            _attractionDwellRoutine = StartCoroutine(DwellRoutine());
+            case State.Root:
+                StartDwell();
+                break;
+            
+            case State.Dwell:
+                break;
+            
+            case State.Free:
+                if (!IsGgvOrDesktopController(eventData.Pointer.Controller))
+                {
+                    StartDwell();
+                }
+                break;
+            
+            case State.Manipulation:
+            case State.Attraction:
+                break;
+            
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 
     public virtual void OnFocusExit(FocusEventData eventData)
     {
-        if (ForceState != State.Root || !VerifyPointer(eventData.Pointer))
+        if (!EnableForce || !VerifyPointer(eventData.Pointer))
         {
             return;
         }
-        
-        --_focusPointerCounter;
-        Debug.Assert(_focusPointerCounter>=0);
+
+        _focusers.Remove(eventData.Pointer);
     }
 
     public void OnPointerUp(MixedRealityPointerEventData eventData)
@@ -405,16 +527,21 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
     {
         switch (ForceState)
         {
-            case State.Root:
-                var controller = eventData.Pointer.Controller;
-                var isGgvOrDesktop =
-                        controller is WindowsMixedRealityGGVHand ||
-                        controller is MouseController
-# if UNITY_EDITOR
-                        || controller is SimulatedArticulatedHand
-#endif
-                    ;
-                StartAttraction(isGgvOrDesktop);
+            case State.Root: 
+                if (eventData.Pointer is IMixedRealityNearPointer)
+                {
+                    StartManipulation();
+                    _manipulationHandler.OnPointerDown(eventData);
+                }
+                else
+                {
+                    StartAttraction(IsGgvOrDesktopController(eventData.Pointer.Controller));
+                }
+                break;
+            
+            case State.Dwell:
+                    StartManipulation();
+                    _manipulationHandler.OnPointerDown(eventData);
                 break;
 
             case State.Attraction:

@@ -112,11 +112,14 @@ public class PlanetForceSolver : ForceSolver
                 GoalScale = Vector3.one;
                 UpdateWorkingScaleToGoal();
                 break;
+                
             case State.Attraction:
                 if (_scaleController == null) break;
                 GoalScale = _editScaleTarget;
                 UpdateWorkingScaleToGoal();
                 break;
+            
+            case State.Dwell:
             case State.Free:
             case State.Manipulation:
             case State.None:
