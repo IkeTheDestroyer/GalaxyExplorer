@@ -7,10 +7,10 @@ public class HandMenu : MonoBehaviour
     private GameObject _menuParent;
 
     [SerializeField]
-    private GameObject _backButton;
+    private GameObject _resetButton;
 
     [SerializeField]
-    private GameObject _resetButton;
+    private GameObject _backButton;
 
     [SerializeField]
     private float _minShowingAngle = 135f;
@@ -58,11 +58,6 @@ public class HandMenu : MonoBehaviour
         _cameraTransform = Camera.main.transform;
     }
 
-    private void OnBackButtonNeedsToShow(bool show)
-    {
-        _backButton.SetActive(show);
-    }
-
     private void Update()
     {
         // if (GalaxyExplorerManager.Platform != GalaxyExplorerManager.PlatformId.ArticulatedHandsPlatform) { return; }
@@ -106,6 +101,11 @@ public class HandMenu : MonoBehaviour
     public void OnAboutButtonPressed()
     {
         _aboutSlate.ButtonClicked();
+    }
+
+    private void OnBackButtonNeedsToShow(bool show)
+    {
+        _backButton.SetActive(show);
     }
 
     public void OnBackButtonPressed()
