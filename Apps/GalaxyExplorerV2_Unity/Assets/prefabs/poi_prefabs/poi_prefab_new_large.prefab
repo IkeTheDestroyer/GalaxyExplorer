@@ -176,12 +176,12 @@ PrefabInstance:
     - target: {fileID: 7375736978917798315, guid: d1b4d3d5e5abb244386cd9a6ab29b1da,
         type: 3}
       propertyPath: _startOffset
-      value: 1
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7375736978917798315, guid: d1b4d3d5e5abb244386cd9a6ab29b1da,
         type: 3}
       propertyPath: _endOffset
-      value: -1
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1b4d3d5e5abb244386cd9a6ab29b1da, type: 3}
@@ -234,6 +234,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_firstOverflowCharacterIndex
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7181117166402863539, guid: f913cb23cff7d3e449b82684b2cbb19b,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9179165152361847220, guid: f913cb23cff7d3e449b82684b2cbb19b,
         type: 3}
