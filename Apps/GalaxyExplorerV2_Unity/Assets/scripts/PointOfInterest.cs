@@ -33,7 +33,6 @@ namespace GalaxyExplorer
         [SerializeField]
         protected Vector3 indicatorOffset = Vector3.up * 0.4f;
 
-        protected Animator cardDescriptionAnimator = null;
         private Collider indicatorCollider = null;
         protected bool isCardActive = false;
 
@@ -119,7 +118,6 @@ namespace GalaxyExplorer
         {
             audioService = MixedRealityToolkit.Instance.GetService<IAudioService>();
             
-            cardDescriptionAnimator = CardDescription.GetComponent<Animator>();
             CardDescriptionMaterial = CardDescription.GetComponent<MeshRenderer>().material;
 
             if (Indicator)
