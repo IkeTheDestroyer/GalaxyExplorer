@@ -12,7 +12,7 @@ public class PoolableAudioSource : APoolable
         {
             if (_audioSource == null)
             {
-                Debug.LogWarning("PoolableAudioSource should never be null (destroyed somewhere)");
+                Debug.LogWarning("PoolableAudioSource Audio Source component should never be null (destroyed somewhere)");
                 _audioSource = gameObject.AddComponent<AudioSource>();
             }
             return _audioSource;

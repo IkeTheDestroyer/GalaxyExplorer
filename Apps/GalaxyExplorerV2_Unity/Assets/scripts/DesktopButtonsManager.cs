@@ -16,20 +16,20 @@ public class DesktopButtonsManager : MonoBehaviour
     [SerializeField]
     private GameObject _backButton;
 
-    private POIPlanetFocusManager POIPlanetFocusManager
+    private ForceSolverFocusManager ForceSolverFocusManager
     {
         get
         {
-            if (_pOIPlanetFocusManager == null)
+            if (_forceSolverFocusManager == null)
             {
-                _pOIPlanetFocusManager = FindObjectOfType<POIPlanetFocusManager>();
+                _forceSolverFocusManager = FindObjectOfType<ForceSolverFocusManager>();
             }
 
-            return _pOIPlanetFocusManager;
+            return _forceSolverFocusManager;
         }
     }
 
-    private POIPlanetFocusManager _pOIPlanetFocusManager;
+    private ForceSolverFocusManager _forceSolverFocusManager;
     private AboutSlate _aboutSlate;
     private Vector3 _defaultBackButtonLocalPosition;
     private Vector3 _fullMenuVisibilityBackButtonPos;
@@ -97,7 +97,7 @@ public class DesktopButtonsManager : MonoBehaviour
 
         SetMenuVisibility(true);
 
-        if (POIPlanetFocusManager != null && !_resetButton.activeInHierarchy)
+        if (ForceSolverFocusManager != null && !_resetButton.activeInHierarchy)
         {
             Debug.Log("Enabling Reset button");
 
@@ -106,7 +106,7 @@ public class DesktopButtonsManager : MonoBehaviour
             _backButton.transform.localPosition = _fullMenuVisibilityBackButtonPos;
         }
         // else if (POIPlanetFocusManager == null && _resetButton.activeInHierarchy)
-        else if (POIPlanetFocusManager == null && _resetButton.activeInHierarchy)
+        else if (ForceSolverFocusManager == null && _resetButton.activeInHierarchy)
         {
             Debug.Log("Disabling Reset button");
 
@@ -146,9 +146,9 @@ public class DesktopButtonsManager : MonoBehaviour
 
     public void OnResetButtonPressed()
     {
-        if (POIPlanetFocusManager)
+        if (ForceSolverFocusManager)
         {
-            _pOIPlanetFocusManager.ResetAllForseSolvers();
+            _forceSolverFocusManager.ResetAllForseSolvers();
         }
         else
         {

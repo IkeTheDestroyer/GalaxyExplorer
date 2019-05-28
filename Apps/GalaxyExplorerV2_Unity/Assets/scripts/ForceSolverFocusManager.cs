@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class POIPlanetFocusManager : MonoBehaviour
+public class ForceSolverFocusManager : MonoBehaviour
 {
-    private PlanetForceSolver[] _planetForceSolvers;
-    private PlanetForceSolver _currentlyFocusedPlanet;
+    private ForceSolver[] _planetForceSolvers;
+    private ForceSolver _currentlyActiveSolver, _currentlyFocusedDwellingSolver;
 
     private void Awake()
     {
@@ -20,20 +20,44 @@ public class POIPlanetFocusManager : MonoBehaviour
             forceSolver.SetToRoot.AddListener(OnSolverRoot);
             forceSolver.SetToManipulate.AddListener(OnSolverManipulate);
             forceSolver.SetToFree.AddListener(OnSolverFree);
+            forceSolver.SetToDwell.AddListener(OnSolverDwell);
         }
+    }
+
+    public void OnSolverDwell(ForceSolver solver)
+    {
+        if (_currentlyFocusedDwellingSolver == solver)
+        {
+            return;
+        }
+
+        var currentDwellProgress =
+            _currentlyFocusedDwellingSolver == null ? 0f : _currentlyFocusedDwellingSolver.CurrentRelativeDwell;
+        
+        _currentlyFocusedDwellingSolver = solver;
+        
+        Debug.Assert(_currentlyFocusedDwellingSolver.ForceSetDwellTimer(currentDwellProgress));
     }
 
     public void OnSolverAttraction(ForceSolver solver)
     {
-        var pForceSolver = solver as PlanetForceSolver;
-        if (_currentlyFocusedPlanet != null)
+        if (_currentlyActiveSolver == solver)
         {
-            _currentlyFocusedPlanet.ResetToRoot();
+            return;
         }
-        _currentlyFocusedPlanet = pForceSolver;
+        
+        if (_currentlyActiveSolver != null)
+        {
+            _currentlyActiveSolver.ResetToRoot();
+        }
+
+        Debug.Assert(_currentlyFocusedDwellingSolver == null || _currentlyFocusedDwellingSolver == solver);
+        _currentlyFocusedDwellingSolver = null;
+        
+        _currentlyActiveSolver = solver;
         foreach (var planetForceSolver in _planetForceSolvers)
         {
-            if (pForceSolver == planetForceSolver)
+            if (solver == planetForceSolver)
             {
                 continue;
             }
@@ -44,16 +68,23 @@ public class POIPlanetFocusManager : MonoBehaviour
 
     public void OnSolverRoot(ForceSolver solver)
     {
-        var pForceSolver = solver as PlanetForceSolver;
-        if (_currentlyFocusedPlanet == pForceSolver)
+        if (_currentlyActiveSolver == solver)
         {
-            _currentlyFocusedPlanet = null;
+            _currentlyActiveSolver = null;
+        }
+
+        if (_currentlyFocusedDwellingSolver == solver)
+        {
+            _currentlyFocusedDwellingSolver = null;
         }
     }
 
     public void OnSolverManipulate(ForceSolver solver)
     {
-        if (solver == _currentlyFocusedPlanet)
+        Debug.Assert(_currentlyFocusedDwellingSolver == null || _currentlyFocusedDwellingSolver == solver);
+        _currentlyFocusedDwellingSolver = null;
+        
+        if (solver == _currentlyActiveSolver)
         {
             return;
         }

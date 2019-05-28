@@ -31,6 +31,7 @@ public enum AudioId
     ToolboxShow,
     ToolBoxHide,
     ForcePull,
+    ForceDwell,
     ManipulationStart,
     ManipulationEnd,
 }
