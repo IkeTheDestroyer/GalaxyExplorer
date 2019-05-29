@@ -1145,7 +1145,7 @@ MonoBehaviour:
   alphaColor: 0.2
   scale: 0.4
   offset: {x: 0.13, y: 0}
-  pressableButton: {fileID: 5994954606316266880}
+  pressableButton: {fileID: 5994954606316266911}
   windowRenderer: {fileID: 8296629017261504894}
   windowMaterial: {fileID: 2100000, guid: bf930e14fb10907419fb9f8113e1d135, type: 2}
   occlusionMaterial: {fileID: 2100000, guid: 7e216200828405548996ff138ebd3dfc, type: 2}
@@ -3167,6 +3167,7 @@ GameObject:
   - component: {fileID: 5994954606316266908}
   - component: {fileID: 5994954606316266911}
   - component: {fileID: 5994954606316266910}
+  - component: {fileID: 304551936890474501}
   - component: {fileID: 3778893916704738083}
   - component: {fileID: 5994954606316266881}
   - component: {fileID: 5697019495922056488}
@@ -3330,6 +3331,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   routingTarget: {fileID: 3778893916704738083}
   InteractableOnClick: 0
+--- !u!114 &304551936890474501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5994954606316266880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bccfebdf6047ac89b4f6d1f87b6edb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  routingTarget: {fileID: 3778893916704738083}
 --- !u!114 &3778893916704738083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3367,8 +3381,8 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Increment
+      - m_Target: {fileID: 6789960692932327421}
+        m_MethodName: OnPointerDown
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3968,6 +3982,7 @@ GameObject:
   - component: {fileID: 406165487477158745}
   - component: {fileID: 4336020257633234403}
   - component: {fileID: 7600404884400323124}
+  - component: {fileID: 5440032327422754045}
   m_Layer: 0
   m_Name: CloseButton
   m_TagString: Untagged
@@ -4293,6 +4308,19 @@ MonoBehaviour:
   touchableSurface: 0
   bounds: {x: 0.032, y: 0.032}
   touchableCollider: {fileID: 2913693496041265936}
+--- !u!114 &5440032327422754045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6442832416281861548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bccfebdf6047ac89b4f6d1f87b6edb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  routingTarget: {fileID: 406165487477158745}
 --- !u!1 &6580514847161336806
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace GalaxyExplorer
 {
-    public class PointOfInterest : MonoBehaviour, IMixedRealityPointerHandler, IMixedRealityFocusHandler//, IInputClickHandler, IFocusable, IControllerTouchpadHandler
+    public class PointOfInterest : MonoBehaviour, IMixedRealityPointerHandler, IMixedRealityFocusHandler
     {
         [SerializeField]
         protected GameObject CardDescription = null;
@@ -213,40 +213,6 @@ namespace GalaxyExplorer
             }
         }
 
-        //        public void OnTouchpadTouched(InputEventData eventData)
-        //        {
-        //
-        //        }
-        //
-        //        public void OnTouchpadReleased(InputEventData eventData)
-        //        {
-        //            // First touch focus on poi
-        //            if (CardDescription && !CardDescription.activeSelf)
-        //            {
-        //                OnFocusEnter();
-        //
-        ////                GameObject focusedObj = (InputManager.Instance.OverrideFocusedObject) ? InputManager.Instance.OverrideFocusedObject : FocusManager.Instance.TryGetFocusedObject(eventData);
-        ////                GalaxyExplorerManager.Instance.AudioEventWrangler?.OnFocusEnter(focusedObj);
-        //                GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject(null);
-        //            }
-        //            // Second touch select that poi
-        //            else
-        //            {
-        //                OnInputClicked(null);
-        //
-        ////                GameObject focusedObj = (InputManager.Instance.OverrideFocusedObject) ? InputManager.Instance.OverrideFocusedObject : FocusManager.Instance.TryGetFocusedObject(eventData);
-        ////                GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject(focusedObj);
-        //                GalaxyExplorerManager.Instance.AudioEventWrangler?.OnInputClicked(null);
-        //                GalaxyExplorerManager.Instance.AudioEventWrangler.OverrideFocusedObject(null);
-        //            }
-        //        }
-        //
-        //        public void OnInputPositionChanged(InputPositionEventData eventData)
-        //        {
-        //
-        //        }
-        //
-
         // Scale POI collider in order to cover the whole POI + poi line.
         // Calculate the collider when collider is enabled so in end of transitions that has its final length
         protected IEnumerator ResizePOICollider()
@@ -298,6 +264,11 @@ namespace GalaxyExplorer
         {
         }
 
+        public virtual void OnPointerDown()
+        {
+            OnPointerDown(null);
+        }
+
         public virtual void OnPointerDown(MixedRealityPointerEventData eventData)
         {
             if (currentState == POIState.kOnFocusEnter)
@@ -309,6 +280,7 @@ namespace GalaxyExplorer
                 audioService.PlayClip(AudioId.CardDeselect);
             }
             currentState = POIState.kOnInputClicked;
+            GalaxyExplorerManager.Instance.CardPoiManager.OnPointerDown(null);
         }
 
         public virtual void OnPointerClicked(MixedRealityPointerEventData eventData)
