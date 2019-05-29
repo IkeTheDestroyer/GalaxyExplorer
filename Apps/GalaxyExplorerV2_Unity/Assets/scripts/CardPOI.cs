@@ -160,7 +160,7 @@ namespace GalaxyExplorer
 
                     StartCoroutine(SlideCardIn());
                     
-                    audioService.PlayClip(AudioId.CardDeselect);
+                    audioService?.PlayClip(AudioId.CardDeselect);
                 }
             }
         }

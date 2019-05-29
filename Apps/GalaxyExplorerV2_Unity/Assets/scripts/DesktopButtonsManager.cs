@@ -99,8 +99,6 @@ public class DesktopButtonsManager : MonoBehaviour
 
         if (ForceSolverFocusManager != null && !_resetButton.activeInHierarchy)
         {
-            Debug.Log("Enabling Reset button");
-
             // When the POIPlanetFocusManager is present in the currently loaded scenes, this means we are in the solar system and the reset button should be visible
             _resetButton.SetActive(true);
             _backButton.transform.localPosition = _fullMenuVisibilityBackButtonPos;
@@ -108,8 +106,6 @@ public class DesktopButtonsManager : MonoBehaviour
         // else if (POIPlanetFocusManager == null && _resetButton.activeInHierarchy)
         else if (ForceSolverFocusManager == null && _resetButton.activeInHierarchy)
         {
-            Debug.Log("Disabling Reset button");
-
             // When the POIPlanetFocusManager isn't present in the currently loaded scenes, this means we're not in the solar system and the reset button shouldn't show up
             _resetButton.SetActive(false);
             _backButton.transform.localPosition = _defaultBackButtonLocalPosition;

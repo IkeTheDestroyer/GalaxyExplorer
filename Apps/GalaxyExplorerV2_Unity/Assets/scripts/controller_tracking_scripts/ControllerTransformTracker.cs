@@ -167,7 +167,6 @@ public class ControllerTransformTracker : MonoBehaviour, IMixedRealitySourceStat
 
     private void DetachController(IMixedRealityController controller)
     {
-        Debug.Log("detaching from controller");
 
         var before = _trackedControllers;
         
@@ -308,7 +307,6 @@ public class ControllerTransformTracker : MonoBehaviour, IMixedRealitySourceStat
 
     public void OnSourceDetected(SourceStateEventData eventData)
     {
-        Debug.Log("source detected");
         var controller = eventData.Controller;
         if(!CheckController(controller)) return;
         
@@ -318,7 +316,6 @@ public class ControllerTransformTracker : MonoBehaviour, IMixedRealitySourceStat
 
     public void OnSourceLost(SourceStateEventData eventData)
     {
-        Debug.Log("source lost");
         var controller = eventData.Controller;
         if(!CheckController(controller)) return;
         
