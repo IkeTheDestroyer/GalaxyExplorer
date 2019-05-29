@@ -403,7 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a580c750e5b714daa419b43dfdd205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SemiMajorAxis: 1.75
+  SemiMajorAxis: 0.95
   SemiMajorAxisReal: 778673200
   Eccentricity: 0
   EccentricityReal: 0.04892307
@@ -1996,7 +1996,7 @@ Transform:
   m_GameObject: {fileID: 7078669261160606241}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 39.7546, y: 39.7546, z: 39.7546}
+  m_LocalScale: {x: 8, y: 8, z: 8}
   m_Children:
   - {fileID: 1960942334320885661}
   - {fileID: 2757321495253560077}
@@ -2010,7 +2010,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7078669261160606241}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 19a9f3d1552dd1349a5aecd4cb52b4d5, type: 3}
   m_Name: 
@@ -2418,11 +2418,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5549635832149256741}
     m_Modifications:
-    - target: {fileID: 8350568609799482687, guid: 9cc19d29bb1c2354b8992790b2a9f4f2,
-        type: 3}
-      propertyPath: m_Name
-      value: io_jupiter_moon_prefab
-      objectReference: {fileID: 0}
     - target: {fileID: 5966801999802988450, guid: 9cc19d29bb1c2354b8992790b2a9f4f2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2477,6 +2472,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8350568609799482687, guid: 9cc19d29bb1c2354b8992790b2a9f4f2,
+        type: 3}
+      propertyPath: m_Name
+      value: io_jupiter_moon_prefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9cc19d29bb1c2354b8992790b2a9f4f2, type: 3}
@@ -2493,11 +2493,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6832516148811938749}
     m_Modifications:
-    - target: {fileID: 6256286855168841243, guid: c37220c8a2361564d83d6399dfae2a6f,
-        type: 3}
-      propertyPath: m_Name
-      value: jupiter_planet_prefab
-      objectReference: {fileID: 0}
     - target: {fileID: 7043098104879182020, guid: c37220c8a2361564d83d6399dfae2a6f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2552,6 +2547,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6256286855168841243, guid: c37220c8a2361564d83d6399dfae2a6f,
+        type: 3}
+      propertyPath: m_Name
+      value: jupiter_planet_prefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c37220c8a2361564d83d6399dfae2a6f, type: 3}
@@ -2633,21 +2633,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 311045954745802743, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 311045954745802743, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 311045954745802743, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 311045954745802742, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
         type: 3}
       propertyPath: m_Layer
@@ -2657,6 +2642,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 311045954745802743, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 311045954745802743, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 311045954745802743, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.09
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1feb7da4c9edf9441ae1c3b2433ebc93, type: 3}
@@ -2748,11 +2748,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3701411759351542294}
     m_Modifications:
-    - target: {fileID: 8897901438137091041, guid: b8510a5274fd3824694aedd2b80455cd,
-        type: 3}
-      propertyPath: m_Name
-      value: europa_jupiter_moon_prefab
-      objectReference: {fileID: 0}
     - target: {fileID: 1224226717575684176, guid: b8510a5274fd3824694aedd2b80455cd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2807,6 +2802,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897901438137091041, guid: b8510a5274fd3824694aedd2b80455cd,
+        type: 3}
+      propertyPath: m_Name
+      value: europa_jupiter_moon_prefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8510a5274fd3824694aedd2b80455cd, type: 3}

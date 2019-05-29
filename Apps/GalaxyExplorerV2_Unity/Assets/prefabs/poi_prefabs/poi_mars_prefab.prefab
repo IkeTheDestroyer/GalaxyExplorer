@@ -766,7 +766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a580c750e5b714daa419b43dfdd205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SemiMajorAxis: 1.2
+  SemiMajorAxis: 0.65
   SemiMajorAxisReal: 227939000
   Eccentricity: 0
   EccentricityReal: 0.0933146
@@ -1405,7 +1405,6 @@ MonoBehaviour:
   OffsetFromCameraOnNoControllerPosition: {x: 0, y: 0, z: 0}
   ManipulationHandler: {fileID: 1534183786967950020}
   AttractionCollider: {fileID: 8115637085805907238}
-  OffsetOnPullToCamera: 1
   SetToRoot:
     m_PersistentCalls:
       m_Calls:
@@ -1473,7 +1472,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 225eddf64468e974792f73d1754e6538, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanBeNested: 1
 --- !u!114 &2481915693532229849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2039,6 +2037,21 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 311045954745802743, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 311045954745802743, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 311045954745802743, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.05
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1feb7da4c9edf9441ae1c3b2433ebc93, type: 3}
 --- !u!4 &752979930 stripped
@@ -2054,11 +2067,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7927163338134987565}
     m_Modifications:
-    - target: {fileID: 8746921298352836564, guid: 69d7a0d43218c284d8ed8e4f2a187217,
-        type: 3}
-      propertyPath: m_Name
-      value: deimos_mars_moon_prefab
-      objectReference: {fileID: 0}
     - target: {fileID: 7189386845672821479, guid: 69d7a0d43218c284d8ed8e4f2a187217,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2113,6 +2121,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8746921298352836564, guid: 69d7a0d43218c284d8ed8e4f2a187217,
+        type: 3}
+      propertyPath: m_Name
+      value: deimos_mars_moon_prefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69d7a0d43218c284d8ed8e4f2a187217, type: 3}
