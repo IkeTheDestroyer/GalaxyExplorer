@@ -134,7 +134,7 @@ public class POIBehavior : MonoBehaviour
 
     public void Fade(bool fadeIn, float overTime = .3f, float alpha = -1)
     {
-        StartCoroutine(FadeRoutine(fadeIn, overTime, alpha, !poi.IsCardActive));
+        StartCoroutine(FadeRoutine(fadeIn, overTime, alpha, !poi.IsCardActive || poi is PlanetPOI));
         pressableButton.gameObject.SetActive(fadeIn);
 
     }

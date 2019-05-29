@@ -39,17 +39,6 @@ namespace GalaxyExplorer
 
         private void Start()
         {
-            //            InputManager.Instance.AddGlobalListener(gameObject);
-            //            MixedRealityToolkit.InputSystem.Register(gameObject);
-
-            //            if (GalaxyExplorerManager.Instance.MouseInput)
-            //            {
-            //                GalaxyExplorerManager.Instance.MouseInput.OnMouseClickDelegate += OnMouseClickDelegate;
-            //                GalaxyExplorerManager.Instance.MouseInput.OnMouseClickUpDelegate += OnMouseClickUpDelegate;
-            //                GalaxyExplorerManager.Instance.MouseInput.OnMouseOnHoverDelegate += OnMouseOnHoverDelegate;
-            //                GalaxyExplorerManager.Instance.MouseInput.OnMouseOnUnHoverDelegate += OnMouseOnUnHoverDelegate;
-            //            }
-
             if (GalaxyExplorerManager.Instance.ToolsManager)
             {
                 GalaxyExplorerManager.Instance.ToolsManager.OnBoundingBoxDelegate += OnBoundingBoxDelegate;
@@ -178,8 +167,6 @@ namespace GalaxyExplorer
                     isCardActive = true;
 
                     poi.OnPointerDown(null);
-
-                    Debug.Log("Close card because of input");
                     break;
                 }
             }
@@ -221,32 +208,6 @@ namespace GalaxyExplorer
             }
         }
 
-        //        public void OnTouchpadTouched(InputEventData eventData)
-        //        {
-        //
-        //        }
-
-        //        public void OnTouchpadReleased(InputEventData eventData)
-        //        {
-        //            // GETouchScreenInputSource sets InputManager.Instance.OverrideFocusedObject on collider touch
-        ////            GameObject focusedObj = InputManager.Instance.OverrideFocusedObject;
-        ////            DeactivateAllDescriptionsHandlers(focusedObj);
-        //
-        //            bool isAnyCardActive = IsAnyCardActive();
-        //            StartCoroutine(CloseAnyOpenCard(eventData));
-        //            StartCoroutine(UpdateActivationOfPOIColliders());
-        //
-        //            if (isAnyCardActive)
-        //            {
-        //                GalaxyExplorerManager.Instance.AudioEventWrangler.OnInputClicked(null);
-        //            }
-        //        }
-
-        //        public void OnInputPositionChanged(InputPositionEventData eventData)
-        //        {
-        //
-        //        }
-        //
 
         // Called by poi if any poi is focused in order to notify all the other pois
         public void OnPOIFocusEnter(PointOfInterest focusedPOI)
