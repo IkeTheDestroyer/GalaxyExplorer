@@ -23,6 +23,9 @@ public class AudioInfo
 [Serializable]
 public enum AudioId
 {
+    // Don't reorder or insert new items into enum, always add them to the end.
+    // Unity Serializes enums as ints which would result in a 
+    // different sound being played if order is changed.
     None = 0,
     Focus,
     Select,
@@ -34,4 +37,12 @@ public enum AudioId
     ForceDwell,
     ManipulationStart,
     ManipulationEnd,
+}
+
+[Serializable]
+public enum PlayOptions
+{
+    None = 0,
+    PlayOnce,
+    Loop
 }
