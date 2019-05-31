@@ -45,6 +45,7 @@ public class PoolableAudioSource : APoolable
         AudioSource.clip = clip;
         AudioSource.volume = volume;
         AudioSource.time = 0;
+        AudioSource.spatialBlend = 1;
         AudioSource.Play();
         if (playOptions == PlayOptions.Loop)
         {
