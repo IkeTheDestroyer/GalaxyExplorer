@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GalaxyExplorer;
 using Microsoft.MixedReality.Toolkit;
 using Microsoft.MixedReality.Toolkit.Input;
 using UnityEngine;
@@ -54,7 +55,8 @@ public class PlanetForceSolver : ForceSolver
 
     private void StartAudio()
     {
-        _audioService.PlayClip(planetAudioClip, out _voAudioSource, transform);
+        GalaxyExplorerManager.Instance.VoManager.Stop(true);
+        GalaxyExplorerManager.Instance.VoManager.PlayClip(planetAudioClip);
         _audioService.PlayClip(planetAmbiantClip, out _ambientAudioSource, transform);
     }
 

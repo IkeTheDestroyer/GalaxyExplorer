@@ -70,28 +70,27 @@ namespace Pools
          else
          {
             result = (T) queue.Dequeue();
+            
+            if (ReferenceEquals(result, null) || result.Equals(null))
+            {
+               result = InstantiateNewObject<T>();
+            }
          }
-         result.Init(position, rotation, parent == null ? transform : parent);
+         result.Init(position, rotation, parent == null ? transform : parent, transform);
          return result;
       }
 
-      private void HandleReturnToPool(APoolable poolable)
+      private void HandleReturnToPool(APoolable poolable, Transform parent)
       {
          poolable.transform.SetParent(transform);
          queue.Enqueue(poolable);
-      }
-
-      private void HandlePoolableDestroyed<T>(APoolable poolable, Transform parent) where T : APoolable
-      {
-         //TODO: what happens when a poolable has been destroyed?infinite loop for when pooler is destroyed
       }
 
       private T InstantiateNewObject<T>() where T : APoolable
       {
          var go = new GameObject(typeof(T).ToString());
          var result = go.AddComponent<T>();
-         result.OnPoolableUsed += HandleReturnToPool;
-         result.OnPoolableDestroyed += HandlePoolableDestroyed<T>;
+         result.onReturnToPool += HandleReturnToPool;
          return result;
       }
    }

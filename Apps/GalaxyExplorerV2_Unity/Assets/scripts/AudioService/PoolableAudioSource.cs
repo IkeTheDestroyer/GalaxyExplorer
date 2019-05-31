@@ -51,7 +51,7 @@ public class PoolableAudioSource : APoolable
     private IEnumerator DestroyWithDelay(float delay)
     {
         yield return new WaitForSeconds(delay + .1f);
-        Use();
+        ReturnToPool();
     }
 
     protected override void Reset()
@@ -60,5 +60,10 @@ public class PoolableAudioSource : APoolable
         AudioSource.volume = 1;
         AudioSource.outputAudioMixerGroup = null;
         base.Reset();
+    }
+
+    private void OnDisable()
+    {
+        Invoke("Reset", 0);
     }
 }
