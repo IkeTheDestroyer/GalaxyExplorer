@@ -65,17 +65,17 @@ public class AudioService : BaseExtensionService, IAudioService
         if (audioClipCache != null && audioClipCache.ContainsKey(audioId))
         {
             var audioInfo = audioClipCache[audioId];
-            PlayClip(audioInfo.clip, out playedSource, target, volume == -1 ? audioInfo.volume : volume);
+            PlayClip(audioInfo.clip, out playedSource, target, volume == -1 ? audioInfo.volume : volume, PlayOptions.PlayOnce);
         }
     }
 
     public void PlayClip(AudioClip clip, Transform target, float volume)
     {
         AudioSource source;
-        PlayClip(clip, out source, target, volume);
+        PlayClip(clip, out source, target, volume, PlayOptions.PlayOnce);
     }
 
-    public void PlayClip(AudioClip clip, out AudioSource playedSource, Transform target, float volume)
+    public void PlayClip(AudioClip clip, out AudioSource playedSource, Transform target, float volume, PlayOptions playOptions)
     {
         if (lastPlayedTimes.ContainsKey(clip.name))
         {
@@ -89,7 +89,7 @@ public class AudioService : BaseExtensionService, IAudioService
         }
         var source = GetTargetSource(GetTarget(target));
         playedSource = source.AudioSource;
-        source.PlayClip(clip);
+        source.PlayClip(clip, playOptions:playOptions);
         lastPlayedTimes[clip.name] = DateTime.UtcNow;
     }
 

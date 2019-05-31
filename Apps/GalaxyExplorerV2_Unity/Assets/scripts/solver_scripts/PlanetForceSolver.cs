@@ -57,7 +57,7 @@ public class PlanetForceSolver : ForceSolver
     {
         GalaxyExplorerManager.Instance.VoManager.Stop(true);
         GalaxyExplorerManager.Instance.VoManager.PlayClip(planetAudioClip);
-        _audioService.PlayClip(planetAmbiantClip, out _ambientAudioSource, transform);
+        _audioService.PlayClip(planetAmbiantClip, out _ambientAudioSource, transform, playOptions:PlayOptions.Loop);
     }
 
     private void HideMoons()
