@@ -19,7 +19,7 @@ public class UnityForceSolverEvent : UnityEvent<ForceSolver>
 {
 }
 
-public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPointerHandler
+public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedRealityFocusHandler, IMixedRealityPointerHandler
 {
     public enum State
     {
@@ -33,6 +33,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
 
     private static int _dwellCounter;
     private static AudioSource _tractionBeamAudioSource;
+    private static readonly Dictionary<ShellHandRayPointer, ForceTractorBeam> _staticPointersToTractorBeams = new Dictionary<ShellHandRayPointer, ForceTractorBeam>();
 
     private ManipulationHandler _manipulationHandler;
     private Collider _attractionCollider;
@@ -41,23 +42,23 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
     private IAudioService _audioService;
     private AudioSource _activeAudioSource;
     private bool _forcePullToFrontOfCamera;
-    private bool _forcePullToHandController => !_forcePullToFrontOfCamera;
+    private bool ForcePullToHandController => !_forcePullToFrontOfCamera;
     private Camera _mainCamera;
     private Coroutine _attractionDwellRoutine;
     private float _dwellTimer, _dwellForgivenessTimer;
-    private readonly HashSet<IMixedRealityPointer> _focusers = new HashSet<IMixedRealityPointer>();
-    
-    
+    private readonly HashSet<ShellHandRayPointer> _focusers = new HashSet<ShellHandRayPointer>();
+    private readonly HashSet<ForceTractorBeam> _activeTractorBeams = new HashSet<ForceTractorBeam>();
 
     // This should now be set through the GalaxyExplorerManager.ForcePullToCamFixedDistance property
     private float _offsetOnPullToCamera = 1f;
 
     public State ForceState { get; private set; }
     public State PreviousForceState { get; private set; }
+    
     public bool EnableForce = true;
     [Range(0,10)]
-    public float AttractionDwellDuration = 2f;
-
+    public float AttractionDwellDuration = 1f;
+    public GameObject TractionBeamPrefab;
     public float AttractionDwellForgiveness = .5f;
     public Transform RootTransform;
     public ControllerTransformTracker ControllerTracker;
@@ -118,11 +119,11 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
     {
         GoalScale = SolverHandler.TransformTarget.localScale;
         GoalPosition = SolverHandler.TransformTarget.position;
-        if (_forcePullToHandController && OffsetToObjectBoundsFromController && !ControllerTracker.BothSides)
+        if (ForcePullToHandController && OffsetToObjectBoundsFromController && !ControllerTracker.BothSides)
         {
             GoalPosition += GetOffsetPositionFromController();
         }
-        if (_forcePullToHandController)
+        if (ForcePullToHandController)
         {
             GoalRotation = SolverHandler.TransformTarget.rotation * _rotationOffset;
             UpdateWorkingRotationToGoal();
@@ -135,9 +136,46 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
         }
     }
 
+    private void UpdateTractionBeams()
+    {
+        switch (ForceState)
+        {
+            case State.Dwell:
+                foreach (var tractorBeam in _activeTractorBeams)
+                {
+                    tractorBeam.Coverage = _dwellTimer / AttractionDwellDuration;
+                }
+                break;
+            
+            case State.Attraction:
+                foreach (var tractorBeam in _activeTractorBeams)
+                {
+                    tractorBeam.Coverage = 1f;
+                }
+                break;
+            
+            case State.None:
+            case State.Root:
+            case State.Free:
+            case State.Manipulation:
+                break;
+            
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private void SetActivePointersFocusLocked(bool locked)
+    {
+        foreach (var pointer in _focusers)
+        {
+            pointer.IsFocusLocked = locked;
+        }
+    }
+
     private bool IsAttractionComplete()
     {
-        if (_forcePullToHandController)
+        if (ForcePullToHandController)
         {
             if (!ControllerTracker.BothSides)
             {
@@ -263,6 +301,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
         if (_dwellCounter == 0)
         {
             _tractionBeamAudioSource.Stop();
+            ReleaseAllTractorBeams();
         }
         _attractionDwellRoutine = null;
         DwellCanceled?.Invoke(this);
@@ -296,6 +335,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
         if (ForceState == State.Dwell)
         {
             _attractionDwellRoutine = null;
+            SetActivePointersFocusLocked(true);
         }
         if (ForceState == State.Attraction)
         {
@@ -334,6 +374,8 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
             return;
         }
 
+        ReleaseAllTractorBeams();
+        SetActivePointersFocusLocked(false);
         PreviousForceState = ForceState;
         ForceState = State.Manipulation;
         SolverHandler.TransformTarget = ControllerTracker.transform;
@@ -358,6 +400,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
             _activeAudioSource.Stop();
         }
         _audioService.PlayClip(AudioId.ManipulationEnd, out _activeAudioSource, transform);
+        SetActivePointersFocusLocked(false);
         OnStartFree();
         SetToFree?.Invoke(this);
     }
@@ -376,7 +419,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
         switch (ForceState)
         {
             case State.Attraction:
-                if (_forcePullToHandController)
+                if (ForcePullToHandController)
                 {
                     StartRoot();
                 }
@@ -384,10 +427,10 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
         }
     }
 
-    private bool VerifyPointer(IMixedRealityPointer pointer)
+    private static bool VerifyPointer(IMixedRealityPointer pointer)
     {
-        // verify that the controller is a force attraction activator without tap
-        if (pointer is IMixedRealityNearPointer)
+        // verify that the pointer is a far pointer that inherits from the BaseControllerPointer so it is a MonoBehavior
+        if (!(pointer is ShellHandRayPointer))
         {
             return false;
         }
@@ -399,12 +442,37 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
             ;
     }
 
-    private bool IsGgvOrDesktopController(IMixedRealityController controller)
+    private void AttachTractorBeamToPointer(ShellHandRayPointer pointer)
+    {
+        if (_staticPointersToTractorBeams.ContainsKey(pointer)) return;
+        var tb = Instantiate(TractionBeamPrefab, pointer.transform).GetComponent<ForceTractorBeam>();
+        _staticPointersToTractorBeams.Add(pointer, tb);
+        tb.Destroyed += OnTractorBeamDestroyed;
+    }
+
+    private void ReleaseAllTractorBeams()
+    {
+        foreach (var tractorBeam in _activeTractorBeams)
+        {
+            tractorBeam.Dissipate();
+        }
+        _activeTractorBeams.Clear();
+    }
+
+    private static void OnTractorBeamDestroyed(ForceTractorBeam tractorBeam)
+    {
+        if (_staticPointersToTractorBeams.ContainsKey(tractorBeam.HandRayPointer))
+        {
+            _staticPointersToTractorBeams.Remove(tractorBeam.HandRayPointer);
+        }
+    }
+
+    private static bool IsGgvOrDesktopController(IMixedRealityController controller)
     {
                 return  controller is WindowsMixedRealityGGVHand ||
                         controller is MouseController
 # if UNITY_EDITOR
-                        || controller is SimulatedArticulatedHand
+//                        || controller is SimulatedArticulatedHand
 #endif
                     ;
     }
@@ -422,6 +490,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
                 {
                     SnapTo(RootTransform.position, RootTransform.rotation);
                 }
+                UpdateTractionBeams();
                 break;
 
             case State.Free:
@@ -430,6 +499,7 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
 
             case State.Attraction:
                 UpdateGoalsAttraction();
+                UpdateTractionBeams();
                 break;
 
             case State.Manipulation:
@@ -443,80 +513,75 @@ public class ForceSolver : Solver, IMixedRealityFocusHandler, IMixedRealityPoint
 
     public void OnBeforeFocusChange(FocusEventData eventData)
     {
-        throw new System.NotImplementedException();
+        if (!EnableForce || !VerifyPointer(eventData.Pointer))
+        {
+            return;
+        }
+        
+        // the pointer is verified as a BaseControllerPointer in the VerifyPointer method above.
+        var pointer = eventData.Pointer as ShellHandRayPointer;
+        Debug.Assert(pointer != null);
+        if (pointer == null)
+        {
+            return;
+        }
+
+        if (eventData.NewFocusedObject != null && eventData.NewFocusedObject.transform.IsChildOf(transform))
+        {
+            _focusers.Add(pointer);
+            eventData.Pointer.FocusTarget = this;
+            AttachTractorBeamToPointer(pointer);
+
+            switch (ForceState)
+            {
+                case State.Root:
+                    StartDwell();
+                    _activeTractorBeams.Add(_staticPointersToTractorBeams[pointer]);
+                    break;
+
+                case State.Free:
+                    if (!IsGgvOrDesktopController(eventData.Pointer.Controller))
+                    {
+                        StartDwell();
+                        _activeTractorBeams.Add(_staticPointersToTractorBeams[pointer]);
+                    }
+
+                    break;
+
+                case State.Dwell:
+
+                    _activeTractorBeams.Add(_staticPointersToTractorBeams[pointer]);
+                    break;
+                    
+                case State.Manipulation:
+                case State.Attraction:
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        else
+        {
+            _focusers.Remove(pointer);
+            if ((ForceSolver) eventData.Pointer.FocusTarget == this)
+            {
+                eventData.Pointer.FocusTarget = null;
+            }
+            _activeTractorBeams.Remove(_staticPointersToTractorBeams[pointer]);
+        }
     }
 
     public void OnFocusChanged(FocusEventData eventData)
     {
-        throw new System.NotImplementedException();
     }
 
     public virtual void OnFocusEnter(FocusEventData eventData)
     {
-        
-        ////This part is for eye gaze tracing
-//        // if the focus is the gaze then there is no controller
-//        if (controller == null
-//#if UNITY_EDITOR
-//           || controller is SimulatedArticulatedHand
-//#endif
-//           ) { return; }
-        /////
-
-//        if (!EnableForce || 
-//            ForceState != State.Root && ForceState != State.Dwell)
-//        {
-//            return;
-//        }
-//
-//        if (!VerifyPointer(eventData.Pointer))
-//        {
-//            return;
-//        }
-//
-//        ++_focusPointerCounter;
-//        StartDwell();
-        
-        if (!EnableForce || !VerifyPointer(eventData.Pointer))
-        {
-            return;
-        }
-
-        _focusers.Add(eventData.Pointer);
-
-        switch (ForceState)
-        {
-            case State.Root:
-                StartDwell();
-                break;
-            
-            case State.Dwell:
-                break;
-            
-            case State.Free:
-                if (!IsGgvOrDesktopController(eventData.Pointer.Controller))
-                {
-                    StartDwell();
-                }
-                break;
-            
-            case State.Manipulation:
-            case State.Attraction:
-                break;
-            
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
     }
 
     public virtual void OnFocusExit(FocusEventData eventData)
     {
-        if (!EnableForce || !VerifyPointer(eventData.Pointer))
-        {
-            return;
-        }
-
-        _focusers.Remove(eventData.Pointer);
     }
 
     public void OnPointerUp(MixedRealityPointerEventData eventData)
