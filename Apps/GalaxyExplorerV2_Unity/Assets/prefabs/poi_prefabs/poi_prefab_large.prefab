@@ -75,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 8318732413448722084, guid: f913cb23cff7d3e449b82684b2cbb19b,
         type: 3}
       propertyPath: m_Name
-      value: poi_prefab_new_large
+      value: poi_prefab_large
       objectReference: {fileID: 0}
     - target: {fileID: 7181117166402863549, guid: f913cb23cff7d3e449b82684b2cbb19b,
         type: 3}
@@ -350,7 +350,13 @@ PrefabInstance:
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnPointerDown
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 406165487477158745, guid: f913cb23cff7d3e449b82684b2cbb19b,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6789960692932327421, guid: f913cb23cff7d3e449b82684b2cbb19b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f913cb23cff7d3e449b82684b2cbb19b, type: 3}
 --- !u!1 &2108324106934139499 stripped
 GameObject:

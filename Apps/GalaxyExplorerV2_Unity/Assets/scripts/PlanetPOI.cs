@@ -52,13 +52,6 @@ namespace GalaxyExplorer
             isCardActive = true;
             yield return StartCoroutine(GalaxyExplorerManager.Instance.CardPoiManager.UpdateActivationOfPOIColliders(false));
 
-            
-            // Fade out card description material
-            if (CardDescription)
-            {
-                StartCoroutine(GalaxyExplorerManager.Instance.GeFadeManager.FadeMaterial(CardDescriptionMaterial, GEFadeManager.FadeType.FadeOut, GalaxyExplorerManager.Instance.CardPoiManager.POIFadeOutTime, GalaxyExplorerManager.Instance.CardPoiManager.POIOpacityCurve));
-            }
-
             yield return new WaitForSeconds(.3f);
             GalaxyExplorerManager.Instance.TransitionManager.LoadNextScene(SceneToLoad);
             var poiBehaviors = FindObjectsOfType<POIBehavior>();
@@ -69,16 +62,6 @@ namespace GalaxyExplorer
                     poiBehavior.enabled = false;
                 }
             }
-        }
-
-        public override void OnFocusEnter(FocusEventData eventData)
-        {
-            base.OnFocusEnter(eventData);
-        }
-
-        public override void OnFocusExit(FocusEventData eventData)
-        {
-            base.OnFocusExit(eventData);
         }
     }
 }

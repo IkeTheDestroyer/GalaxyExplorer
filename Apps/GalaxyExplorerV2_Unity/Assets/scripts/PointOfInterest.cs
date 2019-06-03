@@ -13,9 +13,6 @@ namespace GalaxyExplorer
     public class PointOfInterest : MonoBehaviour, IMixedRealityPointerHandler, IMixedRealityFocusHandler
     {
         [SerializeField]
-        protected GameObject CardDescription = null;
-
-        [SerializeField]
         protected GameObject Indicator = null;
 
         [SerializeField]
@@ -87,20 +84,7 @@ namespace GalaxyExplorer
             get { return indicatorCollider; }
         }
 
-        public Material CardDescriptionMaterial
-        {
-            get; set;
-        }
-
         // If any othe poi is focused then need to deactivate any card description that is on
-        public virtual void OnAnyPoiFocus()
-        {
-            if (CardDescription && CardDescription.activeSelf)
-            {
-                CardDescription.SetActive(false);
-            }
-        }
-
         protected virtual void Awake()
         {
             // do this before start because orbit points of interest need to override the target position (with the orbit)
@@ -118,8 +102,6 @@ namespace GalaxyExplorer
         {
             audioService = MixedRealityToolkit.Instance.GetService<IAudioService>();
             
-            CardDescriptionMaterial = CardDescription.GetComponent<MeshRenderer>().material;
-
             if (Indicator)
             {
                 Indicator.AddComponent<NoAutomaticFade>();
@@ -152,10 +134,6 @@ namespace GalaxyExplorer
             UpdateState();
         }
 
-        protected void LateUpdate()
-        {
-        }
-
         // Need to register poi after the end of frame as sometimes it ends up the manager to be initialized after pois and the list of pois becomes null
         protected IEnumerator RegisterPOICoroutine()
         {
@@ -173,15 +151,6 @@ namespace GalaxyExplorer
             {
                 case POIState.kOnFocusExit:
                     timer += Time.deltaTime;
-
-                    if (timer >= restingOnPoiTime)
-                    {
-                        if (CardDescription)
-                        {
-                            CardDescription.SetActive(false);
-                        }
-                    }
-
                     break;
             }
         }
@@ -300,14 +269,6 @@ namespace GalaxyExplorer
             currentState = POIState.kOnFocusEnter;
             timer = 0.0f;
 
-            if (CardDescription)
-            {
-                CardDescription.SetActive(true);
-                if (GalaxyExplorerManager.IsInitialized)
-                {
-                    GalaxyExplorerManager.Instance.CardPoiManager.OnPOIFocusEnter(this);
-                }
-            }
             audioService.PlayClip(AudioId.Focus);
         }
 

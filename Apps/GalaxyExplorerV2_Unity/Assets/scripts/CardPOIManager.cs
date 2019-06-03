@@ -184,43 +184,6 @@ namespace GalaxyExplorer
             }
         }
 
-        // Deactivate all pois that might have active card description except the one that is currently focused/touched
-        // Note that the focused/touched object could be a planet and not its poi indicator
-        private void DeactivateAllDescriptionsHandlers(GameObject focusedObject)
-        {
-            foreach (var poi in allPOIs)
-            {
-                if (poi.IndicatorCollider.gameObject != focusedObject)
-                {
-                    PlanetPOI planetPOI = poi as PlanetPOI;
-                    if (planetPOI)
-                    {
-                        // If planet sphere object is the focused object then dont unfocus from it
-                        Planet planet = planetPOI.PlanetObject.GetComponentInChildren<Planet>();
-                        if (planet && planet.gameObject == focusedObject)
-                        {
-                            continue;
-                        }
-                    }
-
-                    poi.OnFocusExit(null);
-                }
-            }
-        }
-
-
-        // Called by poi if any poi is focused in order to notify all the other pois
-        public void OnPOIFocusEnter(PointOfInterest focusedPOI)
-        {
-            foreach (var poi in allPOIs)
-            {
-                if (poi && poi != focusedPOI)
-                {
-                    poi?.OnAnyPoiFocus();
-                }
-            }
-        }
-
         public void OnPointerUp(MixedRealityPointerEventData eventData)
         {
         }

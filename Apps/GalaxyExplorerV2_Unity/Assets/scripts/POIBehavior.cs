@@ -17,12 +17,6 @@ public class POIBehavior : MonoBehaviour
     [SerializeField] private float scale = 1f;
     [SerializeField] private Vector2 offset = Vector2.zero;
     [SerializeField] private PressableButton pressableButton;
-    [SerializeField] private Renderer windowRenderer;
-    [SerializeField] private Material windowMaterial;
-    [SerializeField] private Material occlusionMaterial;
-    [SerializeField] private Texture2D windowImage;
-    [SerializeField] private float windowImageScale;
-    [SerializeField] private Vector2 windowImageOffset;
     
     
     private BoxCollider boxCollider;
@@ -45,11 +39,6 @@ public class POIBehavior : MonoBehaviour
             poi = GetComponentInParent<PointOfInterest>();
         }
         colliderSize = boxCollider.size;
-        windowMaterial = Instantiate(windowMaterial);
-        windowMaterial.SetFloat("_Scale", windowImageScale);
-        windowMaterial.SetTexture("_MainTex", windowImage);
-        windowMaterial.SetTextureOffset("_MainTex", windowImageOffset);
-        windowRenderer.materials = new[] {windowMaterial, occlusionMaterial};
         
         cameraObject = Camera.main.gameObject;
         var numberOfPoints = 7;
