@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using GalaxyExplorer;
 using Microsoft.MixedReality.Toolkit;
 using Microsoft.MixedReality.Toolkit.Input;
@@ -9,7 +8,6 @@ using Microsoft.MixedReality.Toolkit.Input.UnityInput;
 using Microsoft.MixedReality.Toolkit.UI;
 using Microsoft.MixedReality.Toolkit.Utilities.Solvers;
 using Microsoft.MixedReality.Toolkit.WindowsMixedReality.Input;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using Debug = UnityEngine.Debug;
@@ -102,17 +100,6 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
     private void OnDestroy()
     {
         ControllerTracker.AllTrackingLost -= OnControllersLost;
-    }
-
-    private bool IsEyeGazed()
-    {
-        var provider = MixedRealityToolkit.InputSystem.EyeGazeProvider;
-        if (provider.IsEyeGazeValid && provider.HitInfo.transform != null)
-        {
-            return provider.HitInfo.transform.IsChildOf(transform);
-        }
-
-        return false;
     }
 
     private void UpdateGoalsAttraction()
@@ -375,7 +362,7 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
         }
 
         ReleaseAllTractorBeams();
-        SetActivePointersFocusLocked(false);
+//        SetActivePointersFocusLocked(false);
         PreviousForceState = ForceState;
         ForceState = State.Manipulation;
         SolverHandler.TransformTarget = ControllerTracker.transform;
@@ -427,10 +414,11 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
         }
     }
 
-    private static bool VerifyPointer(IMixedRealityPointer pointer)
+    private static bool TryToVerifyPointerAndController(IMixedRealityPointer pointer, out ShellHandRayPointer handRayPointer)
     {
         // verify that the pointer is a far pointer that inherits from the BaseControllerPointer so it is a MonoBehavior
-        if (!(pointer is ShellHandRayPointer))
+        handRayPointer = pointer as ShellHandRayPointer;
+        if (handRayPointer == null)
         {
             return false;
         }
@@ -513,18 +501,13 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
 
     public void OnBeforeFocusChange(FocusEventData eventData)
     {
-        if (!EnableForce || !VerifyPointer(eventData.Pointer))
+        if (!EnableForce || !TryToVerifyPointerAndController(eventData.Pointer, out var pointer))
         {
             return;
         }
         
-        // the pointer is verified as a BaseControllerPointer in the VerifyPointer method above.
-        var pointer = eventData.Pointer as ShellHandRayPointer;
+        // this should never trigger!
         Debug.Assert(pointer != null);
-        if (pointer == null)
-        {
-            return;
-        }
 
         if (eventData.NewFocusedObject != null && eventData.NewFocusedObject.transform.IsChildOf(transform))
         {

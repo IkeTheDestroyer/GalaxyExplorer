@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.MixedReality.Toolkit.Input;
-using Microsoft.MixedReality.Toolkit.Utilities;
-using MRS.FlowManager;
+using UnityEditor;
 using UnityEngine;
-using Random = System.Random;
 
+[RequireComponent(typeof(LineRenderer))]
 public class ForceTractorBeam : MonoBehaviour
 {
     public event Action<ForceTractorBeam> Destroyed;
@@ -14,98 +11,43 @@ public class ForceTractorBeam : MonoBehaviour
     private const int Subdivisions = 10;
     private const float s_divider = (float) 1.0d / int.MaxValue;
 
-    private struct LineState
-    {
-        public Gradient Gradient;
-        public AnimationCurve Width;
-
-        public LineState(Gradient gradient, AnimationCurve width)
-        {
-            Gradient = new Gradient();
-            Width = new AnimationCurve(width.keys);
-            Gradient.SetKeys(gradient.colorKeys, gradient.alphaKeys);
-            Gradient.mode = gradient.mode;
-        }
-    }
-
     private bool _wasActive;
+
+    private LineRenderer _lineRenderer, _handRayLineRenderer;
     private MaterialPropertyBlock _tractorBeamMaterialPropertyBlock;
-    private MeshFilter _meshFilter;
-    private MeshRenderer _tractorMeshRenderer;
-    private Vector4[] _points, _normals, _tangents, _biNormals;
-    private readonly List<Vector4> _randoms = new List<Vector4>();
-    private Dictionary<BaseMixedRealityLineRenderer, LineState> _oldLineStates = new Dictionary<BaseMixedRealityLineRenderer, LineState>();
-    private Dictionary<BaseMixedRealityLineRenderer, LineState> _newLineStates = new Dictionary<BaseMixedRealityLineRenderer, LineState>();
 
     [Range(0,1)]
     public float Coverage;
-    public Color TractorBeamColor = Color.green;
-    public float TractorBeamWidth = .1f;
+    public float TractorBeamWidth = .02f;
 
-    private static readonly int ActivePropertyId = Shader.PropertyToID("_Active");
-    private static readonly int CoveragePropertyId = Shader.PropertyToID("_Coverage");
-    private static readonly int PointsPropertyId = Shader.PropertyToID("_Points");
-    private static readonly int TangentsPropertyId = Shader.PropertyToID("_Tangents");
-    private static readonly int NormalsPropertyId = Shader.PropertyToID("_Normals");
-    private static readonly int BiNormalsPropertyId = Shader.PropertyToID("_BiNormals");
 
     public ShellHandRayPointer HandRayPointer { get; private set; }
-    public int Seed;
+    private static readonly int LineLength = Shader.PropertyToID("_LineLength");
+    private static readonly int LineWidth = Shader.PropertyToID("_LineWidth");
+    private static readonly int Active = Shader.PropertyToID("_Active");
+    private static readonly int CoverageProperty = Shader.PropertyToID("_Coverage");
 
     private void Awake()
     {
-        _tractorMeshRenderer = GetComponent<MeshRenderer>();
-        _meshFilter = GetComponent<MeshFilter>();
         _tractorBeamMaterialPropertyBlock = new MaterialPropertyBlock();
-        _points = new Vector4[Subdivisions];
-        _normals = new Vector4[Subdivisions];
-        _biNormals = new Vector4[Subdivisions];
-        _tangents = new Vector4[Subdivisions];
         HandRayPointer = GetComponentInParent<ShellHandRayPointer>();
-
-//        foreach (var lineRenderer in HandRayPointer.LineRenderers)
-//        {
-//            _oldLineStates.Add(lineRenderer, new LineState(lineRenderer.LineColor, lineRenderer.LineWidth));
-//            _newLineStates.Add(lineRenderer, new LineState(lineRenderer.LineColor, lineRenderer.LineWidth));
-//            var newStat = _newLineStates[lineRenderer];
-//            var currentColors = newStat.Gradient.colorKeys.ToList();
-//            currentColors.Add(new GradientColorKey());
-//            newStat.Gradient.colorKeys
-//        }
+        _lineRenderer = GetComponent<LineRenderer>();
+        _handRayLineRenderer = HandRayPointer.GetComponent<LineRenderer>();
         
-        GenerateData();
+        UpdateLine();
+        Dissipate();
     }
 
-    private static float GetRandFloat01(Random random)
+    private void CopyLinePositions()
     {
-        return random.Next() * s_divider;
-    }
-
-    private void GenerateData()
-    {
-        if(_meshFilter == null || _meshFilter.sharedMesh == null) return;
-
-        var random = new Random(Seed);
-
-        var mesh = _meshFilter.sharedMesh;
-        
-        var vertices = mesh.vertices;
-        
-        _randoms.Clear();
-        
-        for(var i=0;i<vertices.Length;i++)
+        if (_lineRenderer.positionCount != _handRayLineRenderer.positionCount)
         {
-            _randoms.Add(new Vector4(
-                GetRandFloat01(random),
-                GetRandFloat01(random),
-                GetRandFloat01(random),
-                GetRandFloat01(random)
-            ));
+            _lineRenderer.positionCount = _handRayLineRenderer.positionCount;
         }
-
-        mesh.SetUVs(1, _randoms);
-        mesh.UploadMeshData(false);
-        GetComponent<MeshFilter>().mesh = mesh;
+        for (var i = 0; i < _handRayLineRenderer.positionCount; i++)
+        {
+            _lineRenderer.SetPosition(i,_handRayLineRenderer.GetPosition(i));
+        }
     }
 
     private void OnDestroy()
@@ -126,55 +68,35 @@ public class ForceTractorBeam : MonoBehaviour
         }
         else
         {
-            _tractorBeamMaterialPropertyBlock.SetFloat(ActivePropertyId, 1f);
-            UpdatePoints();
-            UpdateBounds();
+            _lineRenderer.enabled = true;
+            UpdateLine();
             _wasActive = true;
         }
-        _tractorMeshRenderer.SetPropertyBlock(_tractorBeamMaterialPropertyBlock);
+        _tractorBeamMaterialPropertyBlock.SetFloat(CoverageProperty, Coverage);
+        _lineRenderer.SetPropertyBlock(_tractorBeamMaterialPropertyBlock);
     }
 
-//    private void UpdateLine()
-//    {
-//        foreach (var lineStatePair in _newLineStates)
-//        {
-//            var gradiant = lineStatePair.Value.Gradient;
-//        }
-//    }
-
-    private void UpdatePoints()
+    private void UpdateLine()
     {
-        for (var i = 0; i < Subdivisions; i++)
-        {
-            _points[i] = HandRayPointer.LineBase.GetPoint((float)i / (Subdivisions - 1));
-        }
-        for (var i = 0; i < Subdivisions; i++)
-        {
-            var a = Mathf.Max(0, i - 1);
-            var b = Mathf.Min(Subdivisions - 1, i + 1);
-            _tangents[i] = (_points[b] - _points[a]).normalized;
-            var rotation = Quaternion.FromToRotation(Vector3.forward, _tangents[i]);
-            _normals[i] = rotation * Vector3.up;
-            _biNormals[i] = rotation * Vector3.right;
-        }
-        _tractorBeamMaterialPropertyBlock.SetFloat(CoveragePropertyId, Coverage);
-        _tractorBeamMaterialPropertyBlock.SetVectorArray(PointsPropertyId, _points);
-        _tractorBeamMaterialPropertyBlock.SetVectorArray(TangentsPropertyId, _tangents);
-        _tractorBeamMaterialPropertyBlock.SetVectorArray(NormalsPropertyId, _normals);
-        _tractorBeamMaterialPropertyBlock.SetVectorArray(BiNormalsPropertyId, _biNormals);
-    }
-
-    private void UpdateBounds()
-    {
-        var bounds = _meshFilter.sharedMesh.bounds;
-        bounds.SetMinMax(Vector3.zero, transform.worldToLocalMatrix.MultiplyPoint(_points[Subdivisions-1]));
-        _meshFilter.sharedMesh.bounds = bounds;
+        CopyLinePositions();
+        _lineRenderer.widthMultiplier = TractorBeamWidth;
+        var lineLength = HandRayPointer.LineBase.UnClampedWorldLength;
+        _tractorBeamMaterialPropertyBlock.SetFloat(Active, 1f);
+        _tractorBeamMaterialPropertyBlock.SetFloat(LineLength, lineLength);
+        _tractorBeamMaterialPropertyBlock.SetFloat(LineWidth, TractorBeamWidth);
     }
 
     public void Dissipate()
     {
         Coverage = 0f;
-        _tractorBeamMaterialPropertyBlock.SetFloat(ActivePropertyId, 0f);
+        _tractorBeamMaterialPropertyBlock.SetFloat(Active, 0f);
+        
+        // have to check for null in case the pointer object has been destroyed while having focus
+        if (_lineRenderer.Equals(null))
+        {
+            _lineRenderer.enabled = false;
+        }
+        
         _wasActive = false;
     }
 }
