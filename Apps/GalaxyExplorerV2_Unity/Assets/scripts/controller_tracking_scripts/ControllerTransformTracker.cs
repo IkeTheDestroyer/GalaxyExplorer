@@ -128,8 +128,6 @@ public class ControllerTransformTracker : MonoBehaviour, IMixedRealitySourceStat
             yield return null;
         }
 
-        Debug.Log("Source detected. MixedRealityToolkit.InputSystem.DetectedControllers: " + MixedRealityToolkit.InputSystem.DetectedControllers.Count);
-
         foreach (var detectedController in MixedRealityToolkit.InputSystem.DetectedControllers)
         {
             var controller = detectedController as IMixedRealityController;
@@ -138,8 +136,6 @@ public class ControllerTransformTracker : MonoBehaviour, IMixedRealitySourceStat
                 if (CheckController(controller))
                 {
                     AttachController(controller);
-
-                    Debug.Log("Controller position data available =  " + controller.IsPositionAvailable);
                 }
             }
         }
@@ -341,8 +337,6 @@ public class ControllerTransformTracker : MonoBehaviour, IMixedRealitySourceStat
         var controller = eventData.Controller;
         if (!CheckController(controller)) return;
 
-        Debug.Log("Source detected");
-
         AttachController(controller);
     }
 
@@ -350,8 +344,6 @@ public class ControllerTransformTracker : MonoBehaviour, IMixedRealitySourceStat
     {
         var controller = eventData.Controller;
         if (!CheckController(controller)) return;
-
-        Debug.Log("Source lost");
 
         DetachController(controller);
     }
