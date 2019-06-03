@@ -49,16 +49,6 @@ namespace GalaxyExplorer
             get; set;
         }
 
-        //        public GEMouseInputSource MouseInput
-        //        {
-        //            get; set;
-        //        }
-
-        //        public InputRouter InputRouter
-        //        {
-        //            get; set;
-        //        }
-
         public ViewLoader ViewLoaderScript
         {
             get; set;
