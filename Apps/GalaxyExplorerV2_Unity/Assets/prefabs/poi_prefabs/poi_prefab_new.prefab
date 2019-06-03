@@ -1107,7 +1107,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.52, y: 0.12, z: 0.02}
-  m_Center: {x: 0.17, y: 0.24, z: 0}
+  m_Center: {x: 0.17, y: 0.24, z: 0.08}
 --- !u!114 &3124980988377230931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3330,7 +3330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   routingTarget: {fileID: 3778893916704738083}
-  InteractableOnClick: 0
+  InteractableOnClick: 1
 --- !u!114 &304551936890474501
 MonoBehaviour:
   m_ObjectHideFlags: 0
