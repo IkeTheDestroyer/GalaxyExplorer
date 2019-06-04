@@ -130,12 +130,12 @@ public class ControllerTransformTracker : MonoBehaviour, IMixedRealitySourceStat
 
         foreach (var detectedController in MixedRealityToolkit.InputSystem.DetectedControllers)
         {
-            var controller = detectedController as IMixedRealityController;
-            if (controller != null)
+            // hands are present any way, we only have to monitor controllers
+            if (detectedController != null && !(detectedController is IMixedRealityHand))
             {
-                if (CheckController(controller))
+                if (CheckController(detectedController))
                 {
-                    AttachController(controller);
+                    AttachController(detectedController);
                 }
             }
         }

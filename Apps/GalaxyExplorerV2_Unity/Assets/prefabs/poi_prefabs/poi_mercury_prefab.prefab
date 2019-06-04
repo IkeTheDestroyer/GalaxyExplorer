@@ -954,13 +954,26 @@ MonoBehaviour:
   lifetime: 0
   SolverHandler: {fileID: 583097010196925986}
   EnableForce: 1
+  AttractionDwellDuration: 2
+  TractionBeamPrefab: {fileID: 5144064591906706543, guid: 2e1f20209bc892e47a09b25c845e46cd,
+    type: 3}
+  AttractionDwellForgiveness: 0.5
   RootTransform: {fileID: 4999589401689910}
   ControllerTracker: {fileID: 0}
   OffsetToObjectBoundsFromController: 1
-  OffsetFromCameraOnNoControllerPosition: {x: 0, y: 0, z: 0}
   ManipulationHandler: {fileID: 5633573723740148137}
   AttractionCollider: {fileID: 6233456018127467087}
   SetToRoot:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityForceSolverEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  SetToDwell:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityForceSolverEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  DwellCanceled:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityForceSolverEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
@@ -1596,16 +1609,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 311045954745802742, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 311045955212260655, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 311045954745802743, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -1620,6 +1623,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 311045954745802742, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 311045955212260655, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1feb7da4c9edf9441ae1c3b2433ebc93, type: 3}

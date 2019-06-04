@@ -1657,7 +1657,9 @@ MonoBehaviour:
   lifetime: 0
   SolverHandler: {fileID: 1446444116}
   EnableForce: 1
-  AttractionDwellDuration: 2
+  AttractionDwellDuration: 1
+  TractionBeamPrefab: {fileID: 5144064591906706543, guid: 2e1f20209bc892e47a09b25c845e46cd,
+    type: 3}
   AttractionDwellForgiveness: 0.5
   RootTransform: {fileID: 1446444115}
   ControllerTracker: {fileID: 569973854}
