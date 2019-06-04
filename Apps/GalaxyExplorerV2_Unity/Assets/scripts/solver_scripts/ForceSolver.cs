@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using GalaxyExplorer;
 using Microsoft.MixedReality.Toolkit;
 using Microsoft.MixedReality.Toolkit.Input;
@@ -31,7 +32,6 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
 
     private static int _dwellCounter;
     private static AudioSource _tractionBeamAudioSource;
-    private static readonly Dictionary<ShellHandRayPointer, ForceTractorBeam> _staticPointersToTractorBeams = new Dictionary<ShellHandRayPointer, ForceTractorBeam>();
 
     private ManipulationHandler _manipulationHandler;
     private Collider _attractionCollider;
@@ -249,7 +249,7 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
         {
             _audioService.PlayClip(AudioId.ForceDwell, out _tractionBeamAudioSource);
         }
-        _dwellTimer = 0f;
+        _dwellTimer = _activeTractorBeams.Count > 0 ? _activeTractorBeams.Max(tb => tb.Coverage) : 0f;
         _dwellForgivenessTimer = 0f;
         while (ForceState == State.Dwell &&
                _dwellTimer < AttractionDwellDuration &&
@@ -430,12 +430,9 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
             ;
     }
 
-    private void AttachTractorBeamToPointer(ShellHandRayPointer pointer)
+    private ForceTractorBeam AttachTractorBeamToPointer(ShellHandRayPointer pointer)
     {
-        if (_staticPointersToTractorBeams.ContainsKey(pointer)) return;
-        var tb = Instantiate(TractionBeamPrefab, pointer.transform).GetComponent<ForceTractorBeam>();
-        _staticPointersToTractorBeams.Add(pointer, tb);
-        tb.Destroyed += OnTractorBeamDestroyed;
+        return ForceTractorBeam.AttachToHandRayPointer(pointer, TractionBeamPrefab);
     }
 
     private void ReleaseAllTractorBeams()
@@ -445,14 +442,6 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
             tractorBeam.Dissipate();
         }
         _activeTractorBeams.Clear();
-    }
-
-    private static void OnTractorBeamDestroyed(ForceTractorBeam tractorBeam)
-    {
-        if (_staticPointersToTractorBeams.ContainsKey(tractorBeam.HandRayPointer))
-        {
-            _staticPointersToTractorBeams.Remove(tractorBeam.HandRayPointer);
-        }
     }
 
     private static bool IsGgvOrDesktopController(IMixedRealityController controller)
@@ -513,27 +502,27 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
         {
             _focusers.Add(pointer);
             eventData.Pointer.FocusTarget = this;
-            AttachTractorBeamToPointer(pointer);
+            var tractorBeam = AttachTractorBeamToPointer(pointer);
 
             switch (ForceState)
             {
                 case State.Root:
+                    _activeTractorBeams.Add(tractorBeam);
                     StartDwell();
-                    _activeTractorBeams.Add(_staticPointersToTractorBeams[pointer]);
                     break;
 
                 case State.Free:
                     if (!IsGgvOrDesktopController(eventData.Pointer.Controller))
                     {
+                        _activeTractorBeams.Add(tractorBeam);
                         StartDwell();
-                        _activeTractorBeams.Add(_staticPointersToTractorBeams[pointer]);
                     }
 
                     break;
 
                 case State.Dwell:
 
-                    _activeTractorBeams.Add(_staticPointersToTractorBeams[pointer]);
+                    _activeTractorBeams.Add(tractorBeam);
                     break;
                     
                 case State.Manipulation:
@@ -551,7 +540,7 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
             {
                 eventData.Pointer.FocusTarget = null;
             }
-            _activeTractorBeams.Remove(_staticPointersToTractorBeams[pointer]);
+            _activeTractorBeams.Remove(ForceTractorBeam.GetTractorBeamFromPointer(pointer));
         }
     }
 

@@ -37,12 +37,12 @@ namespace GalaxyExplorer
             IntroEarthPlacementAnimator.SetTrigger("Intro");
             
             // if platform is desktop then bypass placement
-            if (GalaxyExplorerManager.IsDesktop)
-            {
-                StartCoroutine(ReleaseContent(DesktopDuration));
-                isPlaced = true;
-                return;
-            }
+//            if (GalaxyExplorerManager.IsDesktop)
+//            {
+//                StartCoroutine(ReleaseContent(DesktopDuration));
+//                isPlaced = true;
+//                return;
+//            }
 
             // Position earth pin in front of camera and a bit lower in VR
             var offset = GalaxyExplorerManager.IsImmersiveHMD ? Vector3.down * .5f : Vector3.zero;

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Coverage: 0
-  TractorBeamWidth: 0.04
+  TractorBeamWidth: 0.02
 --- !u!120 &2473580293277017509
 LineRenderer:
   m_ObjectHideFlags: 0

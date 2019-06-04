@@ -39,17 +39,6 @@ namespace GalaxyExplorer
 
         private void Start()
         {
-            //            InputManager.Instance.AddGlobalListener(gameObject);
-            //            MixedRealityToolkit.InputSystem.Register(gameObject);
-
-            //            if (GalaxyExplorerManager.Instance.MouseInput)
-            //            {
-            //                GalaxyExplorerManager.Instance.MouseInput.OnMouseClickDelegate += OnMouseClickDelegate;
-            //                GalaxyExplorerManager.Instance.MouseInput.OnMouseClickUpDelegate += OnMouseClickUpDelegate;
-            //                GalaxyExplorerManager.Instance.MouseInput.OnMouseOnHoverDelegate += OnMouseOnHoverDelegate;
-            //                GalaxyExplorerManager.Instance.MouseInput.OnMouseOnUnHoverDelegate += OnMouseOnUnHoverDelegate;
-            //            }
-
             if (GalaxyExplorerManager.Instance.ToolsManager)
             {
                 GalaxyExplorerManager.Instance.ToolsManager.OnBoundingBoxDelegate += OnBoundingBoxDelegate;
@@ -118,7 +107,7 @@ namespace GalaxyExplorer
             }
 
             bool isAnyCardActive = IsAnyCardActive();
-            if (spiralGalaxies == null)
+            if (spiralGalaxies == null || spiralGalaxies.Length < 1)
             {
                 spiralGalaxies = FindObjectsOfType<SpiralGalaxy>();
             }
@@ -141,7 +130,7 @@ namespace GalaxyExplorer
                 {
                     foreach (var spiralGalaxy in spiralGalaxies)
                     {
-                        spiralGalaxy.velocityMultiplier = 0;
+                        spiralGalaxy.IsSpinning = false;
                     }
 
                     if (poiAnimator != null)
@@ -156,7 +145,7 @@ namespace GalaxyExplorer
                 {
                     foreach (var spiralGalaxy in spiralGalaxies)
                     {
-                        spiralGalaxy.velocityMultiplier = .08f;
+                        spiralGalaxy.IsSpinning = true;
                     }
                     if (poiAnimator != null)
                     {
@@ -178,8 +167,6 @@ namespace GalaxyExplorer
                     isCardActive = true;
 
                     poi.OnPointerDown(null);
-
-                    Debug.Log("Close card because of input");
                     break;
                 }
             }
@@ -193,69 +180,6 @@ namespace GalaxyExplorer
                     {
                         poi.IndicatorCollider.enabled = true;
                     }
-                }
-            }
-        }
-
-        // Deactivate all pois that might have active card description except the one that is currently focused/touched
-        // Note that the focused/touched object could be a planet and not its poi indicator
-        private void DeactivateAllDescriptionsHandlers(GameObject focusedObject)
-        {
-            foreach (var poi in allPOIs)
-            {
-                if (poi.IndicatorCollider.gameObject != focusedObject)
-                {
-                    PlanetPOI planetPOI = poi as PlanetPOI;
-                    if (planetPOI)
-                    {
-                        // If planet sphere object is the focused object then dont unfocus from it
-                        Planet planet = planetPOI.PlanetObject.GetComponentInChildren<Planet>();
-                        if (planet && planet.gameObject == focusedObject)
-                        {
-                            continue;
-                        }
-                    }
-
-                    poi.OnFocusExit(null);
-                }
-            }
-        }
-
-        //        public void OnTouchpadTouched(InputEventData eventData)
-        //        {
-        //
-        //        }
-
-        //        public void OnTouchpadReleased(InputEventData eventData)
-        //        {
-        //            // GETouchScreenInputSource sets InputManager.Instance.OverrideFocusedObject on collider touch
-        ////            GameObject focusedObj = InputManager.Instance.OverrideFocusedObject;
-        ////            DeactivateAllDescriptionsHandlers(focusedObj);
-        //
-        //            bool isAnyCardActive = IsAnyCardActive();
-        //            StartCoroutine(CloseAnyOpenCard(eventData));
-        //            StartCoroutine(UpdateActivationOfPOIColliders());
-        //
-        //            if (isAnyCardActive)
-        //            {
-        //                GalaxyExplorerManager.Instance.AudioEventWrangler.OnInputClicked(null);
-        //            }
-        //        }
-
-        //        public void OnInputPositionChanged(InputPositionEventData eventData)
-        //        {
-        //
-        //        }
-        //
-
-        // Called by poi if any poi is focused in order to notify all the other pois
-        public void OnPOIFocusEnter(PointOfInterest focusedPOI)
-        {
-            foreach (var poi in allPOIs)
-            {
-                if (poi && poi != focusedPOI)
-                {
-                    poi?.OnAnyPoiFocus();
                 }
             }
         }

@@ -39,19 +39,43 @@ public class PoolableAudioSource : APoolable
 
     public void PlayClip(
         AudioClip clip,
-        float volume = 1)
+        float volume = 1,
+        PlayOptions playOptions = PlayOptions.PlayOnce)
     {
         AudioSource.clip = clip;
         AudioSource.volume = volume;
         AudioSource.time = 0;
+        AudioSource.spatialBlend = 1;
         AudioSource.Play();
-        StartCoroutine(DestroyWithDelay(clip.length));
+        if (playOptions == PlayOptions.Loop)
+        {
+            AudioSource.loop = true;
+            StartCoroutine(SlowUpdate());
+        }
+        else
+        {
+            StartCoroutine(DestroyWithDelay(clip.length));
+        }
     }
 
     private IEnumerator DestroyWithDelay(float delay)
     {
         yield return new WaitForSeconds(delay + .1f);
-        Use();
+        ReturnToPool();
+    }
+
+    private IEnumerator SlowUpdate()
+    {
+        var waitForOneSecond = new WaitForSeconds(1);
+        while (gameObject != null && gameObject.activeInHierarchy)
+        {
+            if (!AudioSource.isPlaying)
+            {
+                Reset();
+                yield break;
+            }
+            yield return waitForOneSecond;
+        }
     }
 
     protected override void Reset()
@@ -59,6 +83,12 @@ public class PoolableAudioSource : APoolable
         AudioSource.clip = null;
         AudioSource.volume = 1;
         AudioSource.outputAudioMixerGroup = null;
+        AudioSource.loop = false;
         base.Reset();
+    }
+
+    private void OnDisable()
+    {
+        Invoke("Reset", 0);
     }
 }

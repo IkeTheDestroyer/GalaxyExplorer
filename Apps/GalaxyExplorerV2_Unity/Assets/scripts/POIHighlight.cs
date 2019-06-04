@@ -35,10 +35,6 @@ public class POIHighlight : MonoBehaviour
         StartLerpTextureOffset();
     }
 
-    private void OnDisable()
-    {
-    }
-
     private void OnDestroy()
     {
         SetAlphaOnMaterial(1f);
@@ -75,7 +71,6 @@ public class POIHighlight : MonoBehaviour
             // Set the alpha on the material
             alpha = GetNewAlpha(timer, currentPercentage);
             SetAlphaOnMaterial(alpha);
-            Debug.Log("Current alpha = " + alpha);
 
             timer += Time.deltaTime;
 

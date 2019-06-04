@@ -387,6 +387,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 9f9229727bfc5814d954bbc2d626c1bb, type: 3}
     delay: 2
     allowReplay: 0
+    blockProgress: 0
 --- !u!1 &401717885
 GameObject:
   m_ObjectHideFlags: 0
@@ -3251,5 +3252,11 @@ PrefabInstance:
       propertyPath: m_Positions.Array.data[19].z
       value: 0.21359363
       objectReference: {fileID: 0}
+    - target: {fileID: 1156918614308376875, guid: 51b1c07ae6d09704682e68d482c52d81,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4d568e8cc19f6bb4e93369c29c00e430,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51b1c07ae6d09704682e68d482c52d81, type: 3}

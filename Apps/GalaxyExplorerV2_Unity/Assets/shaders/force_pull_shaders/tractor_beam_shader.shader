@@ -81,7 +81,8 @@ Shader "GalaxyExplorer/TractorBeam"
 //                float m = min(.5, dToEdge/(_LineWidth*.5));
 //                float a = min(sin( i.uv.y*UNITY_PI), sin(m*UNITY_PI));
 //                a *=a;
-                fixed4 c = tex2D(_MainTex, i.uv)*i.color*step(i.uv.x, _Coverage)*a;
+
+                fixed4 c = tex2D(_MainTex, i.uv)*i.color*step(i.uv.x, _Coverage);
                 
                 return c;
                 

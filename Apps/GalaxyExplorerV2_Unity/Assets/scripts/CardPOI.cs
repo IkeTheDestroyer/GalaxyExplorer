@@ -24,17 +24,10 @@ namespace GalaxyExplorer
 
         private Quaternion cardRotation = Quaternion.identity;
         private Vector3 cardOffset = Vector3.zero;
-        private Vector3 cardDescriptionOffset = Vector3.zero; // offset of card description from the actual card
-        private Vector3 descriptionStoppedLocalPosition = Vector3.zero;
-        private Quaternion descriptionStoppedLocalRotation = Quaternion.identity;
         private Transform cardOffsetTransform = null; // Transform from which card remains static
 
         private POIMaterialsFader poiFader = null;
 
-        public POIContent GetCardObject
-        {
-            get { return CardObject; }
-        }
 
         protected override void Start()
         {
@@ -51,19 +44,14 @@ namespace GalaxyExplorer
                 }
             }
 
-            descriptionStoppedLocalPosition = CardDescription.transform.localPosition;
-            descriptionStoppedLocalRotation = CardDescription.transform.localRotation;
-
             cardOffsetTransform = transform.parent.parent.parent;
 
             // Scale card/magic window based on platform
             CardObject.transform.localScale *= GalaxyExplorerManager.MagicWindowScaleFactor;
         }
 
-        private new void LateUpdate()
+        private void LateUpdate()
         {
-            base.LateUpdate();
-
             // If the card of this poi is open, then override the card's and descriptions's position and rotation so these are moved with the rotation animation
             if (CardObject && CardObject.gameObject.activeSelf)
             {
@@ -71,7 +59,6 @@ namespace GalaxyExplorer
                 CardObject.transform.position = cardOffsetTransform.position - cardOffset;
 
                 // Card description needs to keep the same distance from the card
-                CardDescription.transform.position = CardObject.transform.position - cardDescriptionOffset;
             }
         }
 
@@ -86,10 +73,6 @@ namespace GalaxyExplorer
                     {
                         timer = 0.0f;
 
-                        if (CardDescription && !CardObject.gameObject.activeSelf)
-                        {
-                            CardDescription.SetActive(false);
-                        }
                     }
 
                     break;
@@ -135,7 +118,6 @@ namespace GalaxyExplorer
 
                     cardOffset = cardOffsetTransform.position - CardObject.transform.position;
 
-                    StartCoroutine(SlideCardOut());
                     audioService.PlayClip(AudioId.CardSelect);
                 }
                 else
@@ -158,80 +140,15 @@ namespace GalaxyExplorer
                         GalaxyExplorerManager.Instance.VoManager.Stop(true);
                     }
 
-                    StartCoroutine(SlideCardIn());
-                    
-                    audioService.PlayClip(AudioId.CardDeselect);
+                    audioService?.PlayClip(AudioId.CardDeselect);
                 }
             }
         }
-
-        public override void OnFocusEnter(FocusEventData eventData)
-        {
-            base.OnFocusEnter(eventData);
-        }
-
-        public override void OnFocusExit(FocusEventData eventData)
-        {
-            base.OnFocusExit(eventData);
-        }
-
+        
         public void CloseAnyOpenCard()
         {
             GalaxyExplorerManager.Instance.CardPoiManager.CloseAnyOpenCard();
             GalaxyExplorerManager.Instance.CardPoiManager.OnPointerDown(null);
-        }
-
-        private IEnumerator SlideCardOut()
-        {
-            if (Camera.main == null)
-            {
-                Debug.LogError("CardPointOfInterest: There is no main camera present, to the card description cannot slide out with the hydration of the card magic window.");
-                yield break;
-            }
-
-            float time = 0.0f;
-            Vector3 startPosition = CardDescription.transform.position;
-            // Find radius of magic window
-            MeshCollider collider = CardObject.GetComponentInChildren<MeshCollider>();
-            float radius = (collider) ? collider.bounds.extents.y : 1.0f;
-            Vector3 endPosition = CardObject.transform.position + radius * GalaxyExplorerManager.Instance.CardPoiManager.DescriptionSlideDirection.normalized;
-
-            do
-            {
-                time += Time.deltaTime;
-
-                float timeFraction = Mathf.Clamp01(time / GalaxyExplorerManager.Instance.CardPoiManager.DescriptionSlideOutTime);
-                float tValue = GalaxyExplorerManager.Instance.CardPoiManager.DescriptionSlideCurve.Evaluate(timeFraction);
-                CardDescription.transform.position = Vector3.Lerp(startPosition, endPosition, tValue);
-                cardDescriptionOffset = CardObject.transform.position - CardDescription.transform.position;
-
-                yield return null;
-            }
-            while (time < GalaxyExplorerManager.Instance.CardPoiManager.DescriptionSlideOutTime);
-        }
-
-        private IEnumerator SlideCardIn()
-        {
-            float time = 0.0f;
-
-            Vector3 startLocalPosition = CardDescription.transform.localPosition;
-
-            do
-            {
-                time += Time.deltaTime;
-
-                float timeFraction = Mathf.Clamp01(time / GalaxyExplorerManager.Instance.CardPoiManager.DescriptionSlideInTime);
-                float tValue = GalaxyExplorerManager.Instance.CardPoiManager.DescriptionSlideCurve.Evaluate(timeFraction);
-                CardDescription.transform.localPosition = Vector3.Lerp(startLocalPosition, descriptionStoppedLocalPosition, tValue);
-                CardDescription.SetActive(true);
-
-                yield return null;
-            }
-            while (time < GalaxyExplorerManager.Instance.CardPoiManager.DescriptionSlideInTime);
-
-            CardDescription.transform.localPosition = descriptionStoppedLocalPosition;
-            CardDescription.transform.localRotation = descriptionStoppedLocalRotation;
-            CardDescription.SetActive(false);
         }
     }
 }

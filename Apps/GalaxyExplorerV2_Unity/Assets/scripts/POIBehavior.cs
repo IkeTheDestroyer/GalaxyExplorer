@@ -1,13 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using GalaxyExplorer;
-using Microsoft.MixedReality.Toolkit.Input;
-using MRS.Layers;
+using Microsoft.MixedReality.Toolkit.UI;
 using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
-public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
+public class POIBehavior : MonoBehaviour
 {
     private const float INITIAL_DELAY = 5f; 
     
@@ -17,13 +16,7 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
     [SerializeField] private float alphaColor = .2f;
     [SerializeField] private float scale = 1f;
     [SerializeField] private Vector2 offset = Vector2.zero;
-    [SerializeField] private GameObject pressableButton;
-    [SerializeField] private Renderer windowRenderer;
-    [SerializeField] private Material windowMaterial;
-    [SerializeField] private Material occlusionMaterial;
-    [SerializeField] private Texture2D windowImage;
-    [SerializeField] private float windowImageScale;
-    [SerializeField] private Vector2 windowImageOffset;
+    [SerializeField] private PressableButton pressableButton;
     
     
     private BoxCollider boxCollider;
@@ -40,13 +33,12 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
-        poi = GetComponentInParent<PointOfInterest>();
+        poi = GetComponentInParent<CardPOI>();
+        if (poi == null)
+        {
+            poi = GetComponentInParent<PointOfInterest>();
+        }
         colliderSize = boxCollider.size;
-        windowMaterial = Instantiate(windowMaterial);
-        windowMaterial.SetFloat("_Scale", windowImageScale);
-        windowMaterial.SetTexture("_MainTex", windowImage);
-        windowMaterial.SetTextureOffset("_MainTex", windowImageOffset);
-        windowRenderer.materials = new[] {windowMaterial, occlusionMaterial};
         
         cameraObject = Camera.main.gameObject;
         var numberOfPoints = 7;
@@ -125,14 +117,14 @@ public class POIBehavior : MonoBehaviour//, IMixedRealityPointerHandler
                 }
             }
         }
-       return false;
+        return false;
     }
 
 
     public void Fade(bool fadeIn, float overTime = .3f, float alpha = -1)
     {
-        StartCoroutine(FadeRoutine(fadeIn, overTime, alpha, !poi.IsCardActive));
-        pressableButton.SetActive(fadeIn);
+        StartCoroutine(FadeRoutine(fadeIn, overTime, alpha, !poi.IsCardActive || poi is PlanetPOI));
+        pressableButton.gameObject.SetActive(fadeIn);
 
     }
 
