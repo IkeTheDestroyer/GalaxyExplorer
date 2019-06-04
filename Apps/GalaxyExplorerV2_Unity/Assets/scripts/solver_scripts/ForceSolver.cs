@@ -411,6 +411,19 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
                     StartRoot();
                 }
                 break;
+            
+            case State.Manipulation:
+                StartFree();
+                break;
+            
+            case State.None:
+            case State.Root:
+            case State.Free:
+            case State.Dwell:
+                break;
+            
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 
@@ -500,21 +513,25 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
 
         if (eventData.NewFocusedObject != null && eventData.NewFocusedObject.transform.IsChildOf(transform))
         {
-            _focusers.Add(pointer);
+            // if already listed then ignore
+            if (!_focusers.Add(pointer))
+            {
+                return;
+            }
             eventData.Pointer.FocusTarget = this;
             var tractorBeam = AttachTractorBeamToPointer(pointer);
 
             switch (ForceState)
             {
                 case State.Root:
-                    _activeTractorBeams.Add(tractorBeam);
+                    Debug.Assert(_activeTractorBeams.Add(tractorBeam));
                     StartDwell();
                     break;
 
                 case State.Free:
                     if (!IsGgvOrDesktopController(eventData.Pointer.Controller))
                     {
-                        _activeTractorBeams.Add(tractorBeam);
+                        Debug.Assert(_activeTractorBeams.Add(tractorBeam));
                         StartDwell();
                     }
 
@@ -522,7 +539,7 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
 
                 case State.Dwell:
 
-                    _activeTractorBeams.Add(tractorBeam);
+                    Debug.Assert(_activeTractorBeams.Add(tractorBeam));
                     break;
                     
                 case State.Manipulation:
@@ -535,7 +552,7 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
         }
         else
         {
-            _focusers.Remove(pointer);
+            Debug.Assert(_focusers.Remove(pointer));
             if ((ForceSolver) eventData.Pointer.FocusTarget == this)
             {
                 eventData.Pointer.FocusTarget = null;
@@ -558,6 +575,23 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
 
     public void OnPointerUp(MixedRealityPointerEventData eventData)
     {
+        switch (ForceState)
+        {
+            // manipulation handler cares about pointer up, if the event was not used, it means it didnt receive it.
+            case State.Manipulation:
+                _manipulationHandler.OnPointerUp(eventData);
+                break;
+            
+            case State.None:
+            case State.Root:
+            case State.Free:
+            case State.Dwell:
+            case State.Attraction:
+                break;
+                
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     public void OnPointerDown(MixedRealityPointerEventData eventData)
