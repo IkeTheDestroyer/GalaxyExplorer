@@ -107,7 +107,7 @@ namespace GalaxyExplorer
             }
 
             bool isAnyCardActive = IsAnyCardActive();
-            if (spiralGalaxies == null)
+            if (spiralGalaxies == null || spiralGalaxies.Length < 1)
             {
                 spiralGalaxies = FindObjectsOfType<SpiralGalaxy>();
             }
@@ -130,7 +130,7 @@ namespace GalaxyExplorer
                 {
                     foreach (var spiralGalaxy in spiralGalaxies)
                     {
-                        spiralGalaxy.velocityMultiplier = 0;
+                        spiralGalaxy.IsSpinning = false;
                     }
 
                     if (poiAnimator != null)
@@ -145,7 +145,7 @@ namespace GalaxyExplorer
                 {
                     foreach (var spiralGalaxy in spiralGalaxies)
                     {
-                        spiralGalaxy.velocityMultiplier = .08f;
+                        spiralGalaxy.IsSpinning = true;
                     }
                     if (poiAnimator != null)
                     {
