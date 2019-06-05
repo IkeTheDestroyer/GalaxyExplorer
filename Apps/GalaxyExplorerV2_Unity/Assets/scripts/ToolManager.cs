@@ -3,6 +3,8 @@
 
 using System.Collections;
 using UnityEngine;
+using TMPro;
+using static GalaxyExplorer.GEFadeManager;
 
 namespace GalaxyExplorer
 {
@@ -47,6 +49,7 @@ namespace GalaxyExplorer
         public AboutSlateOnDelegate OnAboutSlateOnDelegate;
 
         private ToolPanel _panel;
+        private TextMeshPro[] GGVMenuTextComponents;
         private ForceSolverFocusManager _pOIPlanetFocusManager;
         private Vector3 _defaultBackButtonLocalPosition;
         private float _fullMenuVisibleBackButtonX;
@@ -58,6 +61,11 @@ namespace GalaxyExplorer
             {
                 Debug.LogError("ToolManager couldn't find ToolPanel. Hiding and showing of Tools unavailable.");
             }
+
+            GGVMenuTextComponents = _panel.GetComponentsInChildren<TextMeshPro>(true);
+
+            SetVisibleTextLabels(false);
+            GalaxyExplorerManager.Instance.GeFadeManager.OnFadeComplete += OnFadeComplete;
 
             RaiseButton.SetActive(false);
             BackButton.SetActive(false);
@@ -91,6 +99,11 @@ namespace GalaxyExplorer
 #if UNITY_EDITOR
             OnSceneIsLoaded();
 #endif
+        }
+
+        private void OnDestroy()
+        {
+            GalaxyExplorerManager.Instance.GeFadeManager.OnFadeComplete -= OnFadeComplete;
         }
 
         private void OnSceneReset()
@@ -200,6 +213,7 @@ namespace GalaxyExplorer
         public void HideTools()
         {
             ToolsVisible = false;
+            SetVisibleTextLabels(false);
 
             Fader[] allToolFaders = GetComponentsInChildren<Fader>();
             GalaxyExplorerManager.Instance.GeFadeManager.Fade(allToolFaders, GEFadeManager.FadeType.FadeOut, FadeToolsDuration, toolsOpacityChange);
@@ -210,15 +224,30 @@ namespace GalaxyExplorer
         [ContextMenu("Show Tools")]
         public void ShowToolPanel()
         {
-            //if (GalaxyExplorerManager.IsHoloLensGen1 || GalaxyExplorerManager.IsImmersiveHMD)
-            //{
-            _panel.gameObject.SetActive(true);
-            ToolsVisible = true;
+            if (GalaxyExplorerManager.IsHoloLensGen1 || GalaxyExplorerManager.IsImmersiveHMD)
+            {
+                _panel.gameObject.SetActive(true);
+                ToolsVisible = true;
 
-            Fader[] allToolFaders = GetComponentsInChildren<Fader>();
-            GalaxyExplorerManager.Instance.GeFadeManager.Fade(allToolFaders, GEFadeManager.FadeType.FadeIn, FadeToolsDuration, toolsOpacityChange);
+                Fader[] allToolFaders = GetComponentsInChildren<Fader>();
+                GalaxyExplorerManager.Instance.GeFadeManager.Fade(allToolFaders, GEFadeManager.FadeType.FadeIn, FadeToolsDuration, toolsOpacityChange);
+            }
+        }
 
-            //}
+        private void OnFadeComplete(FadeType type)
+        {
+            if (ToolsVisible)
+            {
+                SetVisibleTextLabels(true);
+            }
+        }
+
+        private void SetVisibleTextLabels(bool isVisible)
+        {
+            foreach (TextMeshPro text in GGVMenuTextComponents)
+            {
+                text.enabled = isVisible;
+            }
         }
 
         public void OnAboutSlateButtonPressed(bool enable)
