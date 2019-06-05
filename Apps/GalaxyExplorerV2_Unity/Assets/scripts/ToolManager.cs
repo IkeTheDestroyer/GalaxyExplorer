@@ -27,7 +27,7 @@ namespace GalaxyExplorer
         [HideInInspector]
         public bool ToolsVisible = false;
 
-        private ForceSolverFocusManager ForceSolverFocusManager
+        public ForceSolverFocusManager ForceSolverFocusManager
         {
             get
             {
@@ -48,6 +48,7 @@ namespace GalaxyExplorer
 
         public AboutSlateOnDelegate OnAboutSlateOnDelegate;
 
+        private AboutSlate _aboutSlate;
         private ToolPanel _panel;
         private TextMeshPro[] GGVMenuTextComponents;
         private ForceSolverFocusManager _pOIPlanetFocusManager;
@@ -61,6 +62,8 @@ namespace GalaxyExplorer
             {
                 Debug.LogError("ToolManager couldn't find ToolPanel. Hiding and showing of Tools unavailable.");
             }
+
+            _aboutSlate = FindObjectOfType<AboutSlate>();
 
             GGVMenuTextComponents = _panel.GetComponentsInChildren<TextMeshPro>(true);
 
@@ -158,6 +161,28 @@ namespace GalaxyExplorer
             }
 
             yield return null;
+        }
+
+        public void OnResetButtonPressed()
+        {
+            if (ForceSolverFocusManager)
+            {
+                _pOIPlanetFocusManager.ResetAllForseSolvers();
+            }
+            else
+            {
+                Debug.Log("No POIPlanetFocusManager found in currently loaded scenes");
+            }
+        }
+
+        public void OnBackButtonPressed()
+        {
+            GalaxyExplorerManager.Instance.TransitionManager.LoadPrevScene();
+        }
+
+        public void OnAboutButtonPressed()
+        {
+            _aboutSlate.ButtonClicked();
         }
 
         private void CheckIfResetButtonNeedsShowing()

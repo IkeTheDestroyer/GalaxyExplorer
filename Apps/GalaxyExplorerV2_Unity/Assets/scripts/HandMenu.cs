@@ -15,23 +15,9 @@ public class HandMenu : MonoBehaviour
     [SerializeField]
     private float _minShowingAngle = 135f;
 
-    private ForceSolverFocusManager ForceSolverFocusManager
-    {
-        get
-        {
-            if (_pOIPlanetFocusManager == null)
-            {
-                _pOIPlanetFocusManager = FindObjectOfType<ForceSolverFocusManager>();
-            }
-
-            return _pOIPlanetFocusManager;
-        }
-    }
-
     private AttachToControllerSolver _attachToControllerSolver;
     private HandMenuManager _handMenuManager;
-    private ForceSolverFocusManager _pOIPlanetFocusManager;
-    private AboutSlate _aboutSlate;
+    private ToolManager _toolManager;
 
     private float _currentAngle = 0f;
     private float _interButtonDistance = 0.04f;
@@ -45,7 +31,7 @@ public class HandMenu : MonoBehaviour
         SetMenuVisibility(false);
 
         _handMenuManager = FindObjectOfType<HandMenuManager>();
-        _aboutSlate = FindObjectOfType<AboutSlate>();
+        _toolManager = FindObjectOfType<ToolManager>();
 
         _originalBackButtonLocalPosition = _backButton.transform.localPosition;
 
@@ -84,13 +70,13 @@ public class HandMenu : MonoBehaviour
             }
         }
 
-        if (ForceSolverFocusManager != null && !_resetButton.activeInHierarchy)
+        if (_toolManager.ForceSolverFocusManager != null && !_resetButton.activeInHierarchy)
         {
             // When the POIPlanetFocusManager is present in the currently loaded scenes, this means we are in the solar system and the reset button should be visible
             _resetButton.SetActive(true);
             _backButton.transform.localPosition = new Vector3(0f, _originalBackButtonLocalPosition.y + _interButtonDistance, 0f);
         }
-        else if (ForceSolverFocusManager == null && _resetButton.activeInHierarchy)
+        else if (_toolManager.ForceSolverFocusManager == null && _resetButton.activeInHierarchy)
         {
             // When the POIPlanetFocusManager isn't present in the currently loaded scenes, this means we're not in the solar system and the reset button shouldn't show up
             _resetButton.SetActive(false);
@@ -98,31 +84,9 @@ public class HandMenu : MonoBehaviour
         }
     }
 
-    public void OnAboutButtonPressed()
-    {
-        _aboutSlate.ButtonClicked();
-    }
-
     private void OnBackButtonNeedsToShow(bool show)
     {
         _backButton.SetActive(show);
-    }
-
-    public void OnBackButtonPressed()
-    {
-        GalaxyExplorerManager.Instance.TransitionManager.LoadPrevScene();
-    }
-
-    public void OnResetButtonPressed()
-    {
-        if (ForceSolverFocusManager)
-        {
-            _pOIPlanetFocusManager.ResetAllForseSolvers();
-        }
-        else
-        {
-            Debug.Log("No POIPlanetFocusManager found in currently loaded scenes");
-        }
     }
 
     private void OnTrackingLost()
