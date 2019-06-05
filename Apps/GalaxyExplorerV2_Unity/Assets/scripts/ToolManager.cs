@@ -42,20 +42,14 @@ namespace GalaxyExplorer
 
         public event BackButtonNeedsShowingEventHandler BackButtonNeedsShowing;
 
-        private ToolPanel _panel;
-        private ForceSolverFocusManager _pOIPlanetFocusManager;
-        private Vector3 _defaultBackButtonLocalPosition;
-        private float _fullMenuVisibleBackButtonX;
-
         public delegate void AboutSlateOnDelegate(bool enable);
 
         public AboutSlateOnDelegate OnAboutSlateOnDelegate;
 
-        public delegate void BoundingBoxDelegate(bool enable);
-
-        public BoundingBoxDelegate OnBoundingBoxDelegate;
-
-        private float smallestZoom;
+        private ToolPanel _panel;
+        private ForceSolverFocusManager _pOIPlanetFocusManager;
+        private Vector3 _defaultBackButtonLocalPosition;
+        private float _fullMenuVisibleBackButtonX;
 
         private void Start()
         {
@@ -205,55 +199,26 @@ namespace GalaxyExplorer
         [ContextMenu("Hide Tools")]
         public void HideTools()
         {
-            StartCoroutine(HideToolsAsync());
+            ToolsVisible = false;
+
+            Fader[] allToolFaders = GetComponentsInChildren<Fader>();
+            GalaxyExplorerManager.Instance.GeFadeManager.Fade(allToolFaders, GEFadeManager.FadeType.FadeOut, FadeToolsDuration, toolsOpacityChange);
+
+            _panel.gameObject.SetActive(false);
         }
 
         [ContextMenu("Show Tools")]
         public void ShowToolPanel()
         {
-            StartCoroutine(ShowToolsAsync());
-        }
+            //if (GalaxyExplorerManager.IsHoloLensGen1 || GalaxyExplorerManager.IsImmersiveHMD)
+            //{
+            _panel.gameObject.SetActive(true);
+            ToolsVisible = true;
 
-        // Hide tools by deactivating button colliders and fade out button materials
-        private IEnumerator HideToolsAsync()
-        {
-            float timer = FadeToolsDuration;
+            Fader[] allToolFaders = GetComponentsInChildren<Fader>();
+            GalaxyExplorerManager.Instance.GeFadeManager.Fade(allToolFaders, GEFadeManager.FadeType.FadeIn, FadeToolsDuration, toolsOpacityChange);
 
-            while (timer > 0f)
-            {
-                ToolsVisible = false;
-
-                Fader[] allToolFaders = GetComponentsInChildren<Fader>();
-                GalaxyExplorerManager.Instance.GeFadeManager.Fade(allToolFaders, GEFadeManager.FadeType.FadeOut, FadeToolsDuration, toolsOpacityChange);
-
-                timer -= Time.deltaTime;
-
-                yield return null;
-            }
-
-            _panel.gameObject.SetActive(false);
-        }
-
-        // Show tools by activating button colliders and fade in button materials
-        private IEnumerator ShowToolsAsync()
-        {
-            if (GalaxyExplorerManager.IsHoloLensGen1 || GalaxyExplorerManager.IsImmersiveHMD)
-            {
-                _panel.gameObject.SetActive(true);
-                ToolsVisible = true;
-
-                float timer = FadeToolsDuration;
-
-                while (timer > 0f)
-                {
-                    Fader[] allToolFaders = GetComponentsInChildren<Fader>();
-                    GalaxyExplorerManager.Instance.GeFadeManager.Fade(allToolFaders, GEFadeManager.FadeType.FadeIn, FadeToolsDuration, toolsOpacityChange);
-
-                    timer -= Time.deltaTime;
-
-                    yield return null;
-                }
-            }
+            //}
         }
 
         public void OnAboutSlateButtonPressed(bool enable)

@@ -19,6 +19,7 @@ namespace GalaxyExplorer
         }
 
         public delegate void FadeCompleteCallback(FadeType fadeType);
+
         public FadeCompleteCallback OnFadeComplete;
 
         public void SetAlphaOnFader(Fader fader, float alpha)
@@ -53,9 +54,9 @@ namespace GalaxyExplorer
             }
         }
 
-        public void Fade(Fader fader, GEFadeManager.FadeType type, float fadeDuration, AnimationCurve opacityCurve)
+        public Coroutine Fade(Fader fader, GEFadeManager.FadeType type, float fadeDuration, AnimationCurve opacityCurve)
         {
-            StartCoroutine(FadeContent(fader, type, fadeDuration, opacityCurve));
+            return StartCoroutine(FadeContent(fader, type, fadeDuration, opacityCurve));
         }
 
         public void Fade(Fader[] allFaders, GEFadeManager.FadeType type, float fadeDuration, AnimationCurve opacityCurve)
@@ -108,7 +109,7 @@ namespace GalaxyExplorer
 
                 yield break;
             }
-      
+
             // wait for the fade time offset to complete before alpha is changed on the faders
             float time = fadeTimeOffset;
             while (time > 0.0f)
@@ -162,6 +163,5 @@ namespace GalaxyExplorer
             }
             while (timeFraction < 1.0f && content != null);
         }
-
     }
 }
