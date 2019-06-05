@@ -1,58 +1,126 @@
 ﻿using System;
+using System.Collections.Generic;
+using Microsoft.MixedReality.Toolkit;
 using Microsoft.MixedReality.Toolkit.Input;
+using Microsoft.MixedReality.Toolkit.Utilities;
+using UnityEditor;
 using UnityEngine;
 
+[RequireComponent(typeof(LineRenderer))]
 public class ForceTractorBeam : MonoBehaviour
 {
-    private static int _subdivisions = 10;
+    public event Action<ForceTractorBeam> Destroyed;
+
+    private const float s_divider = (float) 1.0d / int.MaxValue;
 
     private bool _wasActive;
-    private Material _tractorBeamMaterial;
-    private Vector4[] _points;
+
+    private BaseMixedRealityLineDataProvider _lineDataProvider;
+    private LineRenderer _lineRenderer, _handRayLineRenderer;
+    private MaterialPropertyBlock _tractorBeamMaterialPropertyBlock;
+    private IMixedRealityPointer _handRayPointer;
     
-    public ShellHandRayPointer HandRayPointer;
+    private static readonly Dictionary<IMixedRealityPointer, ForceTractorBeam> _staticPointersToTractorBeams =
+        new Dictionary<IMixedRealityPointer, ForceTractorBeam>();
+
     [Range(0,1)]
     public float Coverage;
+    public float TractorBeamWidth = .02f;
 
-    private static readonly int ActivePropertyId = Shader.PropertyToID("_Active");
-    private static readonly int CoveragePropertyId = Shader.PropertyToID("_Coverage");
-    private static readonly int PointsPropertyId = Shader.PropertyToID("_Points");
+
+    private static readonly int LineLength = Shader.PropertyToID("_LineLength");
+    private static readonly int LineWidth = Shader.PropertyToID("_LineWidth");
+    private static readonly int Active = Shader.PropertyToID("_Active");
+    private static readonly int CoverageProperty = Shader.PropertyToID("_Coverage");
+
+    public static ForceTractorBeam AttachToHandRayPointer(ShellHandRayPointer pointer, GameObject tractorBeamPrefab)
+    {
+        if (!_staticPointersToTractorBeams.TryGetValue(pointer, out var tractorBeam))
+        {
+            tractorBeam = Instantiate(tractorBeamPrefab, pointer.transform).GetComponent<ForceTractorBeam>();
+            tractorBeam._handRayPointer = pointer;
+            _staticPointersToTractorBeams.Add(pointer, tractorBeam);
+        }
+        return tractorBeam;
+    }
+
+    public static ForceTractorBeam GetTractorBeamFromPointer(ShellHandRayPointer pointer)
+    {
+        return _staticPointersToTractorBeams.TryGetValue(pointer, out var tb) ? tb : null;
+    }
 
     private void Awake()
     {
-        _tractorBeamMaterial = GetComponent<MeshRenderer>().material; //instanced!
-        _points = new Vector4[_subdivisions];
+        _tractorBeamMaterialPropertyBlock = new MaterialPropertyBlock();
+        var parent = transform.parent;
+        _lineRenderer = GetComponent<LineRenderer>();
+        _handRayLineRenderer = parent.GetComponent<LineRenderer>();
+        _lineDataProvider = parent.GetComponent<BaseMixedRealityLineDataProvider>();
+        
+        UpdateLine();
+        Dissipate();
+    }
+
+    private void CopyLinePositions()
+    {
+        if (_lineRenderer.positionCount != _handRayLineRenderer.positionCount)
+        {
+            _lineRenderer.positionCount = _handRayLineRenderer.positionCount;
+        }
+        for (var i = 0; i < _handRayLineRenderer.positionCount; i++)
+        {
+            _lineRenderer.SetPosition(i,_handRayLineRenderer.GetPosition(i));
+        }
+    }
+
+    private void OnDestroy()
+    {
+        _staticPointersToTractorBeams.Remove(_handRayPointer);
+        Destroyed?.Invoke(this);
     }
 
     private void Update()
     {
-        if (!_wasActive && !HandRayPointer.IsActive)
+        var isTargetingForceSolver = _handRayPointer.FocusTarget is ForceSolver;
+        if (!_wasActive && !_handRayPointer.IsActive)
         {
             return;
         }
-        if (!HandRayPointer.IsActive || Math.Abs(Coverage) < float.Epsilon)
+        if (!_handRayPointer.IsActive || !isTargetingForceSolver || Math.Abs(Coverage) < float.Epsilon)
         {
-            _tractorBeamMaterial.SetFloat(ActivePropertyId, 0f);
-            _wasActive = false;
-            return;
+            Dissipate();
         }
-
-        if (!_wasActive && HandRayPointer.IsActive)
+        else
         {
-            _tractorBeamMaterial.SetFloat(ActivePropertyId, 1f);
-            
+            _lineRenderer.enabled = true;
+            UpdateLine();
+            _wasActive = true;
         }
-        
-        _tractorBeamMaterial.SetFloat(CoveragePropertyId, Coverage);
-        UpdatePoints();
-        _tractorBeamMaterial.SetVectorArray(PointsPropertyId, _points);
+        _tractorBeamMaterialPropertyBlock.SetFloat(CoverageProperty, Coverage);
+        _lineRenderer.SetPropertyBlock(_tractorBeamMaterialPropertyBlock);
     }
 
-    private void UpdatePoints()
+    private void UpdateLine()
     {
-        for (var i = 0; i < _subdivisions; i++)
+        CopyLinePositions();
+        _lineRenderer.widthMultiplier = TractorBeamWidth;
+        var lineLength = _lineDataProvider.UnClampedWorldLength;
+        _tractorBeamMaterialPropertyBlock.SetFloat(Active, 1f);
+        _tractorBeamMaterialPropertyBlock.SetFloat(LineLength, lineLength);
+        _tractorBeamMaterialPropertyBlock.SetFloat(LineWidth, TractorBeamWidth);
+    }
+
+    public void Dissipate()
+    {
+        Coverage = 0f;
+        _tractorBeamMaterialPropertyBlock.SetFloat(Active, 0f);
+        
+        // have to check for null in case the pointer object has been destroyed while having focus
+        if (!_lineRenderer.Equals(null))
         {
-            _points[i] = HandRayPointer.LineBase.GetPoint(i / (_subdivisions - 1));
+            _lineRenderer.enabled = false;
         }
+        
+        _wasActive = false;
     }
 }

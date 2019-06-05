@@ -1791,10 +1791,13 @@ MonoBehaviour:
   lifetime: 0
   SolverHandler: {fileID: 5267884180980498309}
   EnableForce: 1
+  AttractionDwellDuration: 2
+  TractionBeamPrefab: {fileID: 5144064591906706543, guid: 2e1f20209bc892e47a09b25c845e46cd,
+    type: 3}
+  AttractionDwellForgiveness: 0.5
   RootTransform: {fileID: 4901845216865052}
   ControllerTracker: {fileID: 0}
   OffsetToObjectBoundsFromController: 1
-  OffsetFromCameraOnNoControllerPosition: {x: 0, y: 0, z: 0}
   ManipulationHandler: {fileID: 7207915013350356471}
   AttractionCollider: {fileID: 1393191340134076638}
   SetToRoot:
@@ -1811,6 +1814,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+    m_TypeName: UnityForceSolverEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  SetToDwell:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityForceSolverEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  DwellCanceled:
+    m_PersistentCalls:
+      m_Calls: []
     m_TypeName: UnityForceSolverEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   SetToAttract:
@@ -2387,16 +2400,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 311045954745802742, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 311045955212260655, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 311045954745802743, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -2411,6 +2414,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 311045954745802742, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 311045955212260655, guid: 1feb7da4c9edf9441ae1c3b2433ebc93,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1feb7da4c9edf9441ae1c3b2433ebc93, type: 3}
@@ -2427,6 +2440,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3948514552282963422}
     m_Modifications:
+    - target: {fileID: 3982085035585684542, guid: 3bd3657db16d87346bfa3bad6fa92863,
+        type: 3}
+      propertyPath: m_Name
+      value: enceladus_saturn_moon_prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 3386305689024641813, guid: 3bd3657db16d87346bfa3bad6fa92863,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2481,11 +2499,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3982085035585684542, guid: 3bd3657db16d87346bfa3bad6fa92863,
-        type: 3}
-      propertyPath: m_Name
-      value: enceladus_saturn_moon_prefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3bd3657db16d87346bfa3bad6fa92863, type: 3}
@@ -2502,6 +2515,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6392540822471731485}
     m_Modifications:
+    - target: {fileID: 7831505308899807, guid: e1ed80995af11bc44b57279481693516, type: 3}
+      propertyPath: m_Name
+      value: mimas_saturn_moon_prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 6598210797459960157, guid: e1ed80995af11bc44b57279481693516,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2556,10 +2573,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7831505308899807, guid: e1ed80995af11bc44b57279481693516, type: 3}
-      propertyPath: m_Name
-      value: mimas_saturn_moon_prefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1ed80995af11bc44b57279481693516, type: 3}
@@ -2651,6 +2664,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5320701981964005737}
     m_Modifications:
+    - target: {fileID: 1154993560640090764, guid: c5cbd44bf159b7c46a6456e5f6b0fb30,
+        type: 3}
+      propertyPath: m_Name
+      value: iapetus_saturn_moon_prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 1371796493376502097, guid: c5cbd44bf159b7c46a6456e5f6b0fb30,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2705,11 +2723,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1154993560640090764, guid: c5cbd44bf159b7c46a6456e5f6b0fb30,
-        type: 3}
-      propertyPath: m_Name
-      value: iapetus_saturn_moon_prefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5cbd44bf159b7c46a6456e5f6b0fb30, type: 3}
