@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 5245770797843663084}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 21.383, y: 21.383, z: 21.383}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5245770797981285448}
   m_Father: {fileID: 0}
@@ -52,6 +52,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5245770797843663087}
     m_Modifications:
+    - target: {fileID: 100000, guid: 38ccec3c56624fd4991259a7eba23588, type: 3}
+      propertyPath: m_Name
+      value: uranus_planet_model
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 38ccec3c56624fd4991259a7eba23588, type: 3}
+      propertyPath: m_Name
+      value: uranus_planet_model
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 38ccec3c56624fd4991259a7eba23588, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -99,14 +107,6 @@ PrefabInstance:
     - target: {fileID: 400002, guid: 38ccec3c56624fd4991259a7eba23588, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 38ccec3c56624fd4991259a7eba23588, type: 3}
-      propertyPath: m_Name
-      value: uranus_planet_model
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 38ccec3c56624fd4991259a7eba23588, type: 3}
-      propertyPath: m_Name
-      value: uranus_planet_model
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 38ccec3c56624fd4991259a7eba23588, type: 3}
       propertyPath: m_Materials.Array.data[0]
