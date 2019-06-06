@@ -359,7 +359,7 @@ GameObject:
   - component: {fileID: 51261788}
   - component: {fileID: 51261787}
   m_Layer: 0
-  m_Name: reset_button
+  m_Name: ggv_reset_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -381,7 +381,7 @@ Transform:
   - {fileID: 1517153106}
   - {fileID: 38095027}
   m_Father: {fileID: 392308216}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &51261787
 MonoBehaviour:
@@ -531,7 +531,7 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1618593079}
+      - m_Target: {fileID: 1618593084}
         m_MethodName: OnResetButtonPressed
         m_Mode: 1
         m_Arguments:
@@ -1651,7 +1651,7 @@ GameObject:
   - component: {fileID: 336595533}
   - component: {fileID: 336595534}
   m_Layer: 5
-  m_Name: ButtonParent
+  m_Name: desktop_buttons_parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1891,7 +1891,7 @@ GameObject:
   m_Component:
   - component: {fileID: 392308216}
   m_Layer: 0
-  m_Name: ToolsUI
+  m_Name: menu_offset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1909,8 +1909,8 @@ Transform:
   m_LocalPosition: {x: 0.452, y: 0.191, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 794403953}
   - {fileID: 51261786}
+  - {fileID: 794403953}
   - {fileID: 874047594}
   - {fileID: 1622872837}
   - {fileID: 1423134235}
@@ -2156,7 +2156,7 @@ GameObject:
   - component: {fileID: 501530028}
   - component: {fileID: 501530026}
   m_Layer: 5
-  m_Name: ResetButton
+  m_Name: desktop_reset_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2235,7 +2235,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1618593079}
+      - m_Target: {fileID: 1618593084}
         m_MethodName: OnResetButtonPressed
         m_Mode: 1
         m_Arguments:
@@ -2639,7 +2639,7 @@ GameObject:
   - component: {fileID: 625332344}
   - component: {fileID: 625332347}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3355,7 +3355,7 @@ GameObject:
   - component: {fileID: 794403955}
   - component: {fileID: 794403954}
   m_Layer: 0
-  m_Name: back_button
+  m_Name: ggv_back_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3377,7 +3377,7 @@ Transform:
   - {fileID: 1207600284}
   - {fileID: 1874254341}
   m_Father: {fileID: 392308216}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &794403954
 MonoBehaviour:
@@ -3527,7 +3527,7 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1618593079}
+      - m_Target: {fileID: 1618593084}
         m_MethodName: OnBackButtonPressed
         m_Mode: 1
         m_Arguments:
@@ -3824,7 +3824,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1618593079}
+      objectReference: {fileID: 1618593084}
     - target: {fileID: 6282906020206743122, guid: 5bf3e80ceb200cd418107348c786b308,
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -3854,12 +3854,12 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1618593079}
+      objectReference: {fileID: 1618593084}
     - target: {fileID: 977323456295464278, guid: 5bf3e80ceb200cd418107348c786b308,
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1618593079}
+      objectReference: {fileID: 1618593084}
     - target: {fileID: 977323456295464278, guid: 5bf3e80ceb200cd418107348c786b308,
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -4204,7 +4204,7 @@ GameObject:
   - component: {fileID: 874047596}
   - component: {fileID: 874047595}
   m_Layer: 0
-  m_Name: about_button
+  m_Name: ggv_about_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4376,7 +4376,7 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1618593079}
+      - m_Target: {fileID: 1618593084}
         m_MethodName: OnAboutButtonPressed
         m_Mode: 1
         m_Arguments:
@@ -6977,7 +6977,7 @@ GameObject:
   - component: {fileID: 1248014706}
   - component: {fileID: 1248014710}
   m_Layer: 5
-  m_Name: AboutButton
+  m_Name: desktop_about_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7043,9 +7043,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1618593079}
-        m_MethodName: OnAboutSlateButtonPressed
-        m_Mode: 6
+      - m_Target: {fileID: 1618593084}
+        m_MethodName: OnAboutButtonPressed
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7119,7 +7119,7 @@ GameObject:
   - component: {fileID: 1278074897}
   - component: {fileID: 1278074898}
   m_Layer: 2
-  m_Name: ToolsController
+  m_Name: ggv_menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7182,7 +7182,7 @@ Transform:
   m_Children:
   - {fileID: 392308216}
   m_Father: {fileID: 1618593080}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1333603753
 GameObject:
@@ -7564,7 +7564,7 @@ GameObject:
   - component: {fileID: 1423134237}
   - component: {fileID: 1423134236}
   m_Layer: 0
-  m_Name: lower_button
+  m_Name: ggv_lower_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8216,7 +8216,7 @@ GameObject:
   - component: {fileID: 1579602487}
   - component: {fileID: 1579602485}
   m_Layer: 5
-  m_Name: DotsButton
+  m_Name: desktop_dots_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9060,12 +9060,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1618593080}
-  - component: {fileID: 1618593079}
-  - component: {fileID: 1618593081}
-  - component: {fileID: 1618593082}
+  - component: {fileID: 1618593084}
   - component: {fileID: 1618593083}
+  - component: {fileID: 1618593079}
+  - component: {fileID: 1618593082}
+  - component: {fileID: 1618593081}
   m_Layer: 0
-  m_Name: ToolsManager
+  m_Name: menu_managers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9083,10 +9084,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec18556502c02f2478c0d59881203c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _resetButton: {fileID: 51261785}
+  _backButton: {fileID: 794403952}
   RaiseButton: {fileID: 1622872836}
   LowerButton: {fileID: 1423134234}
-  ResetButton: {fileID: 51261785}
-  BackButton: {fileID: 794403952}
   MinZoom: 0.15
   LargestZoom: 3
   toolsOpacityChange:
@@ -9127,8 +9128,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1746276107}
-  - {fileID: 2026836270}
   - {fileID: 1278074902}
+  - {fileID: 2026836270}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9185,6 +9186,18 @@ MonoBehaviour:
   _buttonParent: {fileID: 336595532}
   _resetButton: {fileID: 501530024}
   _backButton: {fileID: 1636001460}
+--- !u!114 &1618593084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618593078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1ef89d1faa22964e96c2a9afabbce12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1622872836
 GameObject:
   m_ObjectHideFlags: 0
@@ -9201,7 +9214,7 @@ GameObject:
   - component: {fileID: 1622872839}
   - component: {fileID: 1622872838}
   m_Layer: 0
-  m_Name: raise_button
+  m_Name: ggv_raise_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9536,7 +9549,7 @@ GameObject:
   - component: {fileID: 1636001463}
   - component: {fileID: 1636001462}
   m_Layer: 5
-  m_Name: BackButton
+  m_Name: desktop_back_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9615,7 +9628,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1618593079}
+      - m_Target: {fileID: 1618593084}
         m_MethodName: OnBackButtonPressed
         m_Mode: 1
         m_Arguments:
@@ -10701,7 +10714,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1746276107}
   m_Layer: 5
-  m_Name: DesktopButtons
+  m_Name: desktop_menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12711,7 +12724,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1618593079}
+      objectReference: {fileID: 1618593084}
     - target: {fileID: 6041779676393625507, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -12721,7 +12734,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1618593079}
+      objectReference: {fileID: 1618593084}
     - target: {fileID: 327350185215152540, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -12761,7 +12774,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1618593079}
+      objectReference: {fileID: 1618593084}
     - target: {fileID: 682802935904482471, guid: 77a9f4e253bc90d4a85e0fcbb4f2f538,
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -13290,7 +13303,7 @@ GameObject:
   - component: {fileID: 2026836266}
   - component: {fileID: 2026836265}
   m_Layer: 2
-  m_Name: AboutSlate
+  m_Name: about_slate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13359,7 +13372,7 @@ Transform:
   m_Children:
   - {fileID: 1703005845}
   m_Father: {fileID: 1618593080}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2028429712
 GameObject:

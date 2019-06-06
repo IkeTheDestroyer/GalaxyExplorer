@@ -741,7 +741,7 @@ GameObject:
   - component: {fileID: 7027224848958022339}
   - component: {fileID: 6149994882158313114}
   m_Layer: 0
-  m_Name: reset_button
+  m_Name: hand_reset_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1744,7 +1744,7 @@ GameObject:
   - component: {fileID: 3842899490610578828}
   - component: {fileID: 2983919279342460197}
   m_Layer: 0
-  m_Name: back_button
+  m_Name: hand_back_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2934,7 +2934,7 @@ GameObject:
   - component: {fileID: 7063602864302195635}
   - component: {fileID: 9095950866561637146}
   m_Layer: 0
-  m_Name: about_button
+  m_Name: hand_about_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
