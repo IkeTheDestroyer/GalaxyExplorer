@@ -157,6 +157,30 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &148088738 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4268015017075966165, guid: 52454e3384953574ab147196dfd5fe66,
+    type: 3}
+  m_PrefabInstance: {fileID: 1921580121}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &148088739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148088738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7b75b7bed7e7ae41b82a55b439361ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotId: 2
+  displayName: Venus
+  initialPosition: {x: 0, y: 0, z: -0.0185}
+  initialRotation: {x: 0, y: 0, z: 0, w: 0}
+  initialFov: 35
+  forceSolver: {fileID: 1085124840}
 --- !u!1 &160956229
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,6 +353,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfb93c995877f884cafbe3fcc468e735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &436688175 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 865594914789260566, guid: 52454e3384953574ab147196dfd5fe66,
+    type: 3}
+  m_PrefabInstance: {fileID: 1921580121}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &436688183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436688175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7b75b7bed7e7ae41b82a55b439361ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotId: 0
+  displayName: The Sun
+  initialPosition: {x: 0, y: 0, z: -0.0185}
+  initialRotation: {x: 0, y: 0, z: 0, w: 0}
+  initialFov: 35
+  forceSolver: {fileID: 799202326}
 --- !u!1 &634606099 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7826814774570990103, guid: 52454e3384953574ab147196dfd5fe66,
@@ -399,6 +447,30 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!1 &760858125 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8950983752393724336, guid: 52454e3384953574ab147196dfd5fe66,
+    type: 3}
+  m_PrefabInstance: {fileID: 1921580121}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &760858134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760858125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7b75b7bed7e7ae41b82a55b439361ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotId: 8
+  displayName: Neptune
+  initialPosition: {x: 0, y: 0, z: -0.0185}
+  initialRotation: {x: 0, y: 0, z: 0, w: 0}
+  initialFov: 35
+  forceSolver: {fileID: 267043085}
 --- !u!114 &799202326 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8956237972839425590, guid: 52454e3384953574ab147196dfd5fe66,
@@ -411,6 +483,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfb93c995877f884cafbe3fcc468e735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &804626977 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7247834706064904141, guid: 52454e3384953574ab147196dfd5fe66,
+    type: 3}
+  m_PrefabInstance: {fileID: 1921580121}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &804626986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 804626977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7b75b7bed7e7ae41b82a55b439361ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotId: 9
+  displayName: Pluto
+  initialPosition: {x: 0, y: 0, z: -0.04}
+  initialRotation: {x: 0, y: 0, z: 0, w: 0}
+  initialFov: 16
+  forceSolver: {fileID: 1113032726}
 --- !u!1 &846047960 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5047195975893707019, guid: 52454e3384953574ab147196dfd5fe66,
@@ -481,6 +577,78 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!1 &880733826 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4268820760761503785, guid: 52454e3384953574ab147196dfd5fe66,
+    type: 3}
+  m_PrefabInstance: {fileID: 1921580121}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &880733835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880733826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7b75b7bed7e7ae41b82a55b439361ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotId: 4
+  displayName: Mars
+  initialPosition: {x: 0, y: 0, z: -0.0185}
+  initialRotation: {x: 0, y: 0, z: 0, w: 0}
+  initialFov: 35
+  forceSolver: {fileID: 1725709898}
+--- !u!1 &989428490 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4345649062727628471, guid: 52454e3384953574ab147196dfd5fe66,
+    type: 3}
+  m_PrefabInstance: {fileID: 1921580121}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &989428500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989428490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7b75b7bed7e7ae41b82a55b439361ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotId: 6
+  displayName: Saturn
+  initialPosition: {x: 0, y: 0, z: -0.0185}
+  initialRotation: {x: 0, y: 0, z: 0, w: 0}
+  initialFov: 35
+  forceSolver: {fileID: 1848103713}
+--- !u!1 &1034738810 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3789439821206067932, guid: 52454e3384953574ab147196dfd5fe66,
+    type: 3}
+  m_PrefabInstance: {fileID: 1921580121}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1034738817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034738810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7b75b7bed7e7ae41b82a55b439361ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotId: 5
+  displayName: Jupiter
+  initialPosition: {x: 0, y: 0, z: -0.0185}
+  initialRotation: {x: 0, y: 0, z: 0, w: 0}
+  initialFov: 35
+  forceSolver: {fileID: 1418160228}
 --- !u!1 &1072496747 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4710091949699842843, guid: 52454e3384953574ab147196dfd5fe66,
@@ -575,6 +743,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfb93c995877f884cafbe3fcc468e735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1148028143 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3173355911652822036, guid: 52454e3384953574ab147196dfd5fe66,
+    type: 3}
+  m_PrefabInstance: {fileID: 1921580121}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1148028152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148028143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7b75b7bed7e7ae41b82a55b439361ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotId: 3
+  displayName: Earth
+  initialPosition: {x: 0, y: 0, z: -0.0185}
+  initialRotation: {x: 0, y: 0, z: 0, w: 0}
+  initialFov: 35
+  forceSolver: {fileID: 1921580124}
 --- !u!1 &1224129310
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,6 +858,30 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!1 &1350340451 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7909607424858915855, guid: 52454e3384953574ab147196dfd5fe66,
+    type: 3}
+  m_PrefabInstance: {fileID: 1921580121}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1350340458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350340451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7b75b7bed7e7ae41b82a55b439361ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotId: 7
+  displayName: Uranus
+  initialPosition: {x: 0, y: 0, z: -0.0185}
+  initialRotation: {x: 0, y: 0, z: 0, w: 0}
+  initialFov: 35
+  forceSolver: {fileID: 1282255793}
 --- !u!1 &1365410130 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1703101152723047207, guid: 52454e3384953574ab147196dfd5fe66,
@@ -760,6 +976,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfb93c995877f884cafbe3fcc468e735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1761679747 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5929143181446705802, guid: 52454e3384953574ab147196dfd5fe66,
+    type: 3}
+  m_PrefabInstance: {fileID: 1921580121}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1761679748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761679747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7b75b7bed7e7ae41b82a55b439361ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotId: 1
+  displayName: Mercury
+  initialPosition: {x: 0, y: 0, z: -0.04}
+  initialRotation: {x: 0, y: 0, z: 0, w: 0}
+  initialFov: 16
+  forceSolver: {fileID: 424299944}
 --- !u!114 &1848103713 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7961211191220853439, guid: 52454e3384953574ab147196dfd5fe66,
@@ -823,6 +1063,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 865594914789260566, guid: 52454e3384953574ab147196dfd5fe66,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4268015018981783677, guid: 52454e3384953574ab147196dfd5fe66,
         type: 3}
@@ -930,6 +1175,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4268862714173628827, guid: 52454e3384953574ab147196dfd5fe66,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512607069626816860, guid: 52454e3384953574ab147196dfd5fe66,
         type: 3}
       propertyPath: m_IsActive
       value: 1
