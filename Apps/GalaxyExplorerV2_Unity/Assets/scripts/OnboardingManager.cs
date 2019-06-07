@@ -22,7 +22,7 @@ public class OnboardingManager : MonoBehaviour
     public VOManager VoManager;
     
     
-    [Header("All devices")] public AudioClip Intro_01, Intro_02, Intro_04, Intro_05, Intro_06, Intro_07;
+    [Header("All devices")] public AudioClip Intro_01, Intro_02, Intro_04;
 
     [Header("HoloLens (gen1)")] public AudioClip Intro_0301_hl1, Intro_0302_hl1;
 
