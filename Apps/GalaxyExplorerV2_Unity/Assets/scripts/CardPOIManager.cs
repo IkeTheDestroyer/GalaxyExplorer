@@ -1,8 +1,6 @@
 ﻿// Copyright Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-//using HoloToolkit.Unity.InputModule;
-//using HoloToolkit.Unity;
 using Microsoft.MixedReality.Toolkit.Input;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +8,7 @@ using UnityEngine;
 
 namespace GalaxyExplorer
 {
-    public class CardPOIManager : MonoBehaviour, IMixedRealityPointerHandler//, IInputClickHandler, IControllerTouchpadHandler
+    public class CardPOIManager : MonoBehaviour, IMixedRealityPointerHandler
     {
         [Header("Galaxy Card POI Fading")]
         [Tooltip("The time it takes for all points of interest to completely fade out when a card point of interest is selected.")]
@@ -19,51 +17,10 @@ namespace GalaxyExplorer
         [Tooltip("How the opacity changes when all points of interest fade out when a card is selected.")]
         public AnimationCurve POIOpacityCurve;
 
-        [Header("Galaxy Card Text Sliding")]
-        [Tooltip("The time it takes for the card description to move from its unselected position to its selected position.")]
-        public float DescriptionSlideOutTime = 1.0f;
-
-        [Tooltip("The time it takes for the card description to move from its selected position to its unselected/highlight position.")]
-        public float DescriptionSlideInTime = 0.5f;
-
-        [Tooltip("The vector (local space) that descripts where the description card moves to when selected.")]
-        public Vector3 DescriptionSlideDirection;
-
-        [Tooltip("How the description card moves when it slides to selected and unselected positions.")]
-        public AnimationCurve DescriptionSlideCurve;
-
         private List<PointOfInterest> allPOIs = new List<PointOfInterest>();
 
         private SpiralGalaxy[] spiralGalaxies;
         private PoiAnimator poiAnimator;
-
-        private void Start()
-        {
-            if (GalaxyExplorerManager.Instance.ToolsManager)
-            {
-                GalaxyExplorerManager.Instance.ToolsManager.OnBoundingBoxDelegate += OnBoundingBoxDelegate;
-            }
-        }
-
-        // Callback when bounding box is on/off in HoloLens and MR devices
-        // Update pois activation
-        private void OnBoundingBoxDelegate(bool isBBenabled)
-        {
-            StartCoroutine(OnBoundingBoxDelegateCoroutine(isBBenabled));
-        }
-
-        private IEnumerator OnBoundingBoxDelegateCoroutine(bool isBBenabled)
-        {
-            // Wait in order for OnInputClicked to be executed and then continue with this functionality
-            yield return new WaitForEndOfFrame();
-            yield return new WaitForEndOfFrame();
-
-            // Update poi collider activation
-            foreach (var poi in allPOIs)
-            {
-                poi?.UpdateCollidersActivation(!isBBenabled);
-            }
-        }
 
         public void RegisterPOI(PointOfInterest poi)
         {
@@ -116,7 +73,7 @@ namespace GalaxyExplorer
             {
                 poiAnimator = FindObjectOfType<PoiAnimator>();
             }
-           
+
             if (isAnyCardActive)
             {
                 foreach (var poi in allPOIs)
