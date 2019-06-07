@@ -1602,7 +1602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47b865ed9b703f04aa8a32d8c9a26aa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DesktopDuration: 2
+  DesktopDuration: 8
   IntroEarthPlacementAnimator: {fileID: 827300717}
   PlacementConfirmationButton: {fileID: 2042693693}
 --- !u!114 &1446444111

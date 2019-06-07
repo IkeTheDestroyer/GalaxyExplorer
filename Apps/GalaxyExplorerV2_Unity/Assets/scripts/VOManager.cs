@@ -47,6 +47,7 @@ namespace GalaxyExplorer
         
 
         public bool ShouldAudioBlockProgress => DateTime.UtcNow < playStartTime.AddSeconds(clipLength);
+        public bool IsPlaying => clipQueue.Count > 0 || nextClip != null || audioSource != null && audioSource.isPlaying;
 
         private void Start()
         {
@@ -74,7 +75,6 @@ namespace GalaxyExplorer
                         audioSource.volume = defaultVolume;
                     }
                     audioService.PlayClip(nextClip, out audioSource);
-                   
                     nextClip = null;
                     
                 }
