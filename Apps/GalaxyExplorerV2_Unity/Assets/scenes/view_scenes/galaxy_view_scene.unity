@@ -388,6 +388,7 @@ MonoBehaviour:
     delay: 2
     allowReplay: 0
     blockProgress: 0
+  ShouldStopPreviousClip: 0
 --- !u!1 &401717885
 GameObject:
   m_ObjectHideFlags: 0

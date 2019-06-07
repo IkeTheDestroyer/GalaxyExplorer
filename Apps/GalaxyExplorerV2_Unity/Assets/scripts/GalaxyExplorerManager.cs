@@ -39,6 +39,11 @@ namespace GalaxyExplorer
             get; set;
         }
 
+        public OnboardingManager OnboardingManager
+        {
+            get; set;
+        }
+
         public TransitionManager TransitionManager
         {
             get; set;
@@ -394,6 +399,7 @@ namespace GalaxyExplorer
 
             TransitionManager = FindObjectOfType<TransitionManager>();
             VoManager = FindObjectOfType<VOManager>();
+            OnboardingManager = FindObjectOfType<OnboardingManager>();
             GeFadeManager = FindObjectOfType<GEFadeManager>();
             GGVMenuManager = FindObjectOfType<GGVMenuManager>();
             ViewLoaderScript = FindObjectOfType<ViewLoader>();
