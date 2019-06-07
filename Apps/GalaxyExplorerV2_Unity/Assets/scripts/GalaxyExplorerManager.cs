@@ -49,7 +49,7 @@ namespace GalaxyExplorer
             get; set;
         }
 
-        public ToolManager ToolsManager
+        public GGVMenuManager GGVMenuManager
         {
             get; set;
         }
@@ -401,7 +401,7 @@ namespace GalaxyExplorer
             VoManager = FindObjectOfType<VOManager>();
             OnboardingManager = FindObjectOfType<OnboardingManager>();
             GeFadeManager = FindObjectOfType<GEFadeManager>();
-            ToolsManager = FindObjectOfType<ToolManager>();
+            GGVMenuManager = FindObjectOfType<GGVMenuManager>();
             ViewLoaderScript = FindObjectOfType<ViewLoader>();
             CardPoiManager = FindObjectOfType<CardPOIManager>();
             CameraControllerHandler = FindObjectOfType<CameraController>();
