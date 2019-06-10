@@ -48,7 +48,11 @@ To create a new point of interest, simply add an instance of the relevant prefab
 Subsequently, you can then edit the text, visuals and functionality to fit your new point of interest.
 After you appropriately named your prefab instance and added it to the scene, the following things need to be changed on the prefabs:
 
-### For poi_prefab
+### Adding content POIs
+
+The standard poi_prefab is used for a POI that opens up a content window inside the galaxy view on selection.
+
+![](Images/ge_app_poi_card.png)	
 
 On POI > POI_Content > POI_AspectRatio > ContentPanel, change the appropriate values on the children named: Image, age title, age text, distance from sun title, distance from sun text, diameter title, diameter text
 
@@ -62,8 +66,8 @@ Add a voice over audio clip for your point of interest on CardPOI script's CardA
 
 ![](Images/ge_poi_adding_prefab_3.png)	
 
-### For poi_prefab_large
-	
+### Adding link POIs
+
 On the child called Text, change the text in the TextMeshPro component that will appear on the POI in the galaxy view. Additionally the values on SubText and Icon need to be changed for the large point of interest
 	
 ![](Images/ge_poi_adding_prefab_large_1.png)	
