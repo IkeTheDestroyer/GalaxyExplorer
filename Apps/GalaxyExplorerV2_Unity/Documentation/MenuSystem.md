@@ -50,4 +50,6 @@ Global buttons are always visible when the menu is visible and have a fixed posi
 
 ### Contextual Buttons
 
-Contextual buttons only show when certain conditions are met. For desktop and ggv menus, they are added on the left of the global buttons. In the hand menu they are added above the global buttons. The global button positions remain the same. The contextual buttons have their positions dynamically changed according to how many other contextual buttons are shown at any given moment. For the desktop and HoloLens (1st gen)/VR menus, the code for this resides in the managers belonging to the specific menu types. For the hand menu, this is done in the HandMenu script n the prefab instances themselves.
+Contextual buttons only show when certain conditions are met. For desktop and ggv menus, they are added on the left of the global buttons. In the hand menu they are added above the global buttons.
+
+The global button positions remain the same. The contextual buttons have their positions dynamically changed according to how many other contextual buttons are shown at any given moment. For the desktop and HoloLens (1st gen)/VR menus, the code for this resides in the managers belonging to the specific menu types. For the hand menu, this is done in the HandMenu script on the prefab instances themselves.
