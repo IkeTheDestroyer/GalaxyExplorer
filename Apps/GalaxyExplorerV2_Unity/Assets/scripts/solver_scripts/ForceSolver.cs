@@ -61,6 +61,8 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
     public Transform RootTransform;
     public ControllerTransformTracker ControllerTracker;
     public bool OffsetToObjectBoundsFromController = true;
+    [Tooltip("Using closest point  is only recommended when the collider doesnt encompass the object completely")]
+    public bool OffsetUsingClosestPoint;
     public ManipulationHandler ManipulationHandler;
     public Collider AttractionCollider;
     public float CurrentRelativeDwell => _dwellTimer;
@@ -186,10 +188,16 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
     {
         var controllerFwd = ControllerTracker.transform.forward;
         var position = transform.position;
-        var ray = new Ray(position - controllerFwd * 100, controllerFwd);
-        var hit = _attractionCollider.Raycast(ray, out var hitInfo, 150);
-        Debug.Assert(hit);
-        return position - hitInfo.point;
+        if (!OffsetUsingClosestPoint)
+        {
+            var ray = new Ray(position - controllerFwd * 100, controllerFwd);
+            var hit = _attractionCollider.Raycast(ray, out var hitInfo, 150);
+            Debug.Assert(hit);
+            return position - hitInfo.point;
+        }
+
+        var closestPoint = _attractionCollider.ClosestPoint(position);
+        return position - closestPoint;
     }
 
     private void StartRoot()
