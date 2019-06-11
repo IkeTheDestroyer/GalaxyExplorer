@@ -28,13 +28,13 @@ Every POI consists of 3 subparts:
 
 ## Scripts
 
-- POIBehavior: POIBehavior contains the raycasting and fading behavior of the POIs.
+- `POIBehavior`: POIBehavior contains the raycasting and fading behavior of the POIs.
 
-- Card POI: Script to add the content for the poi_prefab pop-up window.
+- `Card POI`: Script to add the content for the poi_prefab pop-up window.
 
-- Planet POI: Script to add the scene to which to transition to.
+- `Planet POI`: Script to add the scene to which to transition to.
 
-- PointOfInterest: Base class that handles selection and sounds for POI selection. It also controls POI movements in the galaxy and data about the location on the galactic mesh.
+- `PointOfInterest`: Base class that handles selection and sounds for POI selection. It also controls POI movements in the galaxy and data about the location on the galactic mesh.
 
 ## How to add new POIs to the galaxy view
 
