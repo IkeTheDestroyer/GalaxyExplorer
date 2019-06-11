@@ -34,7 +34,7 @@ This menu is used on platforms that support articulated hands (like HoloLens 2).
 
 The hand menu itself exists outside the main hierarchy of the scene, since the menu is following the hands of the user - it is the only menu type that continuously moves around according to input.
 
-The menu is shown when the user is holding up a hand, palm up. This is implemented through the `HandMenu` script. The orientation of the palm joint is used to calculate the angle between the user's palm and the camera forward angle (the user's head).
+The menu is shown when the user is holding up a hand, palm up. This is implemented through the `HandMenu` script, attached to the hand menu prefabs. The orientation of the palm joint is used to calculate the angle between the user's palm and the camera forward angle (the user's head).
 
 The hand menu uses [MRTK solvers](https://github.com/Microsoft/MixedRealityToolkit-Unity/blob/mrtk_development/Documentation/README_Solver.md) to resolve if any hands are currently tracked and what their current position and rotation is. Since the position of the menu depends on the hand it's attached to (left or right), it was decided to create a seperate prefab for each hand.
 
@@ -52,4 +52,4 @@ Global buttons are always visible when the menu is visible and have a fixed posi
 
 Contextual buttons only show when certain conditions are met. For desktop and ggv menus, they are added on the left of the global buttons. In the hand menu they are added above the global buttons.
 
-The global button positions remain the same. The contextual buttons have their positions dynamically changed according to how many other contextual buttons are shown at any given moment. For the desktop and HoloLens (1st gen)/VR menus, the code for this resides in the managers belonging to the specific menu types. For the hand menu, this is done in the HandMenu script on the prefab instances themselves.
+The global button positions remain the same. The contextual buttons have their positions dynamically changed according to how many other contextual buttons are shown at any given moment. For the desktop and HoloLens (1st gen)/VR menus, the code for this resides in the managers belonging to the specific menu types. For the hand menu, this is done in the HandMenu script.
