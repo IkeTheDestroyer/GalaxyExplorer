@@ -203,6 +203,8 @@ public class OnboardingManager : MonoBehaviour
     public void OnPlacementConfirmed()
     {
         OnboardingStage = Stage.AfterConfirmation;
+        VoManager.Stop(true);
+        StopAllCoroutines();
         EvaluateOnEndOfVoiceOver();
     }
 }
