@@ -30,11 +30,11 @@ Every POI consists of 3 subparts:
 
 - POIBehavior: POIBehavior contains the raycasting and fading behavior of the POIs.
 
-- Card POI: Script to add the content for the poi_prefab pop-up window
+- Card POI: Script to add the content for the poi_prefab pop-up window.
 
 - Planet POI: Script to add the scene to which to transition to.
 
-- PointOfInterest
+- PointOfInterest: Base class that handles selection and sounds for POI selection. It also controls POI movements in the galaxy and data about the location on the galactic mesh.
 
 ## How to add new POIs to the galaxy view
 
@@ -55,15 +55,15 @@ The standard poi_prefab is used for a POI that opens up a content window inside 
 
 ![](Images/ge_app_poi_card.png)	
 
-On POI > POI_Content > POI_AspectRatio > ContentPanel, change the appropriate values on the children named: Image, age title, age text, distance from sun title, distance from sun text, diameter title, diameter text
+On POI > POI_Content > POI_AspectRatio > ContentPanel, change the appropriate values on the children named: Image, age title, age text, distance from sun title, distance from sun text, diameter title, diameter text.
 
 ![](Images/ge_poi_adding_prefab_1.png)	
 	
-On the child called Text (POI > TextArea > Text), change the text that will appear on the POI in the galaxy view
+On the child called Text (POI > TextArea > Text), change the text that will appear on the POI in the galaxy view.
 	
 ![](Images/ge_poi_adding_prefab_2.png)	
 	
-Add a voice over audio clip for your point of interest on CardPOI script's CardAudio member variable (attached to the POI child)
+Add a voice over audio clip for your point of interest on CardPOI script's CardAudio member variable (attached to the POI child).
 
 ![](Images/ge_poi_adding_prefab_3.png)	
 
