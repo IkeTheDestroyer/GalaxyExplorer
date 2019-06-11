@@ -6,7 +6,7 @@ Points of interest (POI) enable the user to navigate to deeper levels of informa
 
 ## Types of POIs
 
-There are 2 types of POI prefabs. Both share the same content and hierarchy, but are en-/disabled based on the required functionality in the scene.
+There are 2 types of POI prefabs. Both types share the same content and hierarchy, but differ in what specific components are en-/disabled according to their required functionality in the scene.
 
 - *poi_prefab*: The base prefab, used for a poi that opens up a content window inside the galaxy view on selection.
 
@@ -18,7 +18,7 @@ Every POI consists of 3 subparts:
 
 ![POI prefab subparts](Images/ge_poi_subparts.png)
 
-- `POIContent`, containing the content for the POI pop-up windows (only relevant for the prefab_poi, nt the large variant).
+- `POIContent`, containing the content for the POI pop-up windows (only relevant for the prefab_poi, not for the large variant).
 
 - `TextArea`, containing the poi text and the interactive functionality (see PressableButton), as well as the poi intermittent highlight. The Pressable Button prefab (MRTK v2) already handles cross-platform input (like WMR controllers, articulated hands, HoloLens Gen 1 gaze-gesture-voice interactions).
 
@@ -33,6 +33,7 @@ Every POI consists of 3 subparts:
 - Card POI: Script to add the content for the poi_prefab pop-up window
 
 - Planet POI: Script to add the scene to which to transition to.
+
 - PointOfInterest
 
 ## How to add new POIs to the galaxy view
@@ -68,7 +69,7 @@ Add a voice over audio clip for your point of interest on CardPOI script's CardA
 
 ### Adding link POIs
 
-On the child called Text, change the text in the TextMeshPro component that will appear on the POI in the galaxy view. Additionally the values on SubText and Icon need to be changed for the large point of interest
+On the child called Text, change the text in the TextMeshPro component that will appear on the POI in the galaxy view. Additionally the values on SubText and Icon need to be changed for the large point of interest.
 	
 ![](Images/ge_poi_adding_prefab_large_1.png)	
 
