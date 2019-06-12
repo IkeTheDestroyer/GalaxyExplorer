@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using GalaxyExplorer;
 using Microsoft.MixedReality.Toolkit;
 using TMPro;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class UiWorldPreview : MonoBehaviour
     [SerializeField] private RawImage image;
     [SerializeField] private Button button;
     [SerializeField] private TextMeshProUGUI displayNameArea;
+    [SerializeField] private PlanetPreviewController planetPreviewController;
 
     private UiPreviewTarget target;
     private Camera targetCamera;
@@ -23,6 +25,10 @@ public class UiWorldPreview : MonoBehaviour
 
     private void OnEnable()
     {
+        if (!GalaxyExplorerManager.IsDesktop)
+        {
+            return;
+        }
         displayNameArea.gameObject.SetActive(false);
         image.enabled = false;
         StartCoroutine(WaitForTarget());
@@ -95,6 +101,10 @@ public class UiWorldPreview : MonoBehaviour
 
     private void HandleClick()
     {
+        if (planetPreviewController != null)
+        {
+            planetPreviewController.OnButtonSelected(button);
+        }
         target.forceSolver.OnPointerDown();
     }
 
