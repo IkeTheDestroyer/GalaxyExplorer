@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using GalaxyExplorer;
+﻿using System.Collections;
 using Microsoft.MixedReality.Toolkit;
 using TMPro;
 using UnityEngine;
@@ -22,6 +19,7 @@ public class UiWorldPreview : MonoBehaviour
     private RenderTexture renderTexture;
 
     private static int layerNumber;
+    private bool initialized;
 
     private void OnEnable()
     {
@@ -56,9 +54,9 @@ public class UiWorldPreview : MonoBehaviour
         PositionCamera();
         targetCamera.clearFlags = CameraClearFlags.Color;
         targetCamera.backgroundColor = Color.clear;
-        targetCamera.nearClipPlane = .0001f; 
+        targetCamera.nearClipPlane = .0001f;
+        initialized = true;
 
-       
 
     }
 
@@ -102,6 +100,10 @@ public class UiWorldPreview : MonoBehaviour
 
     private void OnDisable()
     {
+        if (targetCamera != null)
+        {
+            Destroy(targetCamera.gameObject);
+        }
         button.onClick.RemoveAllListeners();
     }
 
