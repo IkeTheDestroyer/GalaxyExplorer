@@ -131,7 +131,7 @@ public class GlobalMenuManager : MonoBehaviour
 
     public void OnAboutButtonPressed()
     {
-        _aboutSlate.ButtonClicked();
+        _aboutSlate.ToggleAboutButton();
     }
 
     public void OnResetButtonPressed()

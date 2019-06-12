@@ -13,13 +13,9 @@ namespace GalaxyExplorer
         public Material AboutMaterial;
         public GameObject Slate;
         public float TransitionDuration = 1.0f;
-        public GameObject AboutDesktopButton = null;
-        public GameObject AboutMenuButton = null;
 
         private bool _isActive;
         private bool _isTransitioning;
-
-        //        private bool isAboutButtonClicked = false;
 
         private void Awake()
         {
@@ -49,29 +45,9 @@ namespace GalaxyExplorer
         private void Start()
         {
             MixedRealityToolkit.InputSystem.Register(gameObject);
-
-            if (AboutDesktopButton == null)
-            {
-                Debug.LogWarning("AboutSlate.cs is missing AboutDesktopButton");
-            }
-
-            if (AboutDesktopButton)
-            {
-                Button button = AboutDesktopButton.GetComponent<Button>();
-                button.onClick.AddListener(ButtonClicked);
-            }
         }
 
-        // Callback when Desktop About button is clicked/touched/selected
-        public void ButtonClicked()
-        {
-            if (!_isTransitioning)
-            {
-                ToggleAboutButton();
-            }
-        }
-
-        private void ToggleAboutButton()
+        public void ToggleAboutButton()
         {
             if (_isActive)
             {
@@ -83,7 +59,7 @@ namespace GalaxyExplorer
             }
         }
 
-        public void Show()
+        private void Show()
         {
             transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2f;
             transform.rotation = Camera.main.transform.rotation;
@@ -95,7 +71,7 @@ namespace GalaxyExplorer
             StartCoroutine(AnimateToOpacity(1));
         }
 
-        public void Hide()
+        private void Hide()
         {
             if (gameObject.activeSelf)
             {
@@ -160,11 +136,6 @@ namespace GalaxyExplorer
             //            }
         }
 
-        //        private void Update()
-        //        {
-        //            isAboutButtonClicked = false;
-        //        }
-
         // Is user touching the About slate area
         public bool IsUserTouchingAboutSlate()
         {
@@ -183,16 +154,6 @@ namespace GalaxyExplorer
         // Has user clicked the About slate area
         public bool IsClickOnAboutSlate(GameObject hitObject)
         {
-            // Check if clicked object is the menu button or desktop button
-            if (AboutMenuButton && AboutMenuButton.gameObject == hitObject)
-            {
-                return true;
-            }
-            else if (AboutDesktopButton && AboutDesktopButton.gameObject == hitObject)
-            {
-                return true;
-            }
-
             // Check if clicked object is any of the slate object
             Collider[] allChildren = GetComponentsInChildren<Collider>();
             foreach (var entity in allChildren)
@@ -205,49 +166,5 @@ namespace GalaxyExplorer
 
             return false;
         }
-
-        // On every user's click, check if the click is outside the about area and if it is and About card is on then deactivate it
-        //        public void OnInputClicked(InputClickedEventData eventData)
-        //        {
-        // Focused object is either the gazed one in hololens or the overriden my mouse click one for desktop
-        //            GameObject focusedObject = (FocusManager.Instance) ? FocusManager.Instance.TryGetFocusedObject(eventData) : null;
-        //            focusedObject = (focusedObject == null) ? InputManager.Instance.OverrideFocusedObject : focusedObject;
-
-        //            ToggleAboutSlateLogic(IsClickOnAboutSlate(focusedObject));
-        //        }
-
-        //        private void ToggleAboutSlateLogic(bool isAboutSelected)
-        //        {
-        //            bool isButtonSelected = (AboutMenuButton && AboutMenuButton.IsSelected) || (AboutDesktopButton && AboutDesktopButton.IsSelected);
-        //
-        //            if (!isAboutSelected && !isAboutButtonClicked && isButtonSelected)
-        //            {
-        //                Debug.Log("User clicked outside About Slate so toggle its button state");
-        //
-        //                if (AboutMenuButton && AboutMenuButton.IsSelected)
-        //                {
-        //                    AboutMenuButton.ToggleLogic();
-        //                }
-        //                else if (AboutDesktopButton && AboutDesktopButton.IsSelected)
-        //                {
-        //                    AboutDesktopButton.ToggleLogic();
-        //                }
-        //            }
-        //        }
-
-        //        public void OnTouchpadTouched(InputEventData eventData)
-        //        {
-        //
-        //        }
-        //
-        //        public void OnTouchpadReleased(InputEventData eventData)
-        //        {
-        //            ToggleAboutSlateLogic(IsUserTouchingAboutSlate());
-        //        }
-        //
-        //        public void OnInputPositionChanged(InputPositionEventData eventData)
-        //        {
-        //
-        //        }
     }
 }
