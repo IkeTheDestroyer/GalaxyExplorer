@@ -11,6 +11,7 @@ using Microsoft.MixedReality.Toolkit.Utilities.Solvers;
 using Microsoft.MixedReality.Toolkit.WindowsMixedReality.Input;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using Debug = UnityEngine.Debug;
 
 [Serializable]
@@ -594,6 +595,11 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
         }
     }
 
+    public void OnPointerDown()
+    {
+        OnPointerDown(new MixedRealityPointerEventData(EventSystem.current));
+    }
+
     public void OnPointerDown(MixedRealityPointerEventData eventData)
     {
         switch (ForceState)
@@ -603,6 +609,10 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
                 {
                     StartManipulation();
                     _manipulationHandler.OnPointerDown(eventData);
+                } 
+                else if (eventData.Pointer == null)
+                {
+                    StartAttraction(true);
                 }
                 else
                 {
@@ -618,7 +628,10 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
             case State.Attraction:
             case State.Free:
                 StartManipulation();
-                _manipulationHandler.OnPointerDown(eventData);
+                if (eventData.Pointer != null)
+                {
+                    _manipulationHandler.OnPointerDown(eventData);
+                }
                 break;
 
             case State.Manipulation:

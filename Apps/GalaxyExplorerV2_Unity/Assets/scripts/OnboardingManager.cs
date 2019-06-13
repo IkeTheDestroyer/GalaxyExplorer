@@ -156,12 +156,18 @@ public class OnboardingManager : MonoBehaviour
 
     private void EnableForcePull()
     {
-        _placementForceSolver.EnableForce = true;
+        if (_placementForceSolver != null)
+        {
+            _placementForceSolver.EnableForce = true;
+        }
     }
 
     private void DisableForcePull()
     {
-        _placementForceSolver.EnableForce = false;
+        if (_placementForceSolver != null)
+        {
+            _placementForceSolver.EnableForce = false;
+        }
     }
 
     private void EvaluateOnEndOfVoiceOver()
