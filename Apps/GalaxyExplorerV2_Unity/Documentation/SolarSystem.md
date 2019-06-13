@@ -2,13 +2,41 @@
 
 ![Solar system](Images/ge_app_solar_system.png)
 
-## Solar System Orbits - OrbitalTrail
+## Realistic mode vs. schematic mode
 
-The orbits lines are screen space lines expanded with a geometry shader. Each vertex has 2 positions: one for the real scale view and one for the schematic view. The vertex shader then interpolates between those 2 positions to compute
-the final position according the a reality scale that moves between 0 and 1 and
-then pass it to a geometry shader that generates correctly triangulated lines
-in screen space. This makes the orbits have a fixed width on screen no matter
-what scale the solar system is being viewed at.
+TBD?
+
+## Planets
+
+Each planet is based on a planet POI in the hierarchy of the solar system. Note that although not actually a planet, the sun is also a planet POI object.
+
+![Planet hierarchy](Images/ge_unity_planet_hierarchy.png)
+
+Each planet has specific properties like their distance from the sun and the speed around it, their size, their axial tilt and so on. All those properties can be set for each individual planet in the scene.
+
+![Planet properties](Images/ge_unity_planet_properties.png)
+
+## Orbital trails
+
+The orbital trails are screen space lines, expanded by a geometry shader, which are attached to the planets.
+
+![Orbital trails](Images/ge_unity_orbital_trails_hierarchy.png)
+
+![Orbital trails](Images/ge_unity_orbital_trails.png)
+
+Each vertex has 2 positions: one for the real scale view and one for the schematic view. The vertex shader then interpolates between those 2 positions to compute
+the final position according the a "reality scale" that moves between 0 and 1 and then passes the final position to a geometry shader that generates correctly triangulated lines in screen space.
+
+This makes the orbits have a fixed width on screen no matter what scale the solar system is being viewed at.
+
+## Asteroid belt
+
+![Orbital trails](Images/ge_unity_asteroid_belt.png)
+
+ge_unity_asteroid_belt
+Belt 0 rotating faster
+
+
 
 ## Earth - PlanetShaderEarth
 

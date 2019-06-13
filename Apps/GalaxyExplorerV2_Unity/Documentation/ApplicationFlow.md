@@ -6,7 +6,9 @@ This page contains information how the application is structured, when scenes ar
 
 ## CoreSystems scene
 
-`scenes/core_systems_scene.unity` is a scene that contains most of the global game objects. It contains things like the touch manager, the [menu system](MenuSystem.md) and audio functionality. The core_systems_scene is loaded into all content scenes via `Layers` so that developers and artists can run any scene independently from running the main_scene. That said, while the scene is auto loaded, the view scene will only play correctly if the core scene is added as the "Active Scene".  The main_scene is the exception to this. 
+`scenes/core_systems_scene.unity` is a scene that contains most of the global game objects. It contains things like the touch manager, the [menu system](MenuSystem.md) and audio functionality. The core_systems_scene is loaded into all content scenes via `Layers` so that developers and artists can run any scene independently from running the main_scene.
+
+That said, while the CoreSystems is auto loaded, the view scene will only play correctly if the core scene is added as the "Active Scene". The main_scene is the exception to this.
 
 ![Activating the core systems scene](Images/ge_unity_core_systems_scene.png)
 
