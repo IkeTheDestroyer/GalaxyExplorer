@@ -31,36 +31,26 @@ This makes the orbits have a fixed width on screen no matter what scale the sola
 
 ## Asteroid belt
 
-![Orbital trails](Images/ge_unity_asteroid_belt.png)
+The asteroid belt is generated based on defined properties. For every "ring" 240 asteroids will be placed within the corridor defined by the start and end radius, going around the solar system with a random offset each.
 
-ge_unity_asteroid_belt
-Belt 0 rotating faster
+![Asteroid belt](Images/ge_unity_asteroid_belt.png)
 
+There are actually 2 asteroid belts at the same location, but rotating with different speeds around the sun.
 
+The actual asteroids are all the same model: `asteroid_model.fbx`
 
-## Earth - PlanetShaderEarth
+## Planet Earth
 
-Like all the planets, most parameters are evaluated in the vertex shader as we
-have a high poly version of each planet. The light is computed with a N. L
-contribution that we gamma correct in order to have a realistic looking light
-transition from the dark side to the light side. We also have in the alpha
-channel of the Albedo texture a map of the night lights from NASA photographs
-that we use to illuminate the dark side of the planet. You might notice that
-there are lights in the middle of Australia … which are actually wildfires
-that can be seen from space.
+Planet Earth has some special features. One is that there are night lights illuminating the dark side of the planet, based on NASA photographs. The lights are in the alpha channel of the Albedo texture of the planet and are gamma corrected in order to have a realistic looking light transition from the night side to the day side.  
 
-## Saturn - PlanetShaderSaturn
+Note: You might notice that there are lights in the middle of Australia - these are actually wildfires that can be seen from space.
 
-In the experience we don't have dynamic shadows enabled - as they are mostly
-irrelevant for our scene - except for Saturn. The rings shadow pattern always
-plays a big part of the aesthetic look of the planet, so we spent some time
-making analytic shadows for it. The logic behind is to project a sphere on a
-plane perpendicular to the direction to the light (the sun is approximated as
-a directional light) and checking if the resulting pixel is inside of the
-shadow or not. For the shadow of the planet on the rings, the world space
-position of the pixel on the ring is compared to the radius of the planet
-when projected on the plane that contains the pixel. For the shadow of the
-rings of the planet, we project the world space position of the pixel on the
-planet into the rings plane, and we compare its distance to the center of the
-planet to the distance to the inner ring radius and outer ring radius. The
-result gives a value in [0-1] which is used to sample a shadow texture.
+## Planet Saturn
+
+The planets do not use dynamic shadows, since most of them do not have other objects occluding them. One thing that is disregarded are moons crossing in front of the planet (essentially solar eclipses). However the application does use dynamic lighting for Saturn. The ring shadow pattern plays a big part of the aesthetic look of the planet, so it uses analytic shadows.
+
+The logic is to project a sphere on a plane perpendicular to the direction to the sun (which is  approximated as a directional light) and check if the resulting pixel is inside of the shadow or not.
+
+For the shadow of the planet on the rings, the world space position of the pixel on the ring is compared to the radius of the planet when projected on the plane that contains the pixel.
+
+For the shadow of the rings of the planet, the world space position of the pixel is projected on the planet into the rings plane, and the distance to the center of the planet is compared to the distance to the inner ring radius and outer ring radius. This returns a value between 0 and 1, which is then used to sample a shadow texture.
