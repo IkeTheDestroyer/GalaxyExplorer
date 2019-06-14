@@ -1,6 +1,6 @@
 # Solar system
 
-![Solar system](Images/)
+![Solar system](Images/ge_solar_system.PNG)
 
 ## Realistic mode vs. schematic mode
 
