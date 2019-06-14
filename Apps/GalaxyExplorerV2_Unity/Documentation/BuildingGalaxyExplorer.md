@@ -1,6 +1,6 @@
 # Building & running the application
 
-![BuildingGalaxyExplorer](Images/ge_app_icon_wide.png)
+![BuildingGalaxyExplorer](Images/ge_app_icon_banner.png)
 
 ## Running in Unity
 
