@@ -1,6 +1,6 @@
 # Points of interest
 
-![Points of interest](Images/ge_app_poi.png)
+![Points of interest](Images/ge_galactic_pois.png)
 
 Points of interest (POI) enable the user to navigate to deeper levels of information within the application.
 
