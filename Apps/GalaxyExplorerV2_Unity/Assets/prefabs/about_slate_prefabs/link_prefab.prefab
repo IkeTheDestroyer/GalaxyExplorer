@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1556344001778102021}
   - component: {fileID: 3382300216309296558}
   - component: {fileID: 4049168340698927193}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: link_display_name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 3801649283213836824}
   - component: {fileID: 8596389362579866339}
   - component: {fileID: 6616477315885634492}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: link_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -314,7 +314,7 @@ GameObject:
   - component: {fileID: 9181703889059671553}
   - component: {fileID: 1285176854101421440}
   - component: {fileID: 448000295253942852}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: link_display_url_text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
