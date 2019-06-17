@@ -1,0 +1,252 @@
+variables:
+  configuration: master
+  platform: x86
+  unityProject: Apps\GalaxyExplorerV2_Unity
+  productName: 'Galaxy Explorer'
+  packageCertificateKeyFile: 
+  publisherIdentity: 'CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US'
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+    - develop
+    - release
+    - release/*
+    - tech/13683_project_structure
+    - tech/tools-0001_3d_launcher
+
+resources:
+  repositories:
+  - repository: self
+    type: tfsgit
+    name: $(Build.Repository.Name)
+    clean: false
+
+pool:
+  name: Default
+  demands: DotNetFramework
+
+steps:
+# Download a secure file to a temporary location on the build or release agent
+# This task runs as a Pre-job task.
+- task: DownloadSecureFile@1
+  enabled: false
+  inputs:
+    secureFile: $(packageCertificateKeyFile)
+
+- task: PowerShell@2
+  displayName: 'Calculate Pipeline Variables'
+  inputs:
+    targetType: inline
+    filePath: 
+    script: |
+     # Calculate the well-formed version number (YYYY.DOY.BuildId.0)
+     $dtNow = [DateTime]::Now
+     $buildNumber=("{0}.{1}.{2}.0" -f $dtNow.Year, $dtNow.DayOfYear, $(Build.BuildId))
+     Write-Host "##vso[build.updatebuildnumber]$buildNumber"
+     
+     # Only sign with certificate if the branch is release\* or master
+     [bool]$isSignedBuild = $false
+     if ((("$(Build.SourceBranch)" -eq "refs/heads/master") -or
+         ("$(Build.SourceBranch)" -eq "refs/heads/release") -or
+         (("$(Build.SourceBranch)").ToLower().StartsWith(("refs/heads/release/"))) -or
+         ("$(Build.SourceBranch)" -eq "refs/heads/feature/officialBuildTest")
+        ) -and ($env:DOWNLOADSECUREFILE_SECUREFILEPATH -ne $nul))
+     {
+         $isSignedBuild = $true
+     }
+     Write-Host ("##vso[task.setvariable variable=isSignedBuild]{0}" -f $isSignedBuild.ToString())
+
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet >=4.6.x'
+  inputs:
+    versionSpec: '>=4.6.x'
+
+- task: PowerShell@2
+  displayName: 'Build Unity Projects'
+  inputs:
+    targetType: inline
+    filePath: 
+    script: |
+     $ErrorActionPreference = 'Stop'
+     $InformationPreference = 'Continue'
+     
+     Import-Module UnitySetup
+     Import-Module Build
+
+     $vstsOAuthToken = ConvertTo-SecureString $(System.AccessToken) -AsPlainText -Force
+     $buildArgs = @{
+       Revision = $(Build.BuildId)
+       NugetSourceNames = "MRS_SharedTech"
+       NugetSourceAuthTokens = $vstsOAuthToken
+     }
+     if ("$(Build.SourceBranch)" -eq 'refs/heads/master')
+     {
+       $buildArgs["IncludePackageSource"] = ".\"
+       $buildArgs["GitCredential"] = New-Object -TypeName pscredential("user", $vstsOAuthToken)
+     }
+
+     .\build.ps1 @buildArgs -SkipVisualStudioBuild -SkipStageArtifacts
+
+- task: PowerShell@2
+  displayName: 'Harvest Unity phase-1 Logfile'
+  condition: always()
+  inputs:
+    targetType: inline
+    filePath:
+    script: |
+     $logFilePath = Join-Path -Path (Get-Location) -ChildPath (Join-Path -Path $(unityProject) -ChildPath "Unity-Restore.log")
+     if (Test-Path -Path $logFilePath)
+     {
+       Write-Host ("##vso[build.uploadlog]{0}" -f $logFilePath)
+     }
+
+- task: PowerShell@2
+  displayName: 'Harvest Unity phase-2 Logfile'
+  condition: always()
+  inputs:
+    targetType: inline
+    filePath:
+    script: |
+     $logFilePath = Join-Path -Path (Get-Location) -ChildPath (Join-Path -Path $(unityProject) -ChildPath "Unity-WSAPlayer.log")
+     if (Test-Path -Path $logFilePath)
+     {
+       Write-Host ("##vso[build.uploadlog]{0}" -f $logFilePath)
+     }
+
+- task: NuGetCommand@2
+  displayName: 'NuGet Restore for VS'
+  inputs:
+    command: restore
+    solution: '$(unityProject)/Builds/Store/*.sln'
+    selectOrConfig: config
+    nugetConfigPath: '$(unityProject)/Assets/NuGet.config'
+    includeNuGetOrg: true
+
+- task: PowerShell@2
+  displayName: 'Make Store-ready'
+  inputs:
+    targetType: inline
+    filePath: 
+    script: |
+     Push-Location "$(unityProject)"
+
+     # Push-Location "Builds\store\$(productName)"
+     Push-Location "UWP\$(productName)"
+     
+     # Load package.appxmanifest
+     [xml]$xml = Get-Content Package.appxmanifest
+     
+     if ([bool]::Parse("$(isSignedBuild)"))
+     {
+         # Update the Package/Identity/@Publisher
+         $xml.Package.Identity.Publisher = "$(publisherIdentity)"
+     }
+     
+     # Explicitly set the version number of the package we're building
+     $xml.Package.Identity.Version = "$(Build.BuildNumber)"
+     
+     # Update the target device family
+     $xml.Package.Dependencies.TargetDeviceFamily.Name = "Windows.Holographic"
+     
+     # Update the minimim version
+     $xml.Package.Dependencies.TargetDeviceFamily.MinVersion = "10.0.17763.0"
+     $xml.Package.Dependencies.TargetDeviceFamily.MaxVersionTested = "10.0.17763.0"
+
+     # Save package.appxmanifest
+     $xml.Save((Join-Path -Path (Get-Location) -ChildPath "Package.appxmanifest"))
+
+     if ([bool]::Parse("$(isSignedBuild)"))
+     {
+         # Look for a csproj file (created when Unity's scripting backend is DOTNET)
+         $projectFile = Join-Path -Path (Get-Location) -ChildPath "$(productName).csproj"
+         if (!(Test-Path -Path $projectFile))
+         {
+            # Didn't find a csproj file.
+            # Look for a vcxproj file (created when Unity's scripting backend is IL2CPP)
+            $projectFile = Join-Path -Path (Get-Location) -ChildPath "$(productName).vcxproj"
+         }
+         
+         $xml = Get-Content "$projectFile"
+         
+         # Find the PackageCertificateKeyFile and change it to sign with the 1pp test cert for store and side loading
+         $xml.SelectNodes("//*") | ForEach-Object { if ($_.Name -eq "PackageCertificateKeyFile"){ ($_.'#text') = "$env:DOWNLOADSECUREFILE_SECUREFILEPATH" }}
+
+         # Save the project file
+         $xml.Save("$projectFile")
+     }
+     
+     Pop-Location
+     Pop-Location
+
+- task: PowerShell@2
+  displayName: 'Build Unity-generated Visual Studio solution'
+  inputs:
+    targetType: inline
+    filePath: 
+    script: |
+     $buildArgs = @{
+       Revision = 0
+       Configuration = "$(configuration)"
+       Platform = "$(platform)"
+     }
+     .\build.ps1 @buildArgs -VsSolutionBasePath $(unityProject) -SkipUnityBuild
+
+- task: PowerShell@2
+  displayName: 'Run Test Script'
+  inputs:
+    targetType: inline
+    filePath:
+    script: |
+     $ErrorActionPreference = 'Continue'
+     $InformationPreference = 'Continue'
+     $VerbosePreference = 'Continue'
+     .\test.ps1
+
+- task: PublishTestResults@2
+  displayName: 'Publish Test Results'
+  inputs:
+    testResultsFormat: NUnit
+    testResultsFiles: |
+     **/TEST-*.xml
+     **/TestResults-*.xml
+  condition: always()
+
+- task: PowerShell@2
+  displayName: 'Create appxupload'
+  condition: and(succeeded(), eq(variables['isSignedBuild'], 'True'))
+  inputs:
+    targetType: inline
+    filePath: 
+    script: |
+     # Try to push the DOTNET location for app packages
+     $dir = Join-Path -Path (Get-Location) -ChildPath "$(unityProject)\UWP\$(productName)\AppPackages"
+     if (!(Test-Path $dir))
+     {
+         # Try to push the IL2CPP location for app packages
+         $dir = Join-Path -Path (Get-Location) -ChildPath "$(unityProject)\UWP\AppPackages\$(productName)"
+     }
+     Push-Location $dir     
+     
+     # Find the directory with the mose-recent write time and go there
+     $dir = (Get-ChildItem . | sort LastWriteTime | select -last 1)
+     Push-Location $dir
+     
+     # Create a .zip file with the appxsym and appxbundle and rename it to a appxupload and copy it the /Artifacts/
+     Compress-Archive -Path *.appxsym, *.appxbundle -DestinationPath $dir'.zip'
+     Move-Item $dir'.zip' $dir'.appxupload'
+     Copy-Item -Recurse (Get-ChildItem *.appxupload) (Join-Path -Path $(Build.Repository.LocalPath) -ChildPath "Artifacts/")
+     
+     Pop-Location
+     Pop-Location
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifacts:'
+  inputs:
+    artifactName: '$(Build.DefinitionName)_$(Build.SourceBranchName)_$(Build.BuildNumber)'
+    PathtoPublish: '$(Build.Repository.LocalPath)/Artifacts'
+
+- task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
+  displayName: 'Component Detection'
