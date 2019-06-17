@@ -1,6 +1,6 @@
 variables:
   configuration: master
-  platform: x86
+  platform: ARM
   unityProject: Apps\GalaxyExplorerV2_Unity
   productName: 'Galaxy Explorer'
   packageCertificateKeyFile: 
