@@ -4,7 +4,6 @@
 using Microsoft.MixedReality.Toolkit;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace GalaxyExplorer
 {
