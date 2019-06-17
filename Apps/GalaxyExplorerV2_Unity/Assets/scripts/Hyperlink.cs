@@ -17,8 +17,6 @@ namespace GalaxyExplorer
 
         public void OpenURL()
         {
-            Debug.Log("Link clicked by mouse: " + URL.ToString());
-
             if (!string.IsNullOrEmpty(URL) && !_inCoolDown)
             {
                 Application.OpenURL(URL);
@@ -30,9 +28,8 @@ namespace GalaxyExplorer
 
         public void OnInputDown(InputEventData eventData = null)
         {
-            Debug.Log("Link clicked: " + URL.ToString());
-
             OpenURL();
+            eventData.Use();
         }
 
         private IEnumerator CoolDown()

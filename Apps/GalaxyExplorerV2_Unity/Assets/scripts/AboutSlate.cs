@@ -14,12 +14,12 @@ namespace GalaxyExplorer
         public GameObject SlateContentParent;
         public float TransitionDuration = 1.0f;
 
+        private SpiralGalaxy _galacticPlane;
         private bool _isActive;
         private bool _isTransitioning;
 
         private void Awake()
         {
-            DisableLinks();
             AboutMaterial.SetFloat("_TransitionAlpha", 0);
             _isActive = false;
             _isTransitioning = false;
@@ -66,8 +66,6 @@ namespace GalaxyExplorer
 
             gameObject.SetActive(true);
 
-            EnableLinks();
-
             StartCoroutine(AnimateToOpacity(1));
         }
 
@@ -87,16 +85,12 @@ namespace GalaxyExplorer
             Slate.SetActive(true);
             _isTransitioning = true;
 
-            if (TransitionDuration > 0)
+            while (timeLeft > 0)
             {
-                while (timeLeft > 0)
-                {
-                    Slate.SetActive(true);
-                    AboutMaterial.SetFloat("_TransitionAlpha", Mathf.Lerp(target, 1 - target, timeLeft / TransitionDuration));
-                    yield return null;
+                AboutMaterial.SetFloat("_TransitionAlpha", Mathf.Lerp(target, 1 - target, timeLeft / TransitionDuration));
+                yield return null;
 
-                    timeLeft -= Time.deltaTime;
-                }
+                timeLeft -= Time.deltaTime;
             }
 
             _isTransitioning = false;
@@ -105,7 +99,6 @@ namespace GalaxyExplorer
             if (target > 0)
             {
                 EnableLinks();
-                Slate.SetActive(true);
                 gameObject.SetActive(true);
                 _isActive = true;
             }
@@ -120,27 +113,24 @@ namespace GalaxyExplorer
 
         private void EnableLinks()
         {
+            _galacticPlane = FindObjectOfType<SpiralGalaxy>();
+
+            if (_galacticPlane != null)
+            {
+                _galacticPlane.GetComponentInChildren<Collider>().enabled = false;
+            }
+
             SlateContentParent.SetActive(true);
         }
 
         private void DisableLinks()
         {
-            SlateContentParent.SetActive(false);
-        }
-
-        // Is user touching the About slate area
-        public bool IsUserTouchingAboutSlate()
-        {
-            Collider[] allChildren = GetComponentsInChildren<Collider>();
-            foreach (var entity in allChildren)
+            if (_galacticPlane != null)
             {
-                //                if (entity.gameObject == InputManager.Instance.OverrideFocusedObject)
-                //                {
-                //                    return true;
-                //                }
+                _galacticPlane.GetComponentInChildren<Collider>().enabled = true;
             }
 
-            return false;
+            SlateContentParent.SetActive(false);
         }
     }
 }
