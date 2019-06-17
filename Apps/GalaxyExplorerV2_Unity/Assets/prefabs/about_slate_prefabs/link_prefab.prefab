@@ -220,6 +220,7 @@ GameObject:
   - component: {fileID: 3801649283213836827}
   - component: {fileID: 3801649283213836824}
   - component: {fileID: 8596389362579866339}
+  - component: {fileID: 6616477315885634492}
   m_Layer: 8
   m_Name: link_prefab
   m_TagString: Untagged
@@ -256,8 +257,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 32.5, y: 1, z: 1}
-  m_Center: {x: 0, y: -1.2, z: 0}
+  m_Size: {x: 32.5, y: 2, z: 1}
+  m_Center: {x: 0, y: -0.75, z: 0}
 --- !u!114 &8596389362579866339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,6 +272,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   URL: 
+--- !u!114 &6616477315885634492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3801649283213836826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bccfebdf6047ac89b4f6d1f87b6edb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  routingTarget: {fileID: 0}
+  OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8596389362579866339}
+        m_MethodName: OpenURL
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &8637736936426430386
 GameObject:
   m_ObjectHideFlags: 0

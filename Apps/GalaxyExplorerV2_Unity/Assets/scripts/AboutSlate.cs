@@ -11,6 +11,7 @@ namespace GalaxyExplorer
     {
         public Material AboutMaterial;
         public GameObject Slate;
+        public GameObject SlateContentParent;
         public float TransitionDuration = 1.0f;
 
         private bool _isActive;
@@ -119,20 +120,12 @@ namespace GalaxyExplorer
 
         private void EnableLinks()
         {
-            //            var links = GetComponentsInChildren<Hyperlink>(includeInactive: true);
-            //            foreach (var link in links)
-            //            {
-            //                link.gameObject.SetActive(true);
-            //            }
+            SlateContentParent.SetActive(true);
         }
 
         private void DisableLinks()
         {
-            //            var links = GetComponentsInChildren<Hyperlink>(includeInactive: true);
-            //            foreach (var link in links)
-            //            {
-            //                link.gameObject.SetActive(false);
-            //            }
+            SlateContentParent.SetActive(false);
         }
 
         // Is user touching the About slate area
@@ -145,22 +138,6 @@ namespace GalaxyExplorer
                 //                {
                 //                    return true;
                 //                }
-            }
-
-            return false;
-        }
-
-        // Has user clicked the About slate area
-        public bool IsClickOnAboutSlate(GameObject hitObject)
-        {
-            // Check if clicked object is any of the slate object
-            Collider[] allChildren = GetComponentsInChildren<Collider>();
-            foreach (var entity in allChildren)
-            {
-                if (entity.gameObject == hitObject)
-                {
-                    return true;
-                }
             }
 
             return false;

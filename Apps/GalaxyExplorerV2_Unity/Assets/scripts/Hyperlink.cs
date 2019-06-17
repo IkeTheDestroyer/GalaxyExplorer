@@ -9,14 +9,15 @@ namespace GalaxyExplorer
 {
     public class Hyperlink : MonoBehaviour, IMixedRealityInputHandler
     {
-        public string URL;
+        [SerializeField]
+        private string URL;
 
         private float _coolDownDuration = 1f;
         private bool _inCoolDown = false;
 
-        public void OnInputDown(InputEventData eventData)
+        public void OpenURL()
         {
-            Debug.Log("Link clicked: " + URL.ToString());
+            Debug.Log("Link clicked by mouse: " + URL.ToString());
 
             if (!string.IsNullOrEmpty(URL) && !_inCoolDown)
             {
@@ -25,6 +26,13 @@ namespace GalaxyExplorer
                 // Since events are currently fired twice, enforce a cooldown before another link can be clicked
                 StartCoroutine(CoolDown());
             }
+        }
+
+        public void OnInputDown(InputEventData eventData = null)
+        {
+            Debug.Log("Link clicked: " + URL.ToString());
+
+            OpenURL();
         }
 
         private IEnumerator CoolDown()
