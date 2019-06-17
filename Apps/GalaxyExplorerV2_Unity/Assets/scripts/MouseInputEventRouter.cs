@@ -1,16 +1,21 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using System;
 using Microsoft.MixedReality.Toolkit.UI;
 using UnityEngine;
+using UnityEngine.Events;
 
-    public class MouseInputEventRouter : MonoBehaviour
+public class MouseInputEventRouter : MonoBehaviour
     {
         [Tooltip("Interactable to which the press events are being routed. Defaults to the object of the component.")]
         public Interactable routingTarget;
 
+        public UnityEvent OnClick;
+
         RaycastHit[] raycastResults = new RaycastHit[1];
         private bool mouseDown;
+        
 
         private void Awake()
         {
@@ -29,8 +34,12 @@ using UnityEngine;
                 routingTarget.OnPointerClicked(null);
                 routingTarget.SetPress(false);
             }
+            else
+            {
+                OnClick?.Invoke();
+            }
         }
-
+        
         private void Update()
         {
             if (Input.GetMouseButtonDown(0) && !mouseDown)

@@ -64,6 +64,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1113489552950955917}
     m_Modifications:
+    - target: {fileID: 100000, guid: 7654e45cf39a63f48bec57fed3950357, type: 3}
+      propertyPath: m_Name
+      value: titan_saturn_moon_model
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 7654e45cf39a63f48bec57fed3950357, type: 3}
+      propertyPath: m_Name
+      value: titan_saturn_moon_model
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7654e45cf39a63f48bec57fed3950357, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -108,17 +116,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 7654e45cf39a63f48bec57fed3950357, type: 3}
-      propertyPath: m_Name
-      value: titan_saturn_moon_model
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 7654e45cf39a63f48bec57fed3950357, type: 3}
-      propertyPath: m_Name
-      value: titan_saturn_moon_model
-      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 7654e45cf39a63f48bec57fed3950357, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 7654e45cf39a63f48bec57fed3950357, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 7654e45cf39a63f48bec57fed3950357, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: 7654e45cf39a63f48bec57fed3950357, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 7654e45cf39a63f48bec57fed3950357, type: 3}
       propertyPath: m_Materials.Array.data[0]
