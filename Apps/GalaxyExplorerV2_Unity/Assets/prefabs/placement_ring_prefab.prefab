@@ -19,7 +19,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &2979386583402592772
 Transform:
@@ -57,7 +57,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Diameter: 1.8
   Thickness: 0.06
+  ColliderThickness: 0.1
   Detail: 20
+  HighlightDistance: 0.1
+  ControllerTransformTracker: {fileID: 0}
 --- !u!23 &2979386583402592773
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -75,7 +78,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 835cb4a58f172d7478801db95e510f56, type: 2}
+  - {fileID: 2100000, guid: ce7032ca5eea7fc46867c804477335d1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,7 +109,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 0}
 --- !u!114 &8490452031815060693
