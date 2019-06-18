@@ -28,7 +28,16 @@ namespace GalaxyExplorer
 
         public void OnInputDown(InputEventData eventData = null)
         {
-            OpenURL();
+#if NETFX_CORE
+                UnityEngine.WSA.Application.InvokeOnUIThread(() =>
+                {
+                    var uri = new System.Uri(URL);
+                    var unused = Windows.System.Launcher.LaunchUriAsync(uri);
+                }, false);
+#else
+            Application.OpenURL(URL);
+#endif
+
             eventData.Use();
         }
 

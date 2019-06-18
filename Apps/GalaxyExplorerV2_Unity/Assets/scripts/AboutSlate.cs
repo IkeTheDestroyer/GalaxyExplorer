@@ -15,16 +15,21 @@ namespace GalaxyExplorer
         public float TransitionDuration = 1.0f;
 
         private SpiralGalaxy _galacticPlane;
-        private bool _isActive;
+        private bool _aboutIsActive;
         private bool _isTransitioning;
+        private ZoomInOut _zoomInOut;
+        private Collider[] _colliders;
 
-        private void Awake()
+        private void Start()
         {
             AboutMaterial.SetFloat("_TransitionAlpha", 0);
-            _isActive = false;
+            _aboutIsActive = false;
             _isTransitioning = false;
+            _zoomInOut = FindObjectOfType<ZoomInOut>();
 
             transform.localScale = transform.localScale * GalaxyExplorerManager.SlateScaleFactor;
+
+            MixedRealityToolkit.InputSystem.Register(gameObject);
         }
 
         private void SceneManager_sceneLoaded(UnityEngine.SceneManagement.Scene arg0, UnityEngine.SceneManagement.LoadSceneMode arg1)
@@ -42,14 +47,9 @@ namespace GalaxyExplorer
             UnityEngine.SceneManagement.SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
         }
 
-        private void Start()
-        {
-            MixedRealityToolkit.InputSystem.Register(gameObject);
-        }
-
         public void ToggleAboutButton()
         {
-            if (_isActive)
+            if (_aboutIsActive)
             {
                 Hide();
             }
@@ -61,6 +61,8 @@ namespace GalaxyExplorer
 
         private void Show()
         {
+            SetCollidersActivation(false);
+
             transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2f;
             transform.rotation = Camera.main.transform.rotation;
 
@@ -71,10 +73,7 @@ namespace GalaxyExplorer
 
         private void Hide()
         {
-            if (gameObject.activeSelf)
-            {
-                StartCoroutine(AnimateToOpacity(0));
-            }
+            StartCoroutine(AnimateToOpacity(0));
         }
 
         private IEnumerator AnimateToOpacity(float target)
@@ -100,14 +99,15 @@ namespace GalaxyExplorer
             {
                 EnableLinks();
                 gameObject.SetActive(true);
-                _isActive = true;
+                _aboutIsActive = true;
             }
             else
             {
                 DisableLinks();
                 Slate.SetActive(false);
                 gameObject.SetActive(false);
-                _isActive = false;
+                _aboutIsActive = false;
+                SetCollidersActivation(true);
             }
         }
 
@@ -131,6 +131,26 @@ namespace GalaxyExplorer
             }
 
             SlateContentParent.SetActive(false);
+        }
+
+        private void SetCollidersActivation(bool enable)
+        {
+            if (enable)
+            {
+                // This colliders need to be tracked until the about slate gets disabled, since it would therwise look fr the colliders of the next scene and disable them
+                if (_zoomInOut.GetNextScene != null)
+                {
+                    _colliders = _zoomInOut.GetNextScene.GetComponentsInChildren<Collider>();
+                }
+            }
+
+            if (_colliders != null)
+            {
+                foreach (Collider collider in _colliders)
+                {
+                    collider.enabled = enable;
+                }
+            }
         }
     }
 }
