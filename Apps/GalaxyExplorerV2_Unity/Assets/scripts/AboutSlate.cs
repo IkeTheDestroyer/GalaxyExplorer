@@ -135,9 +135,11 @@ namespace GalaxyExplorer
 
         private void SetCollidersActivation(bool enable)
         {
-            if (enable)
+            if (!enable)
             {
-                // This colliders need to be tracked until the about slate gets disabled, since it would therwise look fr the colliders of the next scene and disable them
+                _colliders = null;
+
+                // This colliders need to be tracked until the about slate gets disabled, since this would otherwise look for the colliders of the next scene and disable them
                 if (_zoomInOut.GetNextScene != null)
                 {
                     _colliders = _zoomInOut.GetNextScene.GetComponentsInChildren<Collider>();
@@ -151,8 +153,6 @@ namespace GalaxyExplorer
                     collider.enabled = enable;
                 }
             }
-
-            _colliders = null;
         }
     }
 }
