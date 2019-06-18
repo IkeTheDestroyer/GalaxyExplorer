@@ -151,6 +151,8 @@ namespace GalaxyExplorer
                     collider.enabled = enable;
                 }
             }
+
+            _colliders = null;
         }
     }
 }
