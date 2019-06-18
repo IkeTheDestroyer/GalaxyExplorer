@@ -11,19 +11,25 @@ namespace GalaxyExplorer
     {
         public Material AboutMaterial;
         public GameObject Slate;
+        public GameObject SlateContentParent;
         public float TransitionDuration = 1.0f;
 
-        private bool _isActive;
+        private SpiralGalaxy _galacticPlane;
+        private bool _aboutIsActive;
         private bool _isTransitioning;
+        private ZoomInOut _zoomInOut;
+        private Collider[] _colliders;
 
-        private void Awake()
+        private void Start()
         {
-            DisableLinks();
             AboutMaterial.SetFloat("_TransitionAlpha", 0);
-            _isActive = false;
+            _aboutIsActive = false;
             _isTransitioning = false;
+            _zoomInOut = FindObjectOfType<ZoomInOut>();
 
             transform.localScale = transform.localScale * GalaxyExplorerManager.SlateScaleFactor;
+
+            MixedRealityToolkit.InputSystem.Register(gameObject);
         }
 
         private void SceneManager_sceneLoaded(UnityEngine.SceneManagement.Scene arg0, UnityEngine.SceneManagement.LoadSceneMode arg1)
@@ -41,14 +47,9 @@ namespace GalaxyExplorer
             UnityEngine.SceneManagement.SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
         }
 
-        private void Start()
-        {
-            MixedRealityToolkit.InputSystem.Register(gameObject);
-        }
-
         public void ToggleAboutButton()
         {
-            if (_isActive)
+            if (_aboutIsActive)
             {
                 Hide();
             }
@@ -60,22 +61,19 @@ namespace GalaxyExplorer
 
         private void Show()
         {
+            SetCollidersActivation(false);
+
             transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2f;
             transform.rotation = Camera.main.transform.rotation;
 
             gameObject.SetActive(true);
-
-            EnableLinks();
 
             StartCoroutine(AnimateToOpacity(1));
         }
 
         private void Hide()
         {
-            if (gameObject.activeSelf)
-            {
-                StartCoroutine(AnimateToOpacity(0));
-            }
+            StartCoroutine(AnimateToOpacity(0));
         }
 
         private IEnumerator AnimateToOpacity(float target)
@@ -86,16 +84,12 @@ namespace GalaxyExplorer
             Slate.SetActive(true);
             _isTransitioning = true;
 
-            if (TransitionDuration > 0)
+            while (timeLeft > 0)
             {
-                while (timeLeft > 0)
-                {
-                    Slate.SetActive(true);
-                    AboutMaterial.SetFloat("_TransitionAlpha", Mathf.Lerp(target, 1 - target, timeLeft / TransitionDuration));
-                    yield return null;
+                AboutMaterial.SetFloat("_TransitionAlpha", Mathf.Lerp(target, 1 - target, timeLeft / TransitionDuration));
+                yield return null;
 
-                    timeLeft -= Time.deltaTime;
-                }
+                timeLeft -= Time.deltaTime;
             }
 
             _isTransitioning = false;
@@ -104,66 +98,61 @@ namespace GalaxyExplorer
             if (target > 0)
             {
                 EnableLinks();
-                Slate.SetActive(true);
                 gameObject.SetActive(true);
-                _isActive = true;
+                _aboutIsActive = true;
             }
             else
             {
                 DisableLinks();
                 Slate.SetActive(false);
                 gameObject.SetActive(false);
-                _isActive = false;
+                _aboutIsActive = false;
+                SetCollidersActivation(true);
             }
         }
 
         private void EnableLinks()
         {
-            //            var links = GetComponentsInChildren<Hyperlink>(includeInactive: true);
-            //            foreach (var link in links)
-            //            {
-            //                link.gameObject.SetActive(true);
-            //            }
+            _galacticPlane = FindObjectOfType<SpiralGalaxy>();
+
+            if (_galacticPlane != null)
+            {
+                _galacticPlane.GetComponentInChildren<Collider>().enabled = false;
+            }
+
+            SlateContentParent.SetActive(true);
         }
 
         private void DisableLinks()
         {
-            //            var links = GetComponentsInChildren<Hyperlink>(includeInactive: true);
-            //            foreach (var link in links)
-            //            {
-            //                link.gameObject.SetActive(false);
-            //            }
-        }
-
-        // Is user touching the About slate area
-        public bool IsUserTouchingAboutSlate()
-        {
-            Collider[] allChildren = GetComponentsInChildren<Collider>();
-            foreach (var entity in allChildren)
+            if (_galacticPlane != null)
             {
-                //                if (entity.gameObject == InputManager.Instance.OverrideFocusedObject)
-                //                {
-                //                    return true;
-                //                }
+                _galacticPlane.GetComponentInChildren<Collider>().enabled = true;
             }
 
-            return false;
+            SlateContentParent.SetActive(false);
         }
 
-        // Has user clicked the About slate area
-        public bool IsClickOnAboutSlate(GameObject hitObject)
+        private void SetCollidersActivation(bool enable)
         {
-            // Check if clicked object is any of the slate object
-            Collider[] allChildren = GetComponentsInChildren<Collider>();
-            foreach (var entity in allChildren)
+            if (!enable)
             {
-                if (entity.gameObject == hitObject)
+                _colliders = null;
+
+                // This colliders need to be tracked until the about slate gets disabled, since this would otherwise look for the colliders of the next scene and disable them
+                if (_zoomInOut.GetNextScene != null)
                 {
-                    return true;
+                    _colliders = _zoomInOut.GetNextScene.GetComponentsInChildren<Collider>();
                 }
             }
 
-            return false;
+            if (_colliders != null)
+            {
+                foreach (Collider collider in _colliders)
+                {
+                    collider.enabled = enable;
+                }
+            }
         }
     }
 }
