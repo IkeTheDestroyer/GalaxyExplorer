@@ -14,6 +14,7 @@ namespace GalaxyExplorer
         private Camera _cameraMain;
         private PlacementConfirmationButton _confirmationButton;
         private ForceSolver _forceSolver;
+        private PlacementRing _placementRing;
         
         [SerializeField]
         private float DesktopDuration = 2.0f;
@@ -30,6 +31,7 @@ namespace GalaxyExplorer
         {
             _confirmationButton = GetComponentInChildren<PlacementConfirmationButton>();
             _forceSolver = GetComponent<ForceSolver>();
+            _placementRing = GetComponentInChildren<PlacementRing>();
         }
 
         private void Start()
@@ -39,13 +41,14 @@ namespace GalaxyExplorer
             IntroEarthPlacementAnimator.SetTrigger("Intro");
             
             // if platform is desktop then bypass placement
-//            if (GalaxyExplorerManager.IsDesktop)
-//            {
-//                StartCoroutine(ReleaseContent(DesktopDuration));
-//                isPlaced = true;
-//                StartCoroutine(StartOnboarding(true));
-//                return;
-//            }
+            if (GalaxyExplorerManager.IsDesktop)
+            {
+                _placementRing.gameObject.SetActive(false);
+                StartCoroutine(ReleaseContent(DesktopDuration));
+                isPlaced = true;
+                StartCoroutine(StartOnboarding(true));
+                return;
+            }
 
             // Position earth pin in front of camera and a bit lower in VR
             var offset = GalaxyExplorerManager.IsImmersiveHMD ? Vector3.down * .5f : Vector3.zero;
