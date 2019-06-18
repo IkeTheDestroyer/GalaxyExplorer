@@ -371,7 +371,6 @@ namespace GalaxyExplorer
 
         protected override void Awake()
         {
-            Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
             base.Awake();
 
             if (XRDevice.isPresent)

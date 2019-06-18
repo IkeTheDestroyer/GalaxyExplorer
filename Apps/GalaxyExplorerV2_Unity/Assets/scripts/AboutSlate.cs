@@ -4,7 +4,6 @@
 using Microsoft.MixedReality.Toolkit;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace GalaxyExplorer
 {
@@ -12,23 +11,25 @@ namespace GalaxyExplorer
     {
         public Material AboutMaterial;
         public GameObject Slate;
+        public GameObject SlateContentParent;
         public float TransitionDuration = 1.0f;
-        public GameObject AboutDesktopButton = null;
-        public GameObject AboutMenuButton = null;
 
-        private bool _isActive;
+        private SpiralGalaxy _galacticPlane;
+        private bool _aboutIsActive;
         private bool _isTransitioning;
+        private ZoomInOut _zoomInOut;
+        private Collider[] _colliders;
 
-        //        private bool isAboutButtonClicked = false;
-
-        private void Awake()
+        private void Start()
         {
-            DisableLinks();
             AboutMaterial.SetFloat("_TransitionAlpha", 0);
-            _isActive = false;
+            _aboutIsActive = false;
             _isTransitioning = false;
+            _zoomInOut = FindObjectOfType<ZoomInOut>();
 
             transform.localScale = transform.localScale * GalaxyExplorerManager.SlateScaleFactor;
+
+            MixedRealityToolkit.InputSystem.Register(gameObject);
         }
 
         private void SceneManager_sceneLoaded(UnityEngine.SceneManagement.Scene arg0, UnityEngine.SceneManagement.LoadSceneMode arg1)
@@ -46,34 +47,9 @@ namespace GalaxyExplorer
             UnityEngine.SceneManagement.SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
         }
 
-        private void Start()
+        public void ToggleAboutButton()
         {
-            MixedRealityToolkit.InputSystem.Register(gameObject);
-
-            if (AboutDesktopButton == null)
-            {
-                Debug.LogWarning("AboutSlate.cs is missing AboutDesktopButton");
-            }
-
-            if (AboutDesktopButton)
-            {
-                Button button = AboutDesktopButton.GetComponent<Button>();
-                button.onClick.AddListener(ButtonClicked);
-            }
-        }
-
-        // Callback when Desktop About button is clicked/touched/selected
-        public void ButtonClicked()
-        {
-            if (!_isTransitioning)
-            {
-                ToggleAboutButton();
-            }
-        }
-
-        private void ToggleAboutButton()
-        {
-            if (_isActive)
+            if (_aboutIsActive)
             {
                 Hide();
             }
@@ -83,24 +59,21 @@ namespace GalaxyExplorer
             }
         }
 
-        public void Show()
+        private void Show()
         {
+            SetCollidersActivation(false);
+
             transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2f;
             transform.rotation = Camera.main.transform.rotation;
 
             gameObject.SetActive(true);
 
-            EnableLinks();
-
             StartCoroutine(AnimateToOpacity(1));
         }
 
-        public void Hide()
+        private void Hide()
         {
-            if (gameObject.activeSelf)
-            {
-                StartCoroutine(AnimateToOpacity(0));
-            }
+            StartCoroutine(AnimateToOpacity(0));
         }
 
         private IEnumerator AnimateToOpacity(float target)
@@ -111,16 +84,12 @@ namespace GalaxyExplorer
             Slate.SetActive(true);
             _isTransitioning = true;
 
-            if (TransitionDuration > 0)
+            while (timeLeft > 0)
             {
-                while (timeLeft > 0)
-                {
-                    Slate.SetActive(true);
-                    AboutMaterial.SetFloat("_TransitionAlpha", Mathf.Lerp(target, 1 - target, timeLeft / TransitionDuration));
-                    yield return null;
+                AboutMaterial.SetFloat("_TransitionAlpha", Mathf.Lerp(target, 1 - target, timeLeft / TransitionDuration));
+                yield return null;
 
-                    timeLeft -= Time.deltaTime;
-                }
+                timeLeft -= Time.deltaTime;
             }
 
             _isTransitioning = false;
@@ -129,125 +98,61 @@ namespace GalaxyExplorer
             if (target > 0)
             {
                 EnableLinks();
-                Slate.SetActive(true);
                 gameObject.SetActive(true);
-                _isActive = true;
+                _aboutIsActive = true;
             }
             else
             {
                 DisableLinks();
                 Slate.SetActive(false);
                 gameObject.SetActive(false);
-                _isActive = false;
+                _aboutIsActive = false;
+                SetCollidersActivation(true);
             }
         }
 
         private void EnableLinks()
         {
-            //            var links = GetComponentsInChildren<Hyperlink>(includeInactive: true);
-            //            foreach (var link in links)
-            //            {
-            //                link.gameObject.SetActive(true);
-            //            }
+            _galacticPlane = FindObjectOfType<SpiralGalaxy>();
+
+            if (_galacticPlane != null)
+            {
+                _galacticPlane.GetComponentInChildren<Collider>().enabled = false;
+            }
+
+            SlateContentParent.SetActive(true);
         }
 
         private void DisableLinks()
         {
-            //            var links = GetComponentsInChildren<Hyperlink>(includeInactive: true);
-            //            foreach (var link in links)
-            //            {
-            //                link.gameObject.SetActive(false);
-            //            }
+            if (_galacticPlane != null)
+            {
+                _galacticPlane.GetComponentInChildren<Collider>().enabled = true;
+            }
+
+            SlateContentParent.SetActive(false);
         }
 
-        //        private void Update()
-        //        {
-        //            isAboutButtonClicked = false;
-        //        }
-
-        // Is user touching the About slate area
-        public bool IsUserTouchingAboutSlate()
+        private void SetCollidersActivation(bool enable)
         {
-            Collider[] allChildren = GetComponentsInChildren<Collider>();
-            foreach (var entity in allChildren)
+            if (!enable)
             {
-                //                if (entity.gameObject == InputManager.Instance.OverrideFocusedObject)
-                //                {
-                //                    return true;
-                //                }
-            }
+                _colliders = null;
 
-            return false;
-        }
-
-        // Has user clicked the About slate area
-        public bool IsClickOnAboutSlate(GameObject hitObject)
-        {
-            // Check if clicked object is the menu button or desktop button
-            if (AboutMenuButton && AboutMenuButton.gameObject == hitObject)
-            {
-                return true;
-            }
-            else if (AboutDesktopButton && AboutDesktopButton.gameObject == hitObject)
-            {
-                return true;
-            }
-
-            // Check if clicked object is any of the slate object
-            Collider[] allChildren = GetComponentsInChildren<Collider>();
-            foreach (var entity in allChildren)
-            {
-                if (entity.gameObject == hitObject)
+                // This colliders need to be tracked until the about slate gets disabled, since this would otherwise look for the colliders of the next scene and disable them
+                if (_zoomInOut.GetNextScene != null)
                 {
-                    return true;
+                    _colliders = _zoomInOut.GetNextScene.GetComponentsInChildren<Collider>();
                 }
             }
 
-            return false;
+            if (_colliders != null)
+            {
+                foreach (Collider collider in _colliders)
+                {
+                    collider.enabled = enable;
+                }
+            }
         }
-
-        // On every user's click, check if the click is outside the about area and if it is and About card is on then deactivate it
-        //        public void OnInputClicked(InputClickedEventData eventData)
-        //        {
-        // Focused object is either the gazed one in hololens or the overriden my mouse click one for desktop
-        //            GameObject focusedObject = (FocusManager.Instance) ? FocusManager.Instance.TryGetFocusedObject(eventData) : null;
-        //            focusedObject = (focusedObject == null) ? InputManager.Instance.OverrideFocusedObject : focusedObject;
-
-        //            ToggleAboutSlateLogic(IsClickOnAboutSlate(focusedObject));
-        //        }
-
-        //        private void ToggleAboutSlateLogic(bool isAboutSelected)
-        //        {
-        //            bool isButtonSelected = (AboutMenuButton && AboutMenuButton.IsSelected) || (AboutDesktopButton && AboutDesktopButton.IsSelected);
-        //
-        //            if (!isAboutSelected && !isAboutButtonClicked && isButtonSelected)
-        //            {
-        //                Debug.Log("User clicked outside About Slate so toggle its button state");
-        //
-        //                if (AboutMenuButton && AboutMenuButton.IsSelected)
-        //                {
-        //                    AboutMenuButton.ToggleLogic();
-        //                }
-        //                else if (AboutDesktopButton && AboutDesktopButton.IsSelected)
-        //                {
-        //                    AboutDesktopButton.ToggleLogic();
-        //                }
-        //            }
-        //        }
-
-        //        public void OnTouchpadTouched(InputEventData eventData)
-        //        {
-        //
-        //        }
-        //
-        //        public void OnTouchpadReleased(InputEventData eventData)
-        //        {
-        //            ToggleAboutSlateLogic(IsUserTouchingAboutSlate());
-        //        }
-        //
-        //        public void OnInputPositionChanged(InputPositionEventData eventData)
-        //        {
-        //
-        //        }
     }
 }

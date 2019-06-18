@@ -12,6 +12,7 @@ using Microsoft.MixedReality.Toolkit.Utilities.Solvers;
 using Microsoft.MixedReality.Toolkit.WindowsMixedReality.Input;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using Debug = UnityEngine.Debug;
 
 [Serializable]
@@ -47,6 +48,8 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
     private float _dwellTimer, _dwellForgivenessTimer;
     private readonly HashSet<IMixedRealityPointer> _focusers = new HashSet<IMixedRealityPointer>();
     private readonly HashSet<ForceTractorBeam> _activeTractorBeams = new HashSet<ForceTractorBeam>();
+    private PlanetPreviewController planetController;
+    private UiPreviewTarget previewTarget;
 
     // This should now be set through the GalaxyExplorerManager.ForcePullToCamFixedDistance property
     private float _offsetOnPullToCamera = 1f;
@@ -603,8 +606,17 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
         }
     }
 
+    public void OnPointerDown()
+    {
+        OnPointerDown(new MixedRealityPointerEventData(EventSystem.current));
+    }
+
     public void OnPointerDown(MixedRealityPointerEventData eventData)
     {
+        if (planetController == null)
+        {
+            planetController = FindObjectOfType<PlanetPreviewController>();
+        }
         switch (ForceState)
         {
             case State.Root: 
@@ -612,6 +624,22 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
                 {
                     StartManipulation();
                     _manipulationHandler.OnPointerDown(eventData);
+                } 
+                else if (eventData.Pointer == null)
+                {
+                    if (planetController != null)
+                    {
+                        if (previewTarget == null)
+                        {
+                            previewTarget = GetComponentInChildren<UiPreviewTarget>();
+                        }
+
+                        if (previewTarget != null)
+                        {
+                            planetController.OnButtonSelected(previewTarget.slotId);
+                        }
+                    }
+                    StartAttraction(true);
                 }
                 else
                 {
@@ -627,7 +655,10 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
             case State.Attraction:
             case State.Free:
                 StartManipulation();
-                _manipulationHandler.OnPointerDown(eventData);
+                if (eventData.Pointer != null)
+                {
+                    _manipulationHandler.OnPointerDown(eventData);
+                }
                 break;
 
             case State.Manipulation:
