@@ -45,6 +45,8 @@ namespace GalaxyExplorer
         private void OnDisable()
         {
             UnityEngine.SceneManagement.SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
+
+            AboutMaterial.SetFloat("_TransitionAlpha", 1f);
         }
 
         public void ToggleAboutButton()
