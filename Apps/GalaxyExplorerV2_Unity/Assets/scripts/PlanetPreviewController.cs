@@ -21,7 +21,7 @@ public class PlanetPreviewController : MonoBehaviour
 
     public void OnButtonSelected(int index)
     {
-        OnButtonSelected(buttons[0]);
+        OnButtonSelected(buttons[index]);
     }
 
     public void OnButtonSelected(Button selectedButton)

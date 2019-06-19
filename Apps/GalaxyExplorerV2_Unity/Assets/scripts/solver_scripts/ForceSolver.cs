@@ -47,6 +47,8 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
     private float _dwellTimer, _dwellForgivenessTimer;
     private readonly HashSet<ShellHandRayPointer> _focusers = new HashSet<ShellHandRayPointer>();
     private readonly HashSet<ForceTractorBeam> _activeTractorBeams = new HashSet<ForceTractorBeam>();
+    private PlanetPreviewController planetController;
+    private UiPreviewTarget previewTarget;
 
     // This should now be set through the GalaxyExplorerManager.ForcePullToCamFixedDistance property
     private float _offsetOnPullToCamera = 1f;
@@ -602,6 +604,10 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
 
     public void OnPointerDown(MixedRealityPointerEventData eventData)
     {
+        if (planetController == null)
+        {
+            planetController = FindObjectOfType<PlanetPreviewController>();
+        }
         switch (ForceState)
         {
             case State.Root: 
@@ -612,6 +618,18 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
                 } 
                 else if (eventData.Pointer == null)
                 {
+                    if (planetController != null)
+                    {
+                        if (previewTarget == null)
+                        {
+                            previewTarget = GetComponentInChildren<UiPreviewTarget>();
+                        }
+
+                        if (previewTarget != null)
+                        {
+                            planetController.OnButtonSelected(previewTarget.slotId);
+                        }
+                    }
                     StartAttraction(true);
                 }
                 else
