@@ -9,13 +9,14 @@
 	}
 		SubShader
 	{
-		Tags { "Queue" = "Transparent" "RenderType" = "Transparent" }
+//		Tags { "Queue" = "Transparent" "RenderType" = "Transparent" }
+		Tags { "Queue" = "Geometry" "RenderType" = "Opaque" }
 		LOD 100
 
-		ZWrite Off
+		ZWrite On
 		ZTest LEqual
 		Cull Back
-        Blend SrcAlpha OneMinusSrcAlpha
+//        Blend SrcAlpha OneMinusSrcAlpha
 
 		Pass
 		{

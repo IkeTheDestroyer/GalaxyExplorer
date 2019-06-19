@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.MixedReality.Toolkit;
 using Microsoft.MixedReality.Toolkit.Input;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 [ExecuteInEditMode]
-public class PlacementRing : MonoBehaviour, IMixedRealityPointerHandler
+public class PlacementRing : MonoBehaviour
 {
     private MeshFilter _meshFilter;
     private Mesh _mesh, _colliderMesh;
@@ -13,6 +17,10 @@ public class PlacementRing : MonoBehaviour, IMixedRealityPointerHandler
     private MeshRenderer _meshRenderer;
     private Vector4[] _controllers = {Vector4.zero, Vector4.zero};
     private bool _pointerDown;
+    private AudioSource _ambientAudioSource;
+    private AudioService _audioService;
+    private Coroutine _audioBlendCoroutine;
+    private bool _blendingAmbientAudio;
 
     public float Diameter = 1f;
     public float Thickness = .05f;
@@ -20,6 +28,9 @@ public class PlacementRing : MonoBehaviour, IMixedRealityPointerHandler
     public int Detail = 50;
     public float HighlightDistance = .1f;
     public ControllerTransformTracker ControllerTransformTracker;
+    public AudioClip RingAmbientAudioClip;
+    public float AmbientBlendTime = .5f;
+    [Range(0.0001f, 1f)] public float AmbientAudioBlendDistance = .3f;
     
     private static readonly int ControllerPos = Shader.PropertyToID("_ControllersPos");
     private static readonly int DistanceSqrd = Shader.PropertyToID("_DistanceSqrd");
@@ -35,6 +46,38 @@ public class PlacementRing : MonoBehaviour, IMixedRealityPointerHandler
         Init();
     }
 
+    private IEnumerator GetAudioServiceCoroutine()
+    {
+        if (_audioService != null)
+        {
+            yield break;
+        }
+        while (!MixedRealityToolkit.IsInitialized)
+        {
+            yield return null;
+        }
+
+        _audioService = MixedRealityToolkit.Instance.GetService<AudioService>();
+        _audioService.PlayClip(RingAmbientAudioClip, out _ambientAudioSource, transform, 0, PlayOptions.Loop);
+    }
+
+    private IEnumerator BlendAmbientCoroutine(float target)
+    {
+        _blendingAmbientAudio = true;
+        var time = 0f;
+        var startValue = _ambientAudioSource.volume;
+        while (time < AmbientBlendTime)
+        {
+            time += Time.deltaTime;
+            _ambientAudioSource.volume = Mathf.Lerp(startValue, target, time/AmbientBlendTime);
+            yield return null;
+        }
+
+        _ambientAudioSource.volume = target;
+        _blendingAmbientAudio = false;
+    }
+    
+
     private void Init()
     {
         _mesh = new Mesh();
@@ -46,6 +89,15 @@ public class PlacementRing : MonoBehaviour, IMixedRealityPointerHandler
         _meshRenderer = GetComponent<MeshRenderer>();
         _materialPropertyBlock = new MaterialPropertyBlock();
         GenerateRing();
+        // only play the ambient audio if in play mode
+    #if UNITY_EDITOR
+        if (Application.isPlaying)
+        {
+            StartCoroutine(GetAudioServiceCoroutine());
+        }
+    #else
+        StartCoroutine(GetAudioServiceCoroutine());
+    #endif
     }
 
     private void OnValidate()
@@ -53,6 +105,19 @@ public class PlacementRing : MonoBehaviour, IMixedRealityPointerHandler
         GenerateRing();
     }
 
+    private void UpdateAmbientAudio()
+    {
+        if (_pointerDown || _blendingAmbientAudio || _ambientAudioSource == null)
+        {
+            return;
+        }
+        var l = Mathf.Clamp01(1 - DistanceToDiameterCircle(_controllers[0]) / AmbientAudioBlendDistance)*
+            _controllers[0].w;
+        var r = Mathf.Clamp01(1 - DistanceToDiameterCircle(_controllers[1]) / AmbientAudioBlendDistance)*
+            _controllers[1].w;
+        _ambientAudioSource.volume = Mathf.Max(l, r);
+    }
+        
     private void Update()
     {
         var ltr = ControllerTransformTracker.LeftTransform;
@@ -68,6 +133,8 @@ public class PlacementRing : MonoBehaviour, IMixedRealityPointerHandler
         _materialPropertyBlock.SetFloat(DistanceSqrd, HighlightDistance*HighlightDistance);
         _materialPropertyBlock.SetFloat(Pinch, _pointerDown?1f:0f);
         _meshRenderer.SetPropertyBlock(_materialPropertyBlock);
+        
+        UpdateAmbientAudio();
     }
 
     private void GenerateRing()
@@ -122,17 +189,77 @@ public class PlacementRing : MonoBehaviour, IMixedRealityPointerHandler
         _colliderMesh.UploadMeshData(false);
     }
 
-    public void OnPointerUp(MixedRealityPointerEventData eventData)
+    public void OnManipulationEnd()
     {
         _pointerDown = false;
+        if (_audioBlendCoroutine != null)
+        {
+            StopCoroutine(_audioBlendCoroutine);
+            _blendingAmbientAudio = false;
+            _audioBlendCoroutine = null;
+        }
+
+        if (Math.Abs(_ambientAudioSource.volume - 1f) < float.Epsilon)
+        {
+            return;
+        }
+
+        _audioBlendCoroutine = StartCoroutine(BlendAmbientCoroutine(1f));
     }
 
-    public void OnPointerDown(MixedRealityPointerEventData eventData)
+    public void OnManipulationStart()
     {
         _pointerDown = true;
+        
+        if (_audioBlendCoroutine != null)
+        {
+            StopCoroutine(_audioBlendCoroutine);
+            _audioBlendCoroutine = null;
+        }
+
+        if (Math.Abs(_ambientAudioSource.volume) < float.Epsilon)
+        {
+            return;
+        }
+
+        _audioBlendCoroutine = StartCoroutine(BlendAmbientCoroutine(0f));
+        
     }
 
-    public void OnPointerClicked(MixedRealityPointerEventData eventData)
+    public float TorusSDFDistanceWorld(Vector3 p)
     {
+        var localPos = transform.worldToLocalMatrix.MultiplyPoint(p);
+        return new Vector2(Diameter * .5f - new Vector2(localPos.x, localPos.z).magnitude, localPos.y).magnitude-Thickness*5f;
+    }
+
+    public Vector3 TorusSdfVectorWorldCollider(Vector3 p)
+    {
+        var localPos = transform.worldToLocalMatrix.MultiplyPoint(p);
+
+        var v = localPos;
+        v.y = 0f;
+        v = v.normalized * (v.magnitude - Diameter * .5f);
+        v.y = localPos.y;
+        v = v.normalized * (v.magnitude - ColliderThickness * .5f);
+
+        return transform.localToWorldMatrix.MultiplyVector(v);
+    }
+
+    public float DistanceToDiameterCircle(Vector3 p)
+    {
+        var localPos = transform.worldToLocalMatrix.MultiplyPoint(p);
+        return new Vector2(Diameter * .5f - new Vector2(localPos.x, localPos.z).magnitude, localPos.y).magnitude;
+    }
+
+    public Vector3 VectorToDiameterCircle(Vector3 p)
+    {
+        var localPos = transform.worldToLocalMatrix.MultiplyPoint(p);
+
+        var v = localPos;
+        v.y = 0f;
+        v = v.normalized * (v.magnitude - Diameter * .5f);
+        v.y = localPos.y;
+
+        return transform.localToWorldMatrix.MultiplyVector(v);
     }
 }

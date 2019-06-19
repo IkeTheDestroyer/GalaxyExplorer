@@ -110,18 +110,31 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
 
     private void UpdateGoalsAttraction()
     {
-        GoalScale = ControllerTracker.ResolvedTransform.localScale;
-        GoalPosition = _focusers.Select(p => (p.Controller.ControllerHandedness == Handedness.Left
-            ? ControllerTracker.LeftSidePosition
-            : ControllerTracker.RightSidePosition)).Average();
-        if (ForcePullToHandController && OffsetToObjectBoundsFromController)
+        // make sure has enough info
+        if (ForcePullToHandController && _focusers.Count == 0)
         {
-            GoalPosition += GetOffsetPositionFromController();
+            // lost all focusers
+            StartFree();
+            return;
         }
+        
         if (ForcePullToHandController)
         {
             GoalRotation = SolverHandler.TransformTarget.rotation * _rotationOffset;
             UpdateWorkingRotationToGoal();
+            GoalScale = ControllerTracker.ResolvedTransform.localScale;
+            GoalPosition = _focusers.Select(p => p.Controller.ControllerHandedness == Handedness.Left
+                ? ControllerTracker.LeftSidePosition
+                : ControllerTracker.RightSidePosition).Average();
+        }
+        else
+        {
+            GoalPosition = _mainCamera.transform.position;
+        }
+        
+        if (ForcePullToHandController && OffsetToObjectBoundsFromController)
+        {
+            GoalPosition += GetOffsetPositionFromController();
         }
         UpdateWorkingPositionToGoal();
 
@@ -168,19 +181,11 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
         }
     }
 
-    private bool IsAttractionComplete()
+    protected virtual bool IsAttractionComplete()
     {
         if (ForcePullToHandController)
         {
-            if (!ControllerTracker.BothSides)
-            {
-                return Vector3.Distance(transform.position, ControllerTracker.ResolvedPosition) <=
-                       GetOffsetPositionFromController().magnitude;
-            }
-            else
-            {
-                //TODO implement check for when using both hands
-            }
+            return Vector3.Distance(GoalPosition, WorkingPosition) <= .05f;
         }
         else if (_forcePullToFrontOfCamera)
         {
@@ -420,7 +425,7 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
             case State.Attraction:
                 if (ForcePullToHandController)
                 {
-                    StartRoot();
+                    StartFree();
                 }
                 break;
             

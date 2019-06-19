@@ -12,13 +12,15 @@ public class PlacementForceSolver : ForceSolver
 
     protected override Vector3 GetOffsetPositionFromController()
     {
-        var diameter = _placementRing.Diameter + _placementRing.Thickness;
-        var controllerPosition = GoalPosition;
-        var placementRingTransform = _placementRing.transform;
-        var ringPosition = placementRingTransform.position;
-        var direction = (controllerPosition - ringPosition).normalized;
-        var up = placementRingTransform.up;
-        var point = ringPosition + diameter * .5f * Vector3.Cross(up, Vector3.Cross(direction, up));
-        return ringPosition - point;
+        var ringPosition = _placementRing.transform.position;
+        return ringPosition + _placementRing.VectorToDiameterCircle(GoalPosition) - GoalPosition;
+//        var diameter = _placementRing.Diameter + _placementRing.Thickness;
+//        var controllerPosition = GoalPosition;
+//        var placementRingTransform = _placementRing.transform;
+//        var ringPosition = placementRingTransform.position;
+//        var direction = (controllerPosition - ringPosition).normalized;
+//        var up = placementRingTransform.up;
+//        var point = ringPosition + diameter * .5f * Vector3.Cross(up, Vector3.Cross(direction, up));
+//        return ringPosition - point;
     }
 }
