@@ -14,7 +14,6 @@ namespace GalaxyExplorer
         public GameObject SlateContentParent;
         public float TransitionDuration = 1.0f;
 
-        private SpiralGalaxy _galacticPlane;
         private bool _aboutIsActive;
         private bool _isTransitioning;
         private ZoomInOut _zoomInOut;
@@ -115,23 +114,11 @@ namespace GalaxyExplorer
 
         private void EnableLinks()
         {
-            _galacticPlane = FindObjectOfType<SpiralGalaxy>();
-
-            if (_galacticPlane != null)
-            {
-                _galacticPlane.GetComponentInChildren<Collider>().enabled = false;
-            }
-
             SlateContentParent.SetActive(true);
         }
 
         private void DisableLinks()
         {
-            if (_galacticPlane != null)
-            {
-                _galacticPlane.GetComponentInChildren<Collider>().enabled = true;
-            }
-
             SlateContentParent.SetActive(false);
         }
 
