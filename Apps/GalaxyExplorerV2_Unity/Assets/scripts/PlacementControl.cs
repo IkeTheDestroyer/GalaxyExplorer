@@ -14,6 +14,7 @@ namespace GalaxyExplorer
         private Camera _cameraMain;
         private PlacementConfirmationButton _confirmationButton;
         private ForceSolver _forceSolver;
+        private PlacementRing _placementRing;
         
         [SerializeField]
         private float DesktopDuration = 2.0f;
@@ -30,6 +31,7 @@ namespace GalaxyExplorer
         {
             _confirmationButton = GetComponentInChildren<PlacementConfirmationButton>();
             _forceSolver = GetComponent<ForceSolver>();
+            _placementRing = GetComponentInChildren<PlacementRing>();
         }
 
         private void Start()
@@ -41,6 +43,7 @@ namespace GalaxyExplorer
             // if platform is desktop then bypass placement
             if (GalaxyExplorerManager.IsDesktop)
             {
+                _placementRing.gameObject.SetActive(false);
                 StartCoroutine(ReleaseContent(DesktopDuration));
                 isPlaced = true;
                 StartCoroutine(StartOnboarding(true));

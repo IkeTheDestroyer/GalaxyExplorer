@@ -7,6 +7,7 @@ using Microsoft.MixedReality.Toolkit;
 using Microsoft.MixedReality.Toolkit.Input;
 using Microsoft.MixedReality.Toolkit.Input.UnityInput;
 using Microsoft.MixedReality.Toolkit.UI;
+using Microsoft.MixedReality.Toolkit.Utilities;
 using Microsoft.MixedReality.Toolkit.Utilities.Solvers;
 using Microsoft.MixedReality.Toolkit.WindowsMixedReality.Input;
 using UnityEngine;
@@ -45,7 +46,7 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
     private Camera _mainCamera;
     private Coroutine _attractionDwellRoutine;
     private float _dwellTimer, _dwellForgivenessTimer;
-    private readonly HashSet<ShellHandRayPointer> _focusers = new HashSet<ShellHandRayPointer>();
+    private readonly HashSet<IMixedRealityPointer> _focusers = new HashSet<IMixedRealityPointer>();
     private readonly HashSet<ForceTractorBeam> _activeTractorBeams = new HashSet<ForceTractorBeam>();
     private PlanetPreviewController planetController;
     private UiPreviewTarget previewTarget;
@@ -59,6 +60,8 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
     public bool EnableForce = true;
     [Range(0,10)]
     public float AttractionDwellDuration = 1f;
+
+    public bool AvergeSides = true;
     public GameObject TractionBeamPrefab;
     public float AttractionDwellForgiveness = .5f;
     public Transform RootTransform;
@@ -107,16 +110,31 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
 
     private void UpdateGoalsAttraction()
     {
-        GoalScale = SolverHandler.TransformTarget.localScale;
-        GoalPosition = SolverHandler.TransformTarget.position;
-        if (ForcePullToHandController && OffsetToObjectBoundsFromController && !ControllerTracker.BothSides)
+        // make sure has enough info
+        if (ForcePullToHandController && _focusers.Count == 0)
         {
-            GoalPosition += GetOffsetPositionFromController();
+            // lost all focusers
+            StartFree();
+            return;
         }
+        
         if (ForcePullToHandController)
         {
             GoalRotation = SolverHandler.TransformTarget.rotation * _rotationOffset;
             UpdateWorkingRotationToGoal();
+            GoalScale = ControllerTracker.ResolvedTransform.localScale;
+            GoalPosition = _focusers.Select(p => p.Controller.ControllerHandedness == Handedness.Left
+                ? ControllerTracker.LeftSidePosition
+                : ControllerTracker.RightSidePosition).Average();
+        }
+        else
+        {
+            GoalPosition = _mainCamera.transform.position;
+        }
+        
+        if (ForcePullToHandController && OffsetToObjectBoundsFromController)
+        {
+            GoalPosition += GetOffsetPositionFromController();
         }
         UpdateWorkingPositionToGoal();
 
@@ -163,19 +181,11 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
         }
     }
 
-    private bool IsAttractionComplete()
+    protected virtual bool IsAttractionComplete()
     {
         if (ForcePullToHandController)
         {
-            if (!ControllerTracker.BothSides)
-            {
-                return Vector3.Distance(transform.position, SolverHandler.TransformTarget.position) <=
-                       GetOffsetPositionFromController().magnitude;
-            }
-            else
-            {
-                //TODO implement check for when using both hands
-            }
+            return Vector3.Distance(GoalPosition, WorkingPosition) <= .05f;
         }
         else if (_forcePullToFrontOfCamera)
         {
@@ -185,9 +195,13 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
         return false;
     }
 
-    private Vector3 GetOffsetPositionFromController()
+    protected virtual Vector3 GetOffsetPositionFromController()
     {
-        var controllerFwd = ControllerTracker.transform.forward;
+        var controllerFwd = _focusers.Select(p => (p.Controller.ControllerHandedness == Handedness.Left
+            ? ControllerTracker.LeftSideRotation
+            : ControllerTracker.RightSideRotation) * Vector3.forward)
+        .Average().normalized;
+        
         var position = transform.position;
         var ray = new Ray(position - controllerFwd * 100, controllerFwd);
         var hit = _attractionCollider.Raycast(ray, out var hitInfo, 150);
@@ -406,12 +420,13 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
 
     private void OnControllersLost()
     {
+        _focusers.Clear();
         switch (ForceState)
         {
             case State.Attraction:
                 if (ForcePullToHandController)
                 {
-                    StartRoot();
+                    StartFree();
                 }
                 break;
             
@@ -555,7 +570,7 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
         }
         else
         {
-            Debug.Assert(_focusers.Remove(pointer));
+            _focusers.Remove(pointer);
             if ((ForceSolver) eventData.Pointer.FocusTarget == this)
             {
                 eventData.Pointer.FocusTarget = null;
