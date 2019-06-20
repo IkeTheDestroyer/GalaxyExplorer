@@ -16,12 +16,17 @@ namespace GalaxyExplorer
 
         private bool _aboutIsActive;
         private ZoomInOut _zoomInOut;
-        private Collider[] _colliders;
+        private Collider[] _otherSceneColliders;
+        private Renderer[] _hyperlinkRenderers;
 
         private void Start()
         {
-            AboutMaterial.SetFloat("_TransitionAlpha", 0);
+            AboutMaterial.SetFloat("_TransitionAlpha", 0f);
             _aboutIsActive = false;
+
+            _hyperlinkRenderers = SlateContentParent.GetComponentsInChildren<Renderer>();
+            SetHyperlinksTransitionAplha((0f));
+
             _zoomInOut = FindObjectOfType<ZoomInOut>();
 
             transform.localScale = transform.localScale * GalaxyExplorerManager.SlateScaleFactor;
@@ -44,6 +49,7 @@ namespace GalaxyExplorer
             UnityEngine.SceneManagement.SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
 
             AboutMaterial.SetFloat("_TransitionAlpha", 1f);
+            SetHyperlinksTransitionAplha((1f));
         }
 
         public void ToggleAboutButton()
@@ -60,7 +66,7 @@ namespace GalaxyExplorer
 
         private void Show()
         {
-            SetCollidersActivation(false);
+            SetActiveColliders(false);
 
             transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2f;
             transform.rotation = Camera.main.transform.rotation;
@@ -79,61 +85,72 @@ namespace GalaxyExplorer
         {
             var timeLeft = TransitionDuration;
 
-            DisableLinks();
             Slate.SetActive(true);
+            SetActiveHyperlinkParent(true);
 
             while (timeLeft > 0)
             {
-                AboutMaterial.SetFloat("_TransitionAlpha", Mathf.Lerp(target, 1 - target, timeLeft / TransitionDuration));
+                float transitionAlpha = Mathf.Lerp(target, 1 - target, timeLeft / TransitionDuration);
+                AboutMaterial.SetFloat("_TransitionAlpha", transitionAlpha);
+                SetHyperlinksTransitionAplha((transitionAlpha));
+
                 yield return null;
 
                 timeLeft -= Time.deltaTime;
             }
 
             AboutMaterial.SetFloat("_TransitionAlpha", target);
+            SetHyperlinksTransitionAplha(target);
 
             if (target > 0)
             {
-                EnableLinks();
+                SetActiveHyperlinkParent(true);
                 gameObject.SetActive(true);
                 _aboutIsActive = true;
             }
             else
             {
-                DisableLinks();
+                SetActiveHyperlinkParent(false);
                 Slate.SetActive(false);
                 gameObject.SetActive(false);
                 _aboutIsActive = false;
-                SetCollidersActivation(true);
+                SetActiveColliders(true);
             }
         }
 
-        private void EnableLinks()
+        private void SetHyperlinksTransitionAplha(float transitionAplha)
         {
-            SlateContentParent.SetActive(true);
+            if (_hyperlinkRenderers == null) { return; }
+
+            foreach (Renderer renderer in _hyperlinkRenderers)
+            {
+                Color newColor = renderer.material.GetColor("_FaceColor"); ;
+                newColor.a = transitionAplha;
+                renderer.material.SetColor("_FaceColor", newColor);
+            }
         }
 
-        private void DisableLinks()
+        private void SetActiveHyperlinkParent(bool isActive)
         {
-            SlateContentParent.SetActive(false);
+            SlateContentParent.SetActive(isActive);
         }
 
-        private void SetCollidersActivation(bool enable)
+        private void SetActiveColliders(bool enable)
         {
             if (!enable)
             {
-                _colliders = null;
+                _otherSceneColliders = null;
 
                 // This colliders need to be tracked until the about slate gets disabled, since this would otherwise look for the colliders of the next scene and disable them
                 if (_zoomInOut.GetNextScene != null)
                 {
-                    _colliders = _zoomInOut.GetNextScene.GetComponentsInChildren<Collider>();
+                    _otherSceneColliders = _zoomInOut.GetNextScene.GetComponentsInChildren<Collider>();
                 }
             }
 
-            if (_colliders != null)
+            if (_otherSceneColliders != null)
             {
-                foreach (Collider collider in _colliders)
+                foreach (Collider collider in _otherSceneColliders)
                 {
                     collider.enabled = enable;
                 }
