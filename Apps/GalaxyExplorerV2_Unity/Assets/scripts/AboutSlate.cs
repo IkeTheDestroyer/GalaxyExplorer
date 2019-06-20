@@ -15,7 +15,6 @@ namespace GalaxyExplorer
         public float TransitionDuration = 1.0f;
 
         private bool _aboutIsActive;
-        private bool _isTransitioning;
         private ZoomInOut _zoomInOut;
         private Collider[] _colliders;
 
@@ -23,7 +22,6 @@ namespace GalaxyExplorer
         {
             AboutMaterial.SetFloat("_TransitionAlpha", 0);
             _aboutIsActive = false;
-            _isTransitioning = false;
             _zoomInOut = FindObjectOfType<ZoomInOut>();
 
             transform.localScale = transform.localScale * GalaxyExplorerManager.SlateScaleFactor;
@@ -83,7 +81,6 @@ namespace GalaxyExplorer
 
             DisableLinks();
             Slate.SetActive(true);
-            _isTransitioning = true;
 
             while (timeLeft > 0)
             {
@@ -93,7 +90,6 @@ namespace GalaxyExplorer
                 timeLeft -= Time.deltaTime;
             }
 
-            _isTransitioning = false;
             AboutMaterial.SetFloat("_TransitionAlpha", target);
 
             if (target > 0)

@@ -50,6 +50,11 @@ namespace GalaxyExplorer
             _inCoolDown = false;
         }
 
+        private void OnDisable()
+        {
+            _inCoolDown = false;
+        }
+
         public void OnInputUp(InputEventData eventData)
         {
         }
