@@ -9,6 +9,9 @@ using TouchScript.Examples.CameraControl;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.XR.WSA;
+#if WINDOWS_UWP
+using Windows.Security.ExchangeActiveSyncProvisioning;
+#endif
 
 namespace GalaxyExplorer
 {
