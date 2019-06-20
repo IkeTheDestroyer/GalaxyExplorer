@@ -420,6 +420,7 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
 
     private void OnControllersLost()
     {
+        _focusers.Clear();
         switch (ForceState)
         {
             case State.Attraction:
