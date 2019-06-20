@@ -352,28 +352,21 @@ namespace GalaxyExplorer
             }
         }
 
-        private IEnumerator CheckForArticulatedHands()
-        {
-            while (MixedRealityToolkit.InputSystem.DetectedControllers == null || MixedRealityToolkit.InputSystem.DetectedControllers.Count == 0)
-            {
-                yield return null;
-            }
-
-            foreach (var detectedController in MixedRealityToolkit.InputSystem.DetectedControllers)
-            {
-                var hand = detectedController as IMixedRealityHand;
-                if (hand != null)
-                {
-                    Platform = PlatformId.ArticulatedHandsPlatform;
-                }
-            }
-        }
-
         protected override void Awake()
         {
             base.Awake();
 
-            if (XRDevice.isPresent)
+            var isHoloLens2 = false;
+
+#if WINDOWS_UWP
+            var info = new EasClientDeviceInformation();
+            isHoloLens2 = info.SystemSku.ToString() == "HL_2";
+#endif
+            if (isHoloLens2)
+            {
+                Platform = PlatformId.ArticulatedHandsPlatform;
+            }
+            else if (XRDevice.isPresent)
             {
                 if (HolographicSettings.IsDisplayOpaque)
                 {
@@ -382,8 +375,6 @@ namespace GalaxyExplorer
                 else
                 {
                     Platform = PlatformId.HoloLensGen1;
-
-                    StartCoroutine(CheckForArticulatedHands());
                 }
             }
             else
