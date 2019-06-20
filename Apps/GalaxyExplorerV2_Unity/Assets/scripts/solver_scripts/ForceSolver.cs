@@ -129,7 +129,8 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
         }
         else
         {
-            GoalPosition = _mainCamera.transform.position;
+            var mainCameraTransform = _mainCamera.transform;
+            GoalPosition = mainCameraTransform.position + mainCameraTransform.forward * _offsetOnPullToCamera;
         }
         
         if (ForcePullToHandController && OffsetToObjectBoundsFromController)
@@ -352,7 +353,6 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
         {
             _forcePullToFrontOfCamera = true;
             SolverHandler.TransformTarget = _mainCamera.transform;
-            SolverHandler.AdditionalOffset = Vector3.forward * _offsetOnPullToCamera;
         }
         else
         {
@@ -537,15 +537,14 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
                 return;
             }
             eventData.Pointer.FocusTarget = this;
-            var tractorBeam = AttachTractorBeamToPointer(pointer);
+
+            var isHoloLens2OrVr = !IsGgvOrDesktopController(eventData.Pointer.Controller);
+
+            var tractorBeam = isHoloLens2OrVr ? AttachTractorBeamToPointer(pointer) : null;
 
             switch (ForceState)
             {
                 case State.Root:
-                    Debug.Assert(_activeTractorBeams.Add(tractorBeam));
-                    StartDwell();
-                    break;
-
                 case State.Free:
                     if (!IsGgvOrDesktopController(eventData.Pointer.Controller))
                     {
@@ -557,7 +556,10 @@ public class ForceSolver : Solver, IMixedRealityFocusChangedHandler, IMixedReali
 
                 case State.Dwell:
 
-                    Debug.Assert(_activeTractorBeams.Add(tractorBeam));
+                    if (isHoloLens2OrVr)
+                    {
+                        Debug.Assert(_activeTractorBeams.Add(tractorBeam));
+                    }
                     break;
                     
                 case State.Manipulation:
