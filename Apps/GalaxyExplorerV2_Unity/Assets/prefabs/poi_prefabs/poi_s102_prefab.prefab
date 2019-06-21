@@ -3276,7 +3276,7 @@ SphereCollider:
   m_GameObject: {fileID: 6200281738337418689}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.0085
   m_Center: {x: 0, y: 0, z: 0}
@@ -3438,8 +3438,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7b75b7bed7e7ae41b82a55b439361ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotId: 1
-  displayName: Mercury
+  slotId: 2
+  displayName: S102
   initialPosition: {x: 0, y: 0, z: -0.04}
   initialRotation: {x: 0, y: 0, z: 0, w: 0}
   initialFov: 16

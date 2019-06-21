@@ -60,6 +60,7 @@ public class PlanetPreviewController : MonoBehaviour
     private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         lightObject = null;
+        selectionImage.gameObject.SetActive(false);
     }
 
     private IEnumerator MoveLight(bool toDestination)

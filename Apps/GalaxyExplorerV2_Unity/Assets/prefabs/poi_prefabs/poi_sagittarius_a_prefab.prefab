@@ -1376,11 +1376,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7b75b7bed7e7ae41b82a55b439361ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotId: 1
-  displayName: Mercury
-  initialPosition: {x: 0, y: 0, z: -0.04}
+  slotId: 0
+  displayName: Sagitarius A
+  initialPosition: {x: 0, y: 0, z: -3}
   initialRotation: {x: 0, y: 0, z: 0, w: 0}
-  initialFov: 16
+  initialFov: 9
   forceSolver: {fileID: 7035487588426211030}
 --- !u!114 &1761053967335310227
 MonoBehaviour:
@@ -1553,7 +1553,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.2
+  m_Radius: 0.01
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &6991893139228949676
 MeshFilter:
