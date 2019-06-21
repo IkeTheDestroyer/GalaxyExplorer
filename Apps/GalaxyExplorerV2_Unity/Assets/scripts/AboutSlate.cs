@@ -86,7 +86,7 @@ namespace GalaxyExplorer
             var timeLeft = TransitionDuration;
 
             Slate.SetActive(true);
-            SetActiveHyperlinkParent(true);
+            SlateContentParent.SetActive(true);
 
             while (timeLeft > 0)
             {
@@ -104,13 +104,13 @@ namespace GalaxyExplorer
 
             if (target > 0)
             {
-                SetActiveHyperlinkParent(true);
+                SlateContentParent.SetActive(true);
                 gameObject.SetActive(true);
                 _aboutIsActive = true;
             }
             else
             {
-                SetActiveHyperlinkParent(false);
+                SlateContentParent.SetActive(false);
                 Slate.SetActive(false);
                 gameObject.SetActive(false);
                 _aboutIsActive = false;
@@ -128,11 +128,6 @@ namespace GalaxyExplorer
                 newColor.a = transitionAplha;
                 renderer.material.SetColor("_FaceColor", newColor);
             }
-        }
-
-        private void SetActiveHyperlinkParent(bool isActive)
-        {
-            SlateContentParent.SetActive(isActive);
         }
 
         private void SetActiveColliders(bool enable)
