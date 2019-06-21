@@ -1,6 +1,6 @@
 # Intro system
 
-![Intro system](Images/intro_flow_galaxy_explorer.png.)
+![Intro system](Images/intro_flow_galaxy_explorer.png)
 
 ## IntroFlow
 The introduction sequence with its transitions at the start of Galaxy Explorer is implemented through the IntroFlow component that can be found attached to the IntroFlow gameobject in the main_scene.
