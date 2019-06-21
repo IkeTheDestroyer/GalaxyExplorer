@@ -30,7 +30,9 @@ For each stage you can add `Event groups`. These event groups contain both `Even
 ### Exposed functionality
 To control non-automatic transitions, FlowManager exposes 2 methods. `AdvanceStage()` can be called to transition to the next stage, while `JumpToStage(int targetStage)` can be called to transition to a specified stage.
 
+A set of public variables are exposed as well: `int m_currentStage`, `bool m_restartEnabled`, `int m_loopBackStage`, `string m_currentStageName`, `float m_fastestTapTime` and `FlowStage[] m_stages`.
+
 Additionally, the FlowManager exposes a series of events for you to subscribe to: `OnAutoTransition`, `OnManualTransition`, `OnStageTransition`, `OnLoopbackTransition`.
 
 ### Debug
-To get more information on the FlowManager component directly in the inspector during development, toggle the Debug toggle at the bottom of the component in the Unity inspector.
+To get access to the above mentioned public variables through the FlowManager component in the Unity editor, toggle on the Debug setting at the bottom of the component in the Unity inspector.
