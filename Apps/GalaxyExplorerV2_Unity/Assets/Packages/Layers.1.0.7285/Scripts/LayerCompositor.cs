@@ -88,9 +88,25 @@ namespace MRS.Layers
 #if UNITY_EDITOR
                     if (!Application.isPlaying)
                     {
-                        if (layer.id == "Core" && scene != default)
+                        var isMainSceneLoaded = false;
+                        for (int i = 0; i < EditorSceneManager.loadedSceneCount; i++)
                         {
-                            SceneManager.SetActiveScene(scene);
+                            if (SceneManager.GetSceneAt(i).name == "main_scene")
+                            {
+                                isMainSceneLoaded = true;
+                                break;
+                            }
+                        }
+
+                        if (scene != default)
+                        {
+                            if (scene.name == "main_scene")
+                            {
+                                SceneManager.SetActiveScene(scene);
+                            } else if (layer.id == "Core" && !isMainSceneLoaded)
+                            {
+                                SceneManager.SetActiveScene(scene);
+                            }
                         }
                     }
 #endif

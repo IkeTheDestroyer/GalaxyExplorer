@@ -170,6 +170,7 @@ public class GlobalMenuManager : MonoBehaviour
 
     public void OnBackButtonPressed()
     {
+        GalaxyExplorerManager.Instance.VoManager.Stop(true);
         GalaxyExplorerManager.Instance.TransitionManager.LoadPrevScene();
     }
 }
