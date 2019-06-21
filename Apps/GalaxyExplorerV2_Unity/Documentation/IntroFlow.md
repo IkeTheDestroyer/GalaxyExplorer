@@ -14,6 +14,7 @@ The FlowManager component can be found attached to the flow_manager_prefab gameo
 
 ### Stages
 FlowManager manages transitions between different application stages. In the component's inspector window you can see the 5 stages that are currently part of Galaxy Explorer's introduction: `Intro`, `EarthPinMR`, `EarthPinDesktop`, `SolarSystemScene` and `GalaxyScene`.
+
 ![Flow manager stages](Images/flow_manager_inspector.png)
 
 ### Editing the intro flow
