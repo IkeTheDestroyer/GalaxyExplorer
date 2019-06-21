@@ -16,7 +16,7 @@ namespace GalaxyExplorer
 
         private bool _aboutIsActive;
         private ZoomInOut _zoomInOut;
-        private Collider[] _otherSceneColliders;
+        private Collider[] _otherCollidersInScene;
         private Renderer[] _hyperlinkRenderers;
 
         private void Start()
@@ -66,7 +66,7 @@ namespace GalaxyExplorer
 
         private void Show()
         {
-            SetActiveColliders(false);
+            EnableOtherCollidersInScene(false);
 
             transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2f;
             transform.rotation = Camera.main.transform.rotation;
@@ -114,7 +114,7 @@ namespace GalaxyExplorer
                 Slate.SetActive(false);
                 gameObject.SetActive(false);
                 _aboutIsActive = false;
-                SetActiveColliders(true);
+                EnableOtherCollidersInScene(true);
             }
         }
 
@@ -130,22 +130,22 @@ namespace GalaxyExplorer
             }
         }
 
-        private void SetActiveColliders(bool enable)
+        private void EnableOtherCollidersInScene(bool enable)
         {
             if (!enable)
             {
-                _otherSceneColliders = null;
+                _otherCollidersInScene = null;
 
-                // This colliders need to be tracked until the about slate gets disabled, since this would otherwise look for the colliders of the next scene and disable them
+                // These colliders need to be tracked until the about slate gets disabled and the colliders are re-enabled, since this code would otherwise look for the colliders of the next scene and disable them instead
                 if (_zoomInOut.GetNextScene != null)
                 {
-                    _otherSceneColliders = _zoomInOut.GetNextScene.GetComponentsInChildren<Collider>();
+                    _otherCollidersInScene = _zoomInOut.GetNextScene.GetComponentsInChildren<Collider>();
                 }
             }
 
-            if (_otherSceneColliders != null)
+            if (_otherCollidersInScene != null)
             {
-                foreach (Collider collider in _otherSceneColliders)
+                foreach (Collider collider in _otherCollidersInScene)
                 {
                     collider.enabled = enable;
                 }
