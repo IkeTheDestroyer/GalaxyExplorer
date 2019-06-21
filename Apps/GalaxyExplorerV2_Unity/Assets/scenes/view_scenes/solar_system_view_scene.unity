@@ -941,6 +941,26 @@ PrefabInstance:
       propertyPath: Sun
       value: 
       objectReference: {fileID: 316204132}
+    - target: {fileID: 8778128765905345827, guid: 52454e3384953574ab147196dfd5fe66,
+        type: 3}
+      propertyPath: Sun
+      value: 
+      objectReference: {fileID: 316204132}
+    - target: {fileID: 8778128765716214672, guid: 52454e3384953574ab147196dfd5fe66,
+        type: 3}
+      propertyPath: Sun
+      value: 
+      objectReference: {fileID: 316204132}
+    - target: {fileID: 8778128767134031653, guid: 52454e3384953574ab147196dfd5fe66,
+        type: 3}
+      propertyPath: Sun
+      value: 
+      objectReference: {fileID: 316204132}
+    - target: {fileID: 8778128766421435435, guid: 52454e3384953574ab147196dfd5fe66,
+        type: 3}
+      propertyPath: Sun
+      value: 
+      objectReference: {fileID: 316204132}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52454e3384953574ab147196dfd5fe66, type: 3}
 --- !u!4 &1921580122 stripped
