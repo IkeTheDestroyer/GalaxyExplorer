@@ -78,7 +78,7 @@ function Import-RequiredModule
     param(
         [Object[]]$InternalModules
     )
-    Import-Module UnitySetup -Scope Global
+    Import-Module UnitySetup -Scope Global -MinimumVersion '5.1.115' -ErrorAction Stop
 
     foreach( $module in $InternalModules) {
         Import-Module @module -Scope Global
