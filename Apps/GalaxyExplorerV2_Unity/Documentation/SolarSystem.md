@@ -1,10 +1,8 @@
 # Solar system
 
-![Solar system](Images/ge_solar_system.PNG)
+![Solar system](Images/ge_app_solar_system.png)
 
-## Realistic mode vs. schematic mode
-
-TBD?
+This document describes objects and interactions in the solar system scene (/scenes/view_scenes/solar_system_view_scene.unity).
 
 ## Planets
 
